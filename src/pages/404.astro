@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base lang="en" title="Page not found" noindex>
+  <section class="wrap page-head">
+    <span class="tag">404 · −∞ m</span>
+    <h1>Nothing found at this depth.</h1>
+    <p class="lede">This page doesn't exist, or it has moved.</p>
+    <p class="lede dutch" lang="nl">Op deze diepte is niets gevonden. Deze pagina bestaat niet, of is verplaatst.</p>
+    <p class="actions">
+      <a class="btn" href="/">Home</a>
+      <a class="btn" href="/nl/" lang="nl">Naar de Nederlandse site</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .dutch {
+    margin-top: 0.75rem;
+    color: var(--ink-2);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+</style>

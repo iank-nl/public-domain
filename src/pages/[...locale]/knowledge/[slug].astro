@@ -1,0 +1,123 @@
+---
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { site } from '../../../site.config';
+import {
+  dictionaries,
+  formatDate,
+  getArticles,
+  href,
+  readingMinutes,
+  slugOf,
+  trackTones,
+  type Article,
+  type Lang,
+} from '../../../i18n';
+
+export async function getStaticPaths() {
+  const [en, nl] = await Promise.all([getArticles('en'), getArticles('nl')]);
+  return [
+    ...en.map((article) => ({
+      params: { locale: undefined, slug: slugOf(article) },
+      props: { lang: 'en' as Lang, article },
+    })),
+    ...nl.map((article) => ({
+      params: { locale: 'nl', slug: slugOf(article) },
+      props: { lang: 'nl' as Lang, article },
+    })),
+  ];
+}
+
+const { lang, article } = Astro.props as { lang: Lang; article: Article };
+const t = dictionaries[lang];
+const { Content } = await render(article);
+const path = `/knowledge/${slugOf(article)}/`;
+const schema = {
+  '@type': 'Article',
+  headline: article.data.title,
+  description: article.data.description,
+  datePublished: article.data.date.toISOString().slice(0, 10),
+  inLanguage: lang,
+  url: new URL(href(lang, path), site.url).href,
+  image: new URL('/og.png', site.url).href,
+  author: { '@type': 'Person', name: 'Ian', url: new URL(href(lang, '/about/'), site.url).href },
+  publisher: { '@id': `${site.url}/#business` },
+};
+---
+
+<Base
+  lang={lang}
+  path={path}
+  title={article.data.title}
+  description={article.data.description}
+  type="article"
+  schema={[schema]}
+>
+  <article>
+    <header class="wrap head">
+      <a class="tag back" href={href(lang, '/knowledge/')}>← {t.knowledge.back}</a>
+      <span class:list={['tag', 'track', trackTones[article.data.track]]}>{t.knowledge.tracks[article.data.track]}</span>
+      <h1>{article.data.title}</h1>
+      <p class="lede">{article.data.description}</p>
+      <p class="tag meta">
+        {formatDate(lang, article.data.date)} · {readingMinutes(article.body)} {t.knowledge.minutes}
+        {article.data.draft && <span class="draft">{t.knowledge.draft}</span>}
+      </p>
+    </header>
+    <div class="wrap">
+      <div class="prose"><Content /></div>
+    </div>
+  </article>
+
+  <aside class="wrap">
+    <div class="prose pitch">
+      <h2>{t.knowledge.related}</h2>
+      <p>{t.knowledge.relatedBody}</p>
+      <p><a href={href(lang, '/work/')}>{t.knowledge.relatedCta}</a></p>
+    </div>
+  </aside>
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(32px, 5vw, 72px) clamp(32px, 4vw, 56px);
+    max-width: 62rem;
+  }
+
+  .back {
+    display: block;
+    color: var(--ink-2);
+    text-decoration: none;
+    margin-bottom: 2rem;
+  }
+
+  .track {
+    display: inline-block;
+    padding: 0.3em 0.7em;
+    background: var(--band);
+    color: var(--band-ink);
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6.4vw, 5.2rem);
+    margin-block: 0.4em;
+  }
+
+  .meta {
+    color: var(--ink-2);
+    margin-top: 1.25rem;
+  }
+
+  .draft {
+    margin-left: 0.75em;
+    padding: 0.15em 0.5em;
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  .pitch {
+    margin-top: clamp(40px, 6vw, 80px);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+</style>

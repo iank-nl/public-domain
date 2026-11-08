@@ -1,0 +1,80 @@
+---
+title: Wat het bouwen van een game met 96 levels en AI-agents me leerde
+description: Agents schreven het grootste deel van de code. De nuttige lessen gaan over de regels, tests en grenzen die dat veilig maakten.
+date: 2026-11-02
+track: workflow
+draft: true
+---
+
+[Relic Sweeper](/nl/work/relic-sweeper/) is een logische puzzelgame voor Android en iOS. De game heeft 96 levels in acht gebieden, een museum om te vullen, dagelijkse uitdagingen, prestaties, tweetalige tekst en een eigen kleine backend. Ik bouwde hem terwijl Claude Code het meeste typewerk deed.
+
+De repository telt 242 commits, 84 afgeronde taakbestanden en 2.124 automatische tests bij de laatst gelogde telling. Die getallen klinken als reclame voor AI. Ik lees ze liever als reclame voor structuur, want de snelheid van de agent was pas nuttig toen die op iets controleerbaars was gericht.
+
+Dit is wat het liet werken.
+
+## 1. Schrijf een briefing en keur één plan goed
+
+Elke fase begon met een geschreven briefing: wat de game moest worden en welke beslissingen al genomen waren. De eerste taak van de agent was dat opdelen in mijlpalen en kleine taken, elk een bestand met een doel, acceptatiecriteria en een checklist.
+
+Die opdeling beoordeelde ik voordat er code werd geschreven, en dat was de enige goedkeuringsstap. Daarna werkte de agent de taken op volgorde af, zonder tussendoor om bevestiging te vragen.
+
+Eén zorgvuldige beoordeling van een plan is veel meer waard dan vijftig kleine onderbrekingen. Het is ook het moment waarop een misverstand het minst kost.
+
+## 2. Laat een machine bepalen wanneer iets af is
+
+De instructies van het project bevatten regels als deze:
+
+> Run the full test suite before reporting any task as done. Paste the summary line in your report.
+
+en
+
+> If a test fails, fix the code or the test with a clear reason. Do not delete or skip tests to make the suite pass.
+
+Een agent wil klaar zijn. Als hij de kans krijgt, roept hij soms iets te vroeg dat het gelukt is. Dus "af" is niet zijn mening. Het is een groene testrun met het bewijs erbij, en elke taak krijgt een eigen commit.
+
+## 3. Geef de code een vorm die testbaar is
+
+Dit punt is belangrijker dan welke prompt dan ook. De spellogica staat in een map met één harde regel: **die leest nooit rechtstreeks de klok of de randomgenerator.** Tijd en seeds worden als parameters meegegeven.
+
+Daardoor is elke regel exact te herhalen. Een test kan zeggen: "op dit moment, met deze seed, gebeurt dit". Het beschermt ook functies die van determinisme afhangen. Het dagelijkse bord moet voor elke speler gelijk zijn, en een golden test over 66 borden vangt elke verandering in het gedrag van de oplosser op, ook als die alleen bedoeld was om hem sneller te maken.
+
+Agents zijn uitstekend in het invullen van zo'n ontwerp. Goede architectuur wordt een hek waar ze binnen blijven.
+
+## 4. Geef de agent ogen
+
+Automatische tests kunnen geen scherm zien. Daarom heeft de game debugcommando's waarmee een agent de echte game kan starten, naar elk scherm kan gaan, knoppen kan indrukken, een screenshot kan maken en die afbeelding kan bekijken.
+
+Dat maakt de cirkel rond bij visueel werk. Zonder dit past een agent een layout blind aan en word jij zijn ogen, en dat is geen goede besteding van jouw tijd.
+
+## 5. Gebruik een tweede agent als reviewer
+
+Na elke mijlpaal controleerde een aparte review-agent de wijzigingen aan de hand van een specifieke checklist: logica in de verkeerde laag, zwakke tests, wijzigingen in het opslagformaat zonder migratie, tekst die niet vertaalbaar was, advertentiebeloningen op de verkeerde plek.
+
+De checklist is het waardevolle deel. "Review deze code" levert algemene opmerkingen op. Een lijst van manieren waarop juist dit project vaak misgaat, levert echte bevindingen op.
+
+## 6. Schrijf op wat niet te controleren is
+
+Mijn favoriete deel van de projectinstructies heet *Things you cannot verify*. Headless tests kunnen je niet vertellen hoe de game voelt of hoe die zich op een echt toestel gedraagt. Daarom voegt elke wijziging aan beeld, invoer of platformgedrag een handmatige checklist toe die ik zelf doorspeel, en de agent mag die punten niet afvinken.
+
+Dat was geen formaliteit. Bij een vroege speeltest deelde één level in één keer een hele verzameling relieken uit. De code deed precies wat de specificatie zei, en alle tests slaagden. Het was alleen een slecht spel. Dat bleek pas door het te spelen. Hetzelfde geldt voor een nieuwe spelregel die we probeerden en weer schrapten, omdat die tijdens het spelen bijna nooit uitmaakte.
+
+Weten waar de tests ophouden is de belangrijkste vaardigheid in deze manier van werken.
+
+## 7. Beslissingen blijven bij mensen
+
+De instructies hebben een lijst van momenten om te stoppen en te vragen: alles wat moeilijk terug te draaien is, elke nieuwe dependency of externe dienst, dezelfde taak die drie keer achter elkaar mislukt, of een briefing die zichzelf tegenspreekt.
+
+Het werkt ook andersom. Op een gegeven moment liet de economiesimulatie van de agent zien dat spelers vanaf ongeveer dag 40 munten zouden opstapelen. De agent schreef dat op met een voorstel voor een oplossing en voerde het niet door, omdat dat een ontwerpkeuze was waar eerst echte spelersdata voor nodig was. Dat is wat ik van een assistent wil.
+
+## Wat dit betekent voor jouw team
+
+Je hoeft geen game te maken om hier iets aan te hebben. Voordat je een codebase aan agents overlaat, wil ik dit op orde hebben:
+
+- Een testsuite die snel vanaf de commandline draait, en die de agent moet draaien.
+- Bedrijfslogica die je kunt testen zonder browser, klok of live database.
+- Kleine, geschreven taken met acceptatiecriteria.
+- Een kort instructiebestand met de regels die je team anders steeds herhaalt in code reviews.
+- Een reviewstap die de specifieke faalpatronen van je project kent.
+- Een duidelijke lijst van wat nog een mens nodig heeft, en iemand die dat ook echt doet.
+
+De verrassing voor mij was dat dit allemaal niet over AI gaat. Het is gewone technische discipline. Agents halen alleen de mogelijkheid weg om die over te slaan, want zonder discipline produceren ze heel snel heel veel zelfverzekerd, fout werk.

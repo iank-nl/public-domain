@@ -1,0 +1,74 @@
+---
+title: Wat 50 API's koppelen je leert over software die blijft werken
+description: Elk extern systeem valt een keer uit, en meestal op een slecht moment. Zeven gewoontes die je software draaiend houden als dat gebeurt.
+date: 2026-08-03
+track: software
+draft: true
+---
+
+Ik heb ooit een platform gebouwd dat meer dan 50 verschillende API's beheerde. Als je zoveel externe systemen koppelt, is er altijd ergens iets stuk. Een leverancier is traag, een token is verlopen of een veld heeft ongemerkt een ander formaat gekregen.
+
+Dat blijkt een goede manier om te leren hoe je betrouwbare software bouwt. Je eigen code is maar één deel van het systeem, en wel het deel dat je zelf in de hand hebt. Dit zijn de gewoontes die het meest uitmaken.
+
+## 1. Ga ervan uit dat elke aanroep kan blijven hangen
+
+De gevaarlijkste storing is geen foutmelding, maar helemaal geen antwoord. Een verzoek zonder timeout kan een worker minutenlang bezighouden, en genoeg daarvan leggen je hele applicatie plat om een probleem dat niet eens van jou is.
+
+Geef elke uitgaande aanroep een timeout en kies die bewust. Als gebruikers op het resultaat wachten, zijn een paar seconden meestal de grens.
+
+## 2. Probeer voorzichtig opnieuw, of helemaal niet
+
+Opnieuw proberen lijkt de logische oplossing, maar kan het erger maken. Als een leverancier het moeilijk heeft en elke client meteen opnieuw probeert, vergroot je juist de belasting die het probleem veroorzaakte.
+
+- Wacht steeds langer tussen de pogingen, met wat willekeur, zodat niet alle clients tegelijk terugkomen.
+- Probeer alleen fouten opnieuw die vanzelf kunnen overgaan, zoals timeouts en serverfouten. Een geweigerd verzoek wordt opnieuw geweigerd.
+- Stop na een vast aantal pogingen.
+
+Wees extra voorzichtig met alles wat data wijzigt. Als een betaalverzoek een timeout krijgt, weet je niet of het is gelukt. Daar zijn [idempotency keys](https://docs.stripe.com/api/idempotent_requests) voor: met dezelfde sleutel voert de leverancier de actie maar één keer uit, hoe vaak je het ook vraagt.
+
+## 3. Neem rate limits mee in je ontwerp
+
+De meeste API's beperken hoeveel verzoeken je mag doen. Ga je daaroverheen, dan krijg je meestal een [`429 Too Many Requests`](https://www.rfc-editor.org/rfc/rfc6585#section-4), vaak met een [`Retry-After`](https://www.rfc-editor.org/rfc/rfc9110#section-10.2.3)-header die aangeeft hoe lang je moet wachten.
+
+Lees die header en houd je eraan. Beter nog: beperk je eigen uitgaande verzoeken via een wachtrij, zodat een grote import niet de ruimte opmaakt die je live gebruikers nodig hebben.
+
+## 4. Vertrouw niet wat er terugkomt
+
+Data van een partner voelt veilig, omdat je die partner zelf hebt gekozen. Maar leveranciers veranderen formaten, sturen null waar ze getallen beloofden en worden soms gehackt. OWASP zet [onveilig gebruik van API's](https://owasp.org/API-Security/editions/2023/en/0xaa-unsafe-consumption-of-apis/) niet voor niets in de API Security Top 10.
+
+Valideer elk antwoord aan de rand van je systeem, net zo streng als invoer van een gebruiker. Klopt iets niet, weiger het dan daar met een duidelijke foutmelding, en laat geen vreemde waarde door je database reizen die drie weken later opduikt.
+
+## 5. Houd storingen klein
+
+Geef elke koppeling een eigen module met eigen instellingen, en zet het trage of optionele werk in een achtergrondwachtrij. Dan vertraagt één leverancier met een slechte dag één functie, en draait de rest van de applicatie gewoon door.
+
+Bepaal voor alles waar gebruikers op wachten vooraf wat er gebeurt als de leverancier plat ligt. Vaak kun je iets oudere data tonen, of het verzoek aannemen en later afmaken. Allebei is veel beter dan een foutpagina.
+
+## 6. Maak problemen zichtbaar
+
+Wat je niet ziet, hoor je van een klant. Per koppeling wil ik in één oogopslag drie dingen weten: hoeveel aanroepen slagen, hoe lang ze duren en wanneer de laatste geslaagde was.
+
+Die laatste wordt makkelijk vergeten. Een synchronisatie die stopt, geeft helemaal geen fouten, dus alleen op fouten letten is niet genoeg. Geef ook een alert bij stilte.
+
+## 7. Bescherm de toegangsgegevens
+
+Elke koppeling komt met een sleutel die een deur opent naar iemands systeem.
+
+- Bewaar sleutels in een secrets manager, niet in je code of je logs.
+- Geef elke koppeling een eigen sleutel, met alleen de rechten die nodig zijn.
+- Zorg dat je een sleutel kunt vervangen zonder downtime.
+- Roept een leverancier jou aan via een webhook, controleer dan de handtekening. Anders kan iedereen die de URL vindt zich als die leverancier voordoen.
+
+## Een korte checklist
+
+Voordat een koppeling live gaat, wil ik op al deze vragen ja kunnen zeggen:
+
+- Heeft elke aanroep een timeout?
+- Zijn nieuwe pogingen beperkt, gespreid en veilig om te herhalen?
+- Blijven we binnen de rate limits, ook tijdens een grote import?
+- Wordt elk antwoord gevalideerd?
+- Blijft de rest van de applicatie werken als deze leverancier een uur plat ligt?
+- Krijgt iemand een alert als het ongemerkt stopt?
+- Kunnen we de sleutel vandaag vervangen zonder storing?
+
+Niets hiervan is spannend, en dat is precies de bedoeling. Betrouwbare software is vooral een lange lijst kleine beslissingen over wat er gebeurt als er iets misgaat.

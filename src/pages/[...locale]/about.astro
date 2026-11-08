@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import { dictionaries, localePaths, type Lang } from '../../i18n';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = Astro.props.lang as Lang;
+const t = dictionaries[lang].about;
+---
+
+<Base lang={lang} path="/about/" title={t.seoTitle}>
+  <section class="wrap page-head">
+    <span class="tag">{t.title}</span>
+    <h1>{t.heading}</h1>
+    <div class="story">
+      {t.paragraphs.map((paragraph, i) => <p class:list={{ lede: i === 0 }}>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="tag">{t.beliefsLabel}</span>
+      <div class="beliefs">
+        {t.beliefs.map((belief) => <article><h2>{belief.title}</h2><p>{belief.body}</p></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="tag">{t.toolsLabel}</span>
+      <ul class="tools">{t.tools.map((tool) => <li>{tool}</li>)}</ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .story {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 42rem;
+  }
+
+  .beliefs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .beliefs h2 {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    margin-bottom: 0.5em;
+  }
+
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+  }
+
+  .tools li {
+    padding: 0.3em 0.75em;
+    border: 1px solid var(--line);
+  }
+
+  @media (max-width: 760px) {
+    .beliefs {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

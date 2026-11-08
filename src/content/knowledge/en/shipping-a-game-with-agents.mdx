@@ -1,0 +1,80 @@
+---
+title: What building a 96-level game with AI agents taught me
+description: Agents wrote most of the code. The useful lessons are all about the rules, tests and limits that made that safe.
+date: 2026-11-02
+track: workflow
+draft: true
+---
+
+[Relic Sweeper](/work/relic-sweeper/) is a logic puzzle game for Android and iOS. It has 96 levels in eight regions, a museum to fill, daily challenges, achievements, bilingual text and a small backend of its own. I built it with Claude Code doing most of the typing.
+
+The repository records 242 commits, 84 completed task files, and 2,124 automated tests at the last logged count. Those numbers sound like a pitch for AI. I think they're better read as a pitch for structure, because the agent's speed was only useful once it was aimed at something checkable.
+
+Here's what made it work.
+
+## 1. Write a brief, then approve one plan
+
+Each phase began with a written brief: what the game should be, and which decisions were already made. The agent's first job was to break that into milestones and small tasks, each one a file with a goal, acceptance criteria and a checklist.
+
+I reviewed that breakdown before any code was written, and it was the only approval step. After that, the agent worked through the tasks in order, without asking for confirmation between them.
+
+One careful review of a plan is worth far more than fifty small interruptions. It's also the moment when a misunderstanding costs the least.
+
+## 2. Make "done" something a machine decides
+
+The project's instructions contain lines like these:
+
+> Run the full test suite before reporting any task as done. Paste the summary line in your report.
+
+and
+
+> If a test fails, fix the code or the test with a clear reason. Do not delete or skip tests to make the suite pass.
+
+An agent wants to finish. Given the chance, it will sometimes declare success a little early. So "done" isn't its opinion. It's a green test run with the evidence attached, and each task gets its own commit.
+
+## 3. Shape the code so that it can be tested
+
+This one matters more than any prompt. The game logic lives in a folder with one hard rule: **it never reads the clock or the random generator directly.** Time and seeds are passed in as parameters.
+
+That makes every rule exactly reproducible. A test can say "at this moment, with this seed, this happens". It also protects features that depend on determinism. The daily board has to be identical for every player, and a golden test over 66 boards catches any change in how the solver behaves, even when the change was only meant to make it faster.
+
+Agents are excellent at filling in a design like this. Good architecture becomes a fence that they stay inside.
+
+## 4. Give the agent eyes
+
+Automated tests can't see a screen. So the game has debug commands that let an agent launch the real game, go to any screen, press buttons, take a screenshot and then look at the image.
+
+That closes the loop on visual work. Without it, an agent changing a layout is working blind and you become its eyes, which is a poor use of you.
+
+## 5. Use a second agent as the reviewer
+
+After each milestone, a separate reviewer agent inspected the changes against a specific checklist: logic in the wrong layer, weak tests, save format changes without a migration, text that wasn't translatable, ad rewards granted in the wrong place.
+
+The checklist is the valuable part. "Review this code" gets you generic remarks. A list of the ways this particular project tends to go wrong gets you real findings.
+
+## 6. Write down what can't be verified
+
+My favourite section in the project's instructions is titled *Things you cannot verify*. Headless tests can't tell you how the game feels, or how it behaves on a real device. So any change that touches visuals, input or platform behaviour adds a manual checklist for me to play through, and the agent isn't allowed to tick those items off.
+
+This was not a formality. In an early playtest, one level handed out an entire collection of relics at once. The code did exactly what the specification said, and all the tests passed. It was just a bad game. Only playing it revealed that. The same goes for a new rule we tried and then dropped because it almost never mattered in play.
+
+Knowing where the tests stop is the most important skill in this way of working.
+
+## 7. Decisions stay with people
+
+The instructions have a list of when to stop and ask: anything hard to undo, any new dependency or external service, the same task failing three times in a row, or a brief that contradicts itself.
+
+It works in the other direction too. At one point the agent's economy simulation showed that players would pile up coins from about day 40. It wrote that down with a proposed fix and did not apply it, because that was a design decision that needed real player data first. That's what I want from an assistant.
+
+## What carries over to your team
+
+You don't need to be making a game for any of this to apply. Before you hand a codebase to agents, I'd want these in place:
+
+- A test suite that runs quickly from the command line, and that the agent must run.
+- Business logic you can test without a browser, a clock or a live database.
+- Small, written tasks with acceptance criteria.
+- A short instructions file holding the rules your team would otherwise repeat in code review.
+- A review step that knows your project's specific failure patterns.
+- A clear list of what still needs a human, and someone who actually does it.
+
+The surprise for me was that none of this is about AI. It's ordinary engineering discipline. Agents just remove the option of skipping it, because without it they'll produce a very large amount of confident, wrong work very quickly.

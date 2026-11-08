@@ -1,0 +1,313 @@
+:root {
+  color-scheme: light;
+
+  --paper: #f8f3e8;
+  --paper-2: #efe8d8;
+  --ink: #1d1914;
+  --ink-2: #5b5246;
+  --line: rgb(29 25 20 / 0.18);
+  --accent: #b23a12;
+
+  /* The strata, from topsoil down. */
+  --s1: #efe2c4;
+  --s1-ink: #1d1914;
+  --s2: #e6ab7c;
+  --s2-ink: #1f140c;
+  --s3: #9dbdb7;
+  --s3-ink: #16211f;
+  --s4: #6a5b4e;
+  --s4-ink: #fbf5e9;
+  --magma: #f28a55;
+  --magma-ink: #1f120a;
+
+  --display: 'Young Serif', Georgia, serif;
+  --body: 'Instrument Sans Variable', system-ui, sans-serif;
+  --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --max: 1320px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lede {
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  line-height: 1.45;
+  max-width: 38em;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.85em 1.4em;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+.link {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+.link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.arrow::after {
+  content: ' →';
+}
+
+/* Lithology: the patterns geologists use to mark rock types on a section drawing. */
+.tone-1 {
+  --band: var(--s1);
+  --band-ink: var(--s1-ink);
+  --litho: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='%231d1914' opacity='.17'%3E%3Ccircle cx='6' cy='9' r='1.1'/%3E%3Ccircle cx='28' cy='5' r='.8'/%3E%3Ccircle cx='18' cy='23' r='1.2'/%3E%3Ccircle cx='37' cy='32' r='1'/%3E%3Ccircle cx='9' cy='37' r='.8'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.tone-2 {
+  --band: var(--s2);
+  --band-ink: var(--s2-ink);
+  --litho: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='32'%3E%3Cg stroke='%23170f09' stroke-width='1.2' opacity='.17'%3E%3Cpath d='M4 8h24M36 8h12M16 24h28M52 24h10'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.tone-3 {
+  --band: var(--s3);
+  --band-ink: var(--s3-ink);
+  --litho: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='40'%3E%3Cg fill='none' stroke='%2316211f' stroke-width='1' opacity='.1'%3E%3Cpath d='M0 0h72M0 20h72M18 0v20M54 0v20M36 20v20M0 20v20M72 20v20'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.tone-4 {
+  --band: var(--s4);
+  --band-ink: var(--s4-ink);
+  --litho: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23e9dfcb' stroke-width='1.1' opacity='.13'%3E%3Cpath d='M8 12l5 7 5-7M38 8l5 7 5-7M22 38l5 7 5-7M50 42l5 7 5-7'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.stratum {
+  position: relative;
+  background-color: var(--band);
+  background-image: var(--litho);
+  color: var(--band-ink);
+  padding-block: clamp(56px, 8vw, 120px);
+}
+
+.stratum-edge {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% - 1px);
+  width: 100%;
+  height: clamp(36px, 7vw, 100px);
+  fill: var(--band);
+  pointer-events: none;
+}
+
+/* Inner pages */
+.page-head {
+  padding-block: clamp(40px, 7vw, 96px) clamp(32px, 5vw, 64px);
+}
+
+.page-head h1 {
+  font-size: clamp(2.6rem, 7vw, 5.8rem);
+  max-width: 16ch;
+  margin-block: 0.35em 0.4em;
+}
+
+.section {
+  padding-block: clamp(36px, 5vw, 72px);
+  border-top: 1px solid var(--line);
+}
+
+.section > .wrap > .tag,
+.section-tag {
+  display: block;
+  color: var(--ink-2);
+  margin-bottom: 1.5rem;
+}
+
+/* Long-form reading */
+.prose {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.prose > * + * {
+  margin-top: 1.15em;
+}
+
+.prose h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  margin-top: 2em;
+}
+
+.prose h3 {
+  font-size: 1.35rem;
+  margin-top: 1.6em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose li::marker {
+  color: var(--accent);
+}
+
+.prose a {
+  color: var(--accent);
+  text-underline-offset: 0.2em;
+}
+
+.prose strong {
+  font-weight: 650;
+}
+
+.prose :not(pre) > code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: var(--paper-2);
+  padding: 0.1em 0.35em;
+}
+
+.prose pre {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  padding: 1.2em 1.3em;
+  overflow-x: auto;
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding-left: 1.1em;
+  border-left: 3px solid var(--accent);
+  font-family: var(--display);
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+
+.prose .wide {
+  margin-block: 2em;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-family: var(--mono);
+  font-size: 0.92rem;
+}
+
+.chips span {
+  padding: 0.2em 0.5em;
+  background: var(--s1);
+  color: var(--s1-ink);
+  white-space: pre;
+}
+
+.chips span:nth-child(3n + 2) {
+  background: var(--s2);
+  color: var(--s2-ink);
+}
+
+.chips span:nth-child(3n) {
+  background: var(--s3);
+  color: var(--s3-ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+}

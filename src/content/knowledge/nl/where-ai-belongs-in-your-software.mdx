@@ -1,0 +1,87 @@
+---
+title: Waar AI thuishoort in je software, en waar niet
+description: De meeste nuttige AI-functies zijn één kleine modelstap in een verder gewoon proces. Een praktische gids voor automatisering en rapportages.
+date: 2026-10-05
+track: product
+draft: true
+---
+
+Veel AI-projecten beginnen met "laten we een chatbot toevoegen". De projecten die hun plek blijven verdienen, beginnen meestal ergens saaiers, bijvoorbeeld met "iemand is twee dagen per maand bezig met cijfers uit pdf's overtikken".
+
+Er is een eenvoudige manier om te bepalen waar een taalmodel past.
+
+> Gebruik code voor alles wat exact moet. Gebruik een model voor alles wat vaag is.
+
+Code is perfect in het optellen van een factuur en hopeloos in het lezen van een slecht geformuleerde e-mail. Bij een taalmodel is het precies andersom. Goede AI-functies zetten elk op de plek waar het sterk is.
+
+## De vorm die werkt
+
+De meeste betrouwbare functies zien eruit als een gewone pijplijn met één smalle modelstap erin:
+
+1. **Verzamel** de invoer met gewone code.
+2. **Stel het model** één kleine, specifieke vraag, en eis een gestructureerd antwoord.
+3. **Valideer** dat antwoord met gewone code: klopt het formaat, kloppen de totalen, bestaat deze klant?
+4. **Handel** als alles klopt, of stuur het naar een mens als dat niet zo is.
+
+Het model raakt je database nooit rechtstreeks aan. Het doet een voorstel en je code beslist. Vervang je volgend jaar het model, dan blijft de pijplijn staan.
+
+## Automatisering: verdien het recht om de mens weg te halen
+
+Neem binnenkomende leveranciersfacturen. Het model leest elk document en geeft leverancier, datum, regels en totaal terug als gestructureerde data. Daarna neemt code het over: bestaat de leverancier, tellen de regels op tot het totaal, past het bij een inkooporder?
+
+Rol het gefaseerd uit:
+
+1. **Schaduwmodus.** Het draait naast het bestaande proces en niemand doet iets met de uitvoer. Je vergelijkt alleen.
+2. **Suggestiemodus.** Mensen zien een ingevuld formulier en keuren het goed of verbeteren het. Elke verbetering is gratis testdata.
+3. **Automatisch, met uitzonderingen.** Gevallen die elke controle doorstaan, gaan direct door. De rest gaat nog steeds naar een mens.
+
+Ga naar de volgende fase omdat de metingen dat zeggen, niet omdat de demo er goed uitzag.
+
+## Rapportages: cijfers uit SQL, woorden van het model
+
+Taalmodellen zijn verleidelijk voor rapportages en gevaarlijk bij rekenwerk. De oplossing is een strikte taakverdeling. Je database berekent elk cijfer, inclusief veranderingen en percentages. Het model schrijft alleen de zinnen eromheen.
+
+En omdat de cijfers uit code komen, kun je de tekst achteraf controleren:
+
+```ts
+// Elk cijfer, ook elke verandering, komt uit de database.
+const figures = await db.weeklyRevenue(week);
+
+const draft = await model.write({
+  instructions: 'Vat deze cijfers samen in drie zinnen. Gebruik alleen getallen uit de data.',
+  data: figures,
+});
+
+// Elk getal in de tekst moet in de data voorkomen.
+const invented = numbersIn(draft).filter((n) => !figures.includes(n));
+if (invented.length > 0) return plainTemplateReport(figures);
+
+return draft;
+```
+
+Die ene controle haalt de ergste fout weg: een zelfverzekerde zin met een verzonnen getal erin. Slaagt de controle niet, dan krijgt de lezer een saaier rapport op basis van een sjabloon, maar wel een dat klopt.
+
+## Je hebt een testset nodig, ook voor prompts
+
+Een prompt is code, en verandert het gedrag net zo goed. Dat geldt ook voor de modelversie die je aanroept.
+
+Verzamel 50 tot 200 echte voorbeelden met bekende juiste antwoorden, ook de lastige. Draai ze zodra de prompt of het model verandert, en houd de score bij. Zonder dit is elke wijziging een gok, en is "het lijkt beter" het enige resultaat dat je ooit krijgt.
+
+## Bepaal dit voordat je gaat bouwen
+
+- **Wat gebeurt er als het model het mis heeft?** Is het antwoord "iemand ziet het en herstelt het in 30 seconden", dan heb je veel ruimte. Is het "een klant krijgt de verkeerde factuur", dan heb je sterke controles nodig.
+- **Wat gebeurt er als het model plat ligt?** Het proces moet terugschalen, niet stoppen. Zet het werk in een wachtrij of val terug op de handmatige route.
+- **Welke data verlaat je systemen?** Weet wat je verstuurt, aan wie en onder welke afspraken. Stuur het minimum, en controleer vanwege de AVG je verwerkersovereenkomst en de locatie van de data vóór de eerste test met echte gegevens.
+- **Wat kost één run?** Je betaalt per token, dus meet het vroeg. Vaak volstaat een kleiner model zodra de taak smal genoeg is.
+
+## Een snelle test voor goede kandidaten
+
+Een taak past waarschijnlijk goed als:
+
+- de invoer bestaat uit rommelige tekst, documenten of afbeeldingen,
+- een mens het zonder specialistisch oordeel zou kunnen,
+- een fout antwoord op te merken of goedkoop te herstellen is,
+- je echte voorbeelden hebt om op te testen,
+- en het vaak genoeg voorkomt om ertoe te doen.
+
+En het past waarschijnlijk niet als een duidelijke set regels het zou oplossen. Een van de beste adviezen die ik over een AI-project kan geven, is dat het er soms geen hoeft te zijn.

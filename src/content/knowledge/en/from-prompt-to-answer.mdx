@@ -1,0 +1,82 @@
+---
+title: What actually happens between your prompt and the answer
+description: A language model does one surprisingly simple thing, over and over. Here is the whole journey, without the mysticism.
+date: 2026-09-07
+track: foundations
+draft: true
+---
+import NextWord from '../../../components/NextWord.astro';
+import AttentionArcs from '../../../components/AttentionArcs.astro';
+
+You type a question and a paragraph comes back. It feels like talking to someone. What is happening underneath is stranger and, in a way, much simpler. A language model has exactly one job: **given some text, estimate what comes next.** Everything else is built from that.
+
+Here is the route your words take.
+
+## Step 1: your text is chopped into tokens
+
+A model doesn't read letters or even whole words. Your text is first cut into **tokens**: common chunks that might be a word, part of a word, or a piece of punctuation. A sentence might be split something like this:
+
+<div class="chips wide">
+  <span>The</span><span>arch</span><span>ae</span><span>ologist</span><span>found</span><span>a</span><span>rel</span><span>ic</span><span>.</span>
+</div>
+
+Each token is really just a number from a fixed list. This small detail explains a classic party trick: ask a model how many times a letter appears in a word, and it can get it wrong. It never saw the letters. It saw `arch`, `ae`, `ologist`.
+
+## Step 2: tokens become positions in a space of meaning
+
+A token's number says nothing about what it means. So each one is swapped for an **embedding**: a long list of numbers, often hundreds or thousands, that works like coordinates.
+
+Nobody writes these coordinates by hand. They are learned, and the result is that words used in similar ways end up near each other. "Trowel" lands close to "shovel" and far from "invoice". Meaning has become geometry, which is something a computer can actually calculate with.
+
+## Step 3: words look at each other
+
+"Bank" means something different next to "river" than next to "loan". A token's meaning depends on its neighbours, so the model needs a way to let context in.
+
+That mechanism is called **attention**, and it is the big idea behind modern AI. For each token, the model works out which earlier tokens matter for understanding it, then blends in information from those tokens, in proportion to how much they matter.
+
+<AttentionArcs
+  words={['The', 'trowel', 'stayed', 'in', 'the', 'trench', 'because', 'it', 'was']}
+  focus={7}
+  weights={{ 1: 0.95, 5: 0.35, 6: 0.15 }}
+  caption="While processing “it”, the model mostly looks at “trowel”. Line thickness is illustrative."
+/>
+
+This happens in many layers stacked on top of each other, and in many parallel variations inside each layer. Early layers tend to pick up simple relationships. Later ones represent much more abstract things. By the end, the vector for the last token carries a compressed sense of everything before it.
+
+## Step 4: guess the next token
+
+The final vector is turned into a score for every token the model knows, and those scores become probabilities. That's the output: not an answer, but a ranked list of what could come next.
+
+One token is picked and added to the text. Then **the whole process runs again** on the slightly longer text, and again, until the model produces a token that means "I'm done". Long answers are thousands of tiny predictions in a row.
+
+You can try the same loop yourself below. This is a real, working language model, just a very small one. It only counts which word follows which, so it can't look further back than one word. That limitation is exactly what attention removes.
+
+<div class="wide">
+  <NextWord lang="en" />
+</div>
+
+## Step 5: where the knowledge comes from
+
+So where does a model get its abilities? From training, which is the same guess-the-next-token game played at enormous scale.
+
+The model starts with random internal numbers, called **weights**. It is shown a piece of real text and asked to predict the next token. It's wrong, of course. The size of the error is measured, and every weight is nudged slightly in the direction that would have reduced it. Repeat that across a huge amount of text, with billions of weights, and useful structure appears. To predict the end of a sentence about chemistry, it helps to have absorbed some chemistry.
+
+A second training phase teaches it to behave like an assistant, using examples and feedback about which answers are better.
+
+Notice what training leaves behind: weights, not a database. The model doesn't look up facts. There's no table of sources inside.
+
+## Why answers vary: temperature
+
+If the model always took the most probable token, it would be repetitive and predictable. So it usually **samples**: it rolls weighted dice. The temperature setting reshapes those odds. Low temperature favours the safest choice, and high temperature gives unlikely tokens more of a chance. Move the slider in the demo above and watch the bars change.
+
+## What this explains in practice
+
+Once you know the mechanics, a lot of confusing behaviour makes sense.
+
+- **Confident mistakes.** The model is built to produce plausible text. Nothing in the loop checks whether it's true. Fluency is not evidence.
+- **Memory is an illusion.** All it knows about your conversation is the text sent along with the latest request. When that text doesn't fit in its context window, the older parts are gone.
+- **Giving it documents helps.** Pasting a contract into the prompt puts real text in the attention path, so the prediction can lean on it instead of on a vague statistical memory. This is the idea behind search-backed assistants.
+- **Tools make up for weaknesses.** The model can output a request to run a calculator or a database query, then read the result. That is often more reliable than asking it to work the answer out itself.
+- **The same question gets different answers.** That's the dice.
+
+None of this makes the technology less impressive. It's remarkable that next-token prediction scales up to writing working software. But "a very capable predictor" is a much better mental model than "a mind that knows things", and it's the one that will help you decide where to trust it.

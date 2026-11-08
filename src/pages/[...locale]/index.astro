@@ -1,0 +1,367 @@
+---
+import Base from '../../layouts/Base.astro';
+import Edge from '../../components/Edge.astro';
+import Phone from '../../components/Phone.astro';
+import ArticleLinks from '../../components/ArticleLinks.astro';
+import { contourPaths } from '../../lib/contours';
+import { screenshots } from '../../lib/screenshots';
+import { dictionaries, getArticles, href, localePaths, type Lang } from '../../i18n';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = Astro.props.lang as Lang;
+const t = dictionaries[lang];
+const shots = screenshots(lang);
+const lines = contourPaths(760, 420);
+const articles = await getArticles(lang);
+const softwareArticles = articles.filter((article) => article.data.track === 'software');
+const aiArticles = articles.filter((article) => article.data.track !== 'software');
+const primary = [
+  { layer: t.layers.software, tone: 1 as const, slug: 'software' },
+  { layer: t.layers.servers, tone: 2 as const, slug: 'servers' },
+  { layer: t.layers.security, tone: 3 as const, slug: 'security' },
+];
+---
+
+<Base lang={lang} path="/" title={t.home.title} footerStrata={false}>
+  <section class="hero">
+    <svg class="contours" viewBox="0 0 1200 800" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+      {lines.map((d, i) => <path d={d} class:list={{ hot: i === 5 }} />)}
+    </svg>
+    <div class="wrap hero-inner">
+      <span class="tag rise" style="--i:0">{t.home.eyebrow}</span>
+      <h1 class="rise" style="--i:1">{t.home.hero}</h1>
+      <p class="lede rise" style="--i:2">{t.home.lede}</p>
+      <div class="cta rise" style="--i:3">
+        <a class="btn" href={href(lang, '/work/')}>{t.home.ctaWork}</a>
+        <a class="link arrow" href={href(lang, '/work/#selected')}>{t.home.ctaSecond}</a>
+      </div>
+      <a class="dig tag" href="#strata">{t.home.dig} ↓</a>
+    </div>
+  </section>
+
+  <div id="strata" data-strata>
+    {
+      primary.map(({ layer, tone, slug }) => (
+        <section class={`stratum tone-${tone}`}>
+          <Edge variant={tone} />
+          <div class="wrap layer">
+            <div class="layer-title">
+              <span class="tag">{layer.depth} · {layer.name}</span>
+              <h2>{layer.title}</h2>
+            </div>
+            <div class="layer-body">
+              <p class="lede">{layer.body}</p>
+              <ul class="points">{layer.points.map((point) => <li>{point}</li>)}</ul>
+              <ul class="done">
+                {layer.work.map((item) => <li><span class="tag">{t.layers.doneLabel}</span><span>{item}</span></li>)}
+              </ul>
+              <a class="link arrow more" href={href(lang, `/work/${slug}/`)}>{t.layers.more}</a>
+              {slug === 'software' && <ArticleLinks lang={lang} articles={softwareArticles} label={t.layers.readLabel} />}
+            </div>
+          </div>
+        </section>
+      ))
+    }
+
+    <section class="stratum tone-4 finds">
+      <Edge variant={4} />
+      <div class="wrap layer">
+        <div class="layer-title">
+          <span class="tag">{t.layers.finds.depth} · {t.layers.finds.name}</span>
+          <h2>{t.layers.finds.title}</h2>
+          <p class="below">{t.layers.finds.body}</p>
+          <ArticleLinks lang={lang} articles={aiArticles} label={t.layers.readLabel} />
+        </div>
+        <div class="layer-body apps">
+          <div class="fan">
+            <Phone src={shots.museum} alt={t.relic.shots.museum} class="fan-a" />
+            <Phone src={shots.board} alt={t.relic.shots.board} class="fan-b" />
+          </div>
+          <div>
+            <h3>{t.layers.finds.appsTitle}</h3>
+            <p>{t.layers.finds.appsBody}</p>
+            <a class="link arrow more" href={href(lang, '/work/relic-sweeper/')}>{t.layers.finds.appsLink}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="gauge tag" data-gauge hidden aria-hidden="true">{t.home.depth} <b>0.0 m</b></div>
+</Base>
+
+<script>
+  import { contourPaths } from '../../lib/contours';
+
+  const svg = document.querySelector<SVGSVGElement>('.contours');
+  const rings = svg ? [...svg.querySelectorAll('path')] : [];
+  const stillPreferred = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (svg && !stillPreferred) {
+    const secondsPerRing = 2.6;
+    const hotEvery = 7;
+    const frameMs = 1000 / 30;
+    let visible = true;
+    let frame = 0;
+    let last = 0;
+
+    const draw = (now: number) => {
+      frame = requestAnimationFrame(draw);
+      if (now - last < frameMs) return;
+      last = now;
+
+      const seconds = now / 1000;
+      const travelled = seconds / secondsPerRing;
+      const passed = Math.floor(travelled);
+      const flow = travelled - passed;
+
+      contourPaths(760, 420, { time: seconds, flow, precision: 1 }).forEach((d, index) => {
+        const ring = rings[index];
+        ring.setAttribute('d', d);
+        // A ring takes over from its outer neighbour each cycle, so the red line has to hop along with it.
+        ring.classList.toggle('hot', (((index - passed) % hotEvery) + hotEvery) % hotEvery === 5);
+        // New rings appear in the centre, so they fade in rather than pop.
+        ring.style.opacity = index === 0 ? String(flow) : '';
+      });
+    };
+
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !visible) frame = requestAnimationFrame(draw);
+      if (!entry.isIntersecting) cancelAnimationFrame(frame);
+      visible = entry.isIntersecting;
+    }).observe(svg);
+
+    frame = requestAnimationFrame(draw);
+  }
+
+  const strata = document.querySelector<HTMLElement>('[data-strata]');
+  const gauge = document.querySelector<HTMLElement>('[data-gauge]');
+  const reading = gauge?.querySelector('b');
+
+  if (strata && gauge && reading) {
+    let queued = false;
+    const update = () => {
+      queued = false;
+      const box = strata.getBoundingClientRect();
+      const middle = window.innerHeight / 2;
+      const progress = (middle - box.top) / box.height;
+      gauge.hidden = progress < 0 || progress > 1;
+      reading.textContent = `−${(progress * 4).toFixed(1)} m`;
+    };
+    const queue = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(update);
+      }
+    };
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', queue);
+    update();
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    margin-top: -4.5rem;
+    padding-top: 4.5rem;
+    overflow: hidden;
+  }
+
+  .contours {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1.2;
+    /* The lines fade out behind the text so they never cut through a sentence. */
+    -webkit-mask-image: linear-gradient(100deg, transparent 38%, #000 72%);
+    mask-image: linear-gradient(100deg, transparent 38%, #000 72%);
+  }
+
+  .contours :global(.hot) {
+    stroke: var(--accent);
+    stroke-width: 1.6;
+  }
+
+  .hero-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: min(90svh, 900px);
+    padding-block: clamp(40px, 7vw, 90px) clamp(110px, 13vw, 180px);
+  }
+
+  .hero h1 {
+    /* Limited by height as well, so the intro and buttons stay in the first screen. */
+    font-size: clamp(3.4rem, min(8.6vw, 15.5svh), 9.5rem);
+    line-height: 0.98;
+    max-width: 12ch;
+    margin-block: 0.25em 0.3em;
+  }
+
+  .hero .lede {
+    max-width: 33em;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 2rem;
+  }
+
+  .dig {
+    margin-top: 3rem;
+    text-decoration: none;
+    color: var(--ink-2);
+  }
+
+  .layer {
+    display: grid;
+    gap: 1.5rem clamp(2rem, 6vw, 6rem);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .layer-title {
+    grid-column: 1 / span 6;
+  }
+
+  .layer-title h2 {
+    font-size: clamp(2.3rem, 5.4vw, 4.8rem);
+    margin-top: 0.3em;
+  }
+
+  .layer-body {
+    grid-column: 7 / -1;
+    padding-top: 1.75rem;
+  }
+
+  .below {
+    margin-top: 1.25rem;
+  }
+
+  .points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+  }
+
+  .points li {
+    padding: 0.25em 0.65em;
+    border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+  }
+
+  .done {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+  }
+
+  .done li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding-block: 0.5rem;
+    border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  }
+
+  .done .tag {
+    flex: none;
+    width: 7.5rem;
+  }
+
+  .more {
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
+  .apps {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+    padding-top: 0;
+  }
+
+  .apps h3 {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    margin-bottom: 0.4em;
+  }
+
+  .fan {
+    display: flex;
+    justify-content: center;
+    padding-block: 0.5rem 1.5rem;
+  }
+
+  .fan :global(.phone) {
+    width: 52%;
+  }
+
+  .fan :global(.fan-a) {
+    transform: rotate(-5deg) translateX(8%);
+  }
+
+  .fan :global(.fan-b) {
+    transform: rotate(4deg) translate(-4%, 20px);
+  }
+
+  .finds {
+    padding-bottom: clamp(90px, 11vw, 150px);
+  }
+
+  .gauge {
+    position: fixed;
+    right: 14px;
+    top: 50%;
+    z-index: 3;
+    writing-mode: vertical-rl;
+    color: #fff;
+    mix-blend-mode: difference;
+    font-size: 0.72rem;
+  }
+
+  .gauge b {
+    font-weight: 500;
+    margin-top: 0.5em;
+    display: inline-block;
+  }
+
+  .gauge[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .layer-title,
+    .layer-body {
+      grid-column: 1 / -1;
+    }
+
+    .layer-body {
+      padding-top: 0;
+    }
+
+    .contours :global(.hot) {
+      stroke: var(--line);
+      stroke-width: 1.2;
+    }
+
+    .gauge {
+      display: none;
+    }
+  }
+</style>

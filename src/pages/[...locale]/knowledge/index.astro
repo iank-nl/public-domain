@@ -1,0 +1,103 @@
+---
+import Base from '../../../layouts/Base.astro';
+import {
+  dictionaries,
+  formatDate,
+  getArticles,
+  href,
+  localePaths,
+  readingMinutes,
+  slugOf,
+  trackTones,
+  type Lang,
+} from '../../../i18n';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = Astro.props.lang as Lang;
+const t = dictionaries[lang].knowledge;
+const articles = await getArticles(lang);
+---
+
+<Base lang={lang} path="/knowledge/" title={t.seoTitle} description={t.lede}>
+  <section class="wrap page-head">
+    <span class="tag">{t.title}</span>
+    <h1>{t.heading}</h1>
+    <p class="lede">{t.lede}</p>
+    <p class="feed"><a class="link" href={href(lang, '/rss.xml')}>{t.rss}</a></p>
+  </section>
+
+  <ol class="wrap list">
+    {
+      articles.map((article) => (
+        <li>
+          <div class:list={['core', trackTones[article.data.track]]} aria-hidden="true" />
+          <a href={href(lang, `/knowledge/${slugOf(article)}/`)}>
+            <span class="tag track">{t.tracks[article.data.track]}</span>
+            <h2>{article.data.title}</h2>
+            <p>{article.data.description}</p>
+            <span class="tag meta">
+              <time datetime={article.data.date.toISOString().slice(0, 10)}>{formatDate(lang, article.data.date)}</time> · {readingMinutes(article.body)} {t.minutes}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</Base>
+
+<style>
+  .feed {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .list {
+    list-style: none;
+    margin-block: 0;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: clamp(36px, 8vw, 110px) minmax(0, 1fr);
+    gap: clamp(1.25rem, 4vw, 3.5rem);
+  }
+
+  .core {
+    background-color: var(--band);
+    background-image: var(--litho);
+  }
+
+  li a {
+    display: block;
+    padding-block: clamp(24px, 3.5vw, 44px);
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  .track {
+    color: var(--ink-2);
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    margin-block: 0.4em;
+    max-width: 26ch;
+  }
+
+  li a:hover h2 {
+    color: var(--accent);
+  }
+
+  li p {
+    max-width: 44em;
+  }
+
+  .meta {
+    display: block;
+    margin-top: 0.75rem;
+    color: var(--ink-2);
+  }
+</style>

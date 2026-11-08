@@ -1,0 +1,42 @@
+---
+import { href, slugOf, type Article, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  articles: Article[];
+  label: string;
+}
+
+const { lang, articles, label } = Astro.props;
+---
+
+{
+  articles.length > 0 && (
+    <ul class="articles">
+      {articles.map((article) => (
+        <li>
+          <span class="tag">{label}</span>
+          <a class="link arrow" href={href(lang, `/knowledge/${slugOf(article)}/`)}>
+            {article.data.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .articles {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding-block: 0.5rem;
+    border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  }
+</style>

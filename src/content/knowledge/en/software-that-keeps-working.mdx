@@ -1,0 +1,74 @@
+---
+title: What connecting 50 APIs teaches you about software that keeps working
+description: Every external system fails eventually, and usually at a bad moment. Seven habits that keep your software running when it does.
+date: 2026-08-03
+track: software
+draft: true
+---
+
+I once built a platform that managed more than 50 different APIs. When you connect that many outside systems, something is always broken somewhere. A provider is slow, a token has expired, or a field quietly changed its format.
+
+That turns out to be a good way to learn how to build reliable software in general. Your own code is only one part of the system, and it's the part you control. These are the habits that matter most.
+
+## 1. Assume every call can hang
+
+The most dangerous failure isn't an error. It's no answer at all. A request with no timeout can tie up a worker for minutes, and enough of those will take your whole application down over a problem that isn't yours.
+
+Give every outgoing call a timeout, and choose it deliberately. If users are waiting on the result, a few seconds is usually the limit.
+
+## 2. Retry carefully, or not at all
+
+Retrying feels like the obvious fix, but it can make things worse. If a provider is struggling and every client immediately retries, you've added to the load that caused the problem.
+
+- Wait longer between each attempt, with some randomness so that clients don't all return at once.
+- Only retry errors that might go away, such as timeouts and server errors. A rejected request will be rejected again.
+- Stop after a fixed number of attempts.
+
+Be especially careful with anything that changes data. If a payment request times out, you don't know whether it went through. That's what [idempotency keys](https://docs.stripe.com/api/idempotent_requests) are for: the same key means the provider performs the action only once, however many times you ask.
+
+## 3. Treat rate limits as part of the design
+
+Most APIs limit how many requests you can make. When you go over, you typically get a [`429 Too Many Requests`](https://www.rfc-editor.org/rfc/rfc6585#section-4), often with a [`Retry-After`](https://www.rfc-editor.org/rfc/rfc9110#section-10.2.3) header saying how long to wait.
+
+Read that header and obey it. Better still, throttle your own outgoing requests through a queue, so that a big import doesn't use up the allowance your live users need.
+
+## 4. Don't trust what comes back
+
+Data from a partner feels safe because you chose that partner. But providers change formats, send nulls where they promised numbers, and get compromised. OWASP includes [unsafe consumption of APIs](https://owasp.org/API-Security/editions/2023/en/0xaa-unsafe-consumption-of-apis/) in its API Security Top 10 for good reason.
+
+Validate each response at the edge of your system, as strictly as you'd validate input from a user. When something doesn't match, reject it there with a clear error, and don't let a strange value travel through your database and surface three weeks later.
+
+## 5. Keep failures contained
+
+Give each integration its own module with its own settings, and put the slow or optional work in a background queue. Then one provider having a bad day delays one feature, and the rest of the application carries on.
+
+For anything users are waiting on, decide in advance what happens when the provider is down. You can often show slightly older data, or accept the request and finish it later. Either is much better than an error page.
+
+## 6. Make problems visible
+
+If you can't see it, you'll hear about it from a customer. For each integration, I want to know three things at a glance: how many calls succeed, how long they take, and when the last successful one happened.
+
+That last one is easy to overlook. A sync that stops running produces no errors at all, so errors alone won't tell you. Alert on silence as well.
+
+## 7. Guard the credentials
+
+Each connection comes with a key that opens a door into someone's system.
+
+- Keep keys in a secrets manager, out of your code and your logs.
+- Give each integration its own key, with only the permissions it needs.
+- Make sure you can replace a key without downtime.
+- If a provider calls you through a webhook, verify the signature. Otherwise anyone who finds the URL can pretend to be them.
+
+## A short checklist
+
+Before an integration goes live, I'd want a yes to all of these:
+
+- Does every call have a timeout?
+- Are retries limited, spaced out and safe to repeat?
+- Do we stay within the rate limits, even during a large import?
+- Is every response validated?
+- If this provider is down for an hour, does the rest of the application keep working?
+- Will someone get alerted if it silently stops?
+- Can we replace the key today without an outage?
+
+None of this is exciting, and that's the point. Reliable software is mostly a long list of small decisions about what happens when something goes wrong.

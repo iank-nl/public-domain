@@ -1,0 +1,243 @@
+import type { en } from './en';
+
+export const nl: typeof en = {
+  nav: { knowledge: 'Kennis', work: 'Werk', about: 'Over mij', contact: 'Neem contact op', menu: 'Hoofdmenu' },
+  meta: {
+    description:
+      'Freelance softwareontwikkeling, serverbeheer en cybersecurity. Webapplicaties en API’s, Linux en AWS, securityreviews en hardening.',
+  },
+  home: {
+    title: 'Freelance softwareontwikkelaar en cybersecurity-specialist',
+    eyebrow: 'Software, servers & cybersecurity',
+    hero: 'Software, tot op de bodem veilig.',
+    lede: 'Ik ben Ian. Ik bouw software, beheer de servers waarop die draait en zorg dat beide veilig zijn. Eén engineer voor het hele traject, van de eerste regel code tot de productieserver.',
+    ctaWork: 'Wat ik voor je kan doen',
+    ctaSecond: 'Bekijk eerder werk',
+    dig: 'Graaf verder',
+    depth: 'diepte',
+  },
+  layers: {
+    software: {
+      depth: '0 m',
+      name: 'Oppervlak',
+      title: 'Software die doet wat hij moet doen',
+      body: 'Webapplicaties, API’s en koppelingen die ook lang na de oplevering blijven werken. Heldere code, logische datamodellen en geen verrassingen voor wie het daarna onderhoudt.',
+      points: ['PHP / Laravel', 'TypeScript / JavaScript', 'API-ontwikkeling', 'Databaseontwerp'],
+      work: [
+        'Een integratieplatform dat meer dan 50 API’s koppelt',
+        'Een centraal dashboard voor het beheer van meerdere productomgevingen',
+        'Een uniform databaseplatform dat veel databronnen samenbrengt',
+      ],
+    },
+    servers: {
+      depth: '−1 m',
+      name: 'Ondergrond',
+      title: 'Servers en cloud die blijven draaien',
+      body: 'Linux-servers en AWS-omgevingen die automatisch worden gepatcht, gemonitord en uitgerold, zodat problemen opvallen voordat je gebruikers ze merken.',
+      points: ['Linux-serverbeheer', 'AWS-architectuur', 'CI/CD-pipelines', 'Systeemmonitoring'],
+      work: [
+        'Meer dan 25 Linux-productieservers, gepatcht en gehard',
+        'Realtime monitoring en alerting voor draaiende producten',
+        'Docker-deploymentpipelines met automatische rollback',
+      ],
+    },
+    security: {
+      depth: '−2 m',
+      name: 'Diepte',
+      title: 'Security, vanaf het begin ingebouwd',
+      body: 'De zwakke plekken vinden voordat iemand anders dat doet. Reviews van je code en infrastructuur, gevolgd door oplossingen die ook echt worden doorgevoerd.',
+      points: ['Applicatiebeveiliging', 'Secure code review', 'API-beveiliging', 'OWASP best practices'],
+      work: [
+        'Security code reviews met concrete herstelstappen',
+        'Encryptie van data op gebruikersniveau, inclusief sleutelbeheer',
+        'Geautomatiseerde compliancecontroles en inbraakdetectie',
+      ],
+    },
+    finds: {
+      depth: '−3 m',
+      name: 'Vondsten',
+      title: 'Ook in de grond: AI en apps',
+      body: 'Naast het kernwerk kijk ik waar nieuwere tools echt nuttig zijn. Ik schrijf begrijpelijke aantekeningen over hoe AI werkt en hoe je het veilig in echte software gebruikt.',
+      appsTitle: 'Relic Sweeper',
+      appsBody: 'Een complete mobiele puzzelgame met een eigen oplosser en backend, gebouwd om te testen hoe ver een gedisciplineerde workflow met AI komt.',
+      appsLink: 'Lees de case study',
+    },
+    doneLabel: 'Eerder gedaan',
+    readLabel: 'Lees',
+    more: 'Meer hierover',
+  },
+  widget: {
+    label: 'Probeer het',
+    title: 'Een taalmodel dat klein genoeg is om te lezen',
+    intro: 'Het leerde zojuist van {n} woorden tekst, in je browser. Kies het volgende woord, of laat het model kiezen.',
+    next: 'Waarschijnlijke volgende woorden',
+    pick: 'Laat het model kiezen',
+    reset: 'Opnieuw',
+    temperature: 'Temperatuur',
+    cool: 'veilig',
+    hot: 'wild',
+    note: 'Dit model onthoudt maar één woord terug. Grote modellen doen hetzelfde werk, maar wegen alles mee wat eraan voorafging.',
+    start: 'het',
+  },
+  work: {
+    title: 'Werk',
+    seoTitle: 'Softwareontwikkeling, serverbeheer en cybersecurity',
+    heading: 'Software, servers en security, van één engineer.',
+    lede: 'Ik werk freelance met teams die iets gebouwd willen hebben, draaiend willen houden of veiliger willen maken. Vaak alle drie, en dat gaat makkelijker als één persoon het hele plaatje ziet.',
+    servicesLabel: 'Wat ik doe',
+    services: [
+      {
+        title: 'Softwareontwikkeling',
+        body: 'Webapplicaties, API’s, koppelingen en databases, vooral in PHP/Laravel en TypeScript. Nieuwbouw, of het overnemen en verbeteren van wat je al hebt.',
+      },
+      {
+        title: 'Serverbeheer & cloud',
+        body: 'Linux-servers en AWS-omgevingen: inrichting, patching, monitoring, automatische deployments en grip op de cloudkosten.',
+      },
+      {
+        title: 'Cybersecurity',
+        body: 'Secure code reviews, applicatie- en API-beveiliging, serverhardening en encryptie. Je krijgt duidelijke bevindingen, prioriteiten en hulp bij het oplossen.',
+      },
+      {
+        title: 'AI & apps, waar het helpt',
+        body: 'Automatisering en rapportages toegevoegd aan bestaande software, en mobiele apps. Alleen als het het juiste gereedschap is.',
+      },
+    ],
+    selectedLabel: 'Eerder werk',
+    selected: [
+      {
+        title: 'Software',
+        items: [
+          { title: 'API-integratieplatform', body: 'Meer dan 50 verschillende API’s op één plek beheerd, met foutafhandeling, rate limiting en monitoring.' },
+          { title: 'OData-interfacesysteem', body: 'Gestandaardiseerde toegang tot data in meerdere bedrijfssystemen, met gegenereerde interfaces.' },
+          { title: 'Centraal productdashboard', body: 'Eén webdashboard voor het beheer van meerdere productomgevingen, met rolgebaseerde toegang.' },
+          { title: 'Gestandaardiseerd databaseplatform', body: 'Data uit veel bronnen in één formaat, met automatische imports en validatie.' },
+        ],
+      },
+      {
+        title: 'Servers & cloud',
+        items: [
+          { title: 'Geautomatiseerde monitoring', body: 'Realtime alerts voor draaiende producten, met dashboards en notificatieregels.' },
+          { title: 'AWS-kostenbeheer', body: 'Cloudkosten volgen en voorspellen, met budgetalerts en besparingsadviezen.' },
+          { title: 'Docker-deploymentautomatisering', body: 'Continue levering van containers, met automatische tests en rollback.' },
+          { title: 'AWS API-integratieplatform', body: 'Een uitbreidbaar platform voor managed services, met veilige authenticatie en rate limiting.' },
+        ],
+      },
+      {
+        title: 'Security',
+        items: [
+          { title: 'Veilig serverbeheer', body: 'Meer dan 25 Linux-productieservers veilig gehouden met automatische patches, hardening en inbraakdetectie.' },
+          { title: 'Data-encryptie op gebruikersniveau', body: 'Gevoelige data beschermd in alle applicatielagen, inclusief sleutelbeheer.' },
+          { title: 'Security code reviews', body: 'Kwetsbaarheden opsporen en rapporteren met concrete herstelstappen.' },
+          { title: 'Centrale Elasticsearch-omgeving', body: 'Data uit verschillende applicaties volgen en analyseren, met automatische invoer en dashboards.' },
+        ],
+      },
+    ],
+    processLabel: 'Hoe een project loopt',
+    process: [
+      { title: 'Praten', body: 'We zoeken uit wat er echt traag, riskant of kapot is, en wat als eerste de moeite waard is.' },
+      { title: 'Beoordelen', body: 'Ik bekijk de code en servers, en je krijgt schriftelijke bevindingen met duidelijke prioriteiten.' },
+      { title: 'Bouwen', body: 'Nieuw werk of oplossingen, met tests, monitoring en een manier om terug te draaien.' },
+      { title: 'Overdragen', body: 'Documentatie en een rondleiding, zodat je team het zonder mij kan beheren.' },
+    ],
+    caseLabel: 'Zijproject',
+    cta: 'Heb je iets in gedachten?',
+    ctaBody: 'Stuur een korte beschrijving van wat je nodig hebt. Meestal antwoord ik binnen 1 à 2 werkdagen.',
+  },
+  relic: {
+    title: 'Relic Sweeper',
+    label: 'Case study',
+    heading: 'Relic Sweeper: hoe ver komt een gedisciplineerde agent-workflow?',
+    lede: 'Een logische puzzelgame voor Android en iOS, gebouwd met Claude Code als belangrijkste paar handen. Acht gebieden, een museum om te vullen, een gedeeld dagelijks bord en een eigen kleine backend.',
+    facts: [
+      { label: 'Engine', value: 'Godot 4.7, GDScript' },
+      { label: 'Platformen', value: 'Android, iOS' },
+      { label: 'Talen', value: 'Engels, Nederlands' },
+      { label: 'Backend', value: 'Cloudflare Worker, D1 (EU)' },
+    ],
+    stats: [
+      { value: '96', label: 'bewezen oplosbare levels' },
+      { value: '84', label: 'gespecificeerde taken afgerond' },
+      { value: '2.124', label: 'automatische tests' },
+      { value: '242', label: 'commits in de repository' },
+    ],
+    gameLabel: 'De game',
+    gameBody:
+      'Een logische puzzel in de stijl van Minesweeper, met een archeologisch thema. Je maakt opgravingen tegel voor tegel vrij, en onder veilige tegels kunnen fragmenten liggen die stukken in je eigen museum compleet maken. Winnen of verliezen: wat je vindt, mag je houden.',
+    shots: {
+      board: 'Een opgraving in de jungle, met een fragment van een jade masker dat uit de tegel verschijnt',
+      museum: 'De Vuurtoren-zaal van het museum, compleet en vol bezoekers',
+      map: 'De expeditiekaart op de pagina van de Grotten',
+      big: 'Een Meester-bord van 30 bij 54, uitgezoomd',
+      reveal: 'Een voltooid museumstuk wordt onthuld',
+    },
+    hardLabel: 'De interessante stukken',
+    hard: [
+      {
+        title: 'Geen gokken, bewezen door een oplosser',
+        body: 'Elk expeditiebord is gecontroleerd door een oplosser die alleen logica gebruikt. De seed wordt vooraf gezocht en opgeslagen. Een golden test over 66 borden beschermt de oplosser tegen elke gedragsverandering, ook als hij sneller wordt gemaakt.',
+      },
+      {
+        title: 'Een kern zonder verborgen invoer',
+        body: 'De spelregels lezen nooit zelf de klok of de randomgenerator. Ze krijgen de tijd en een seed mee als parameter, dus elke regel is exact te testen en het gedeelde dagelijkse bord is op elke telefoon gelijk.',
+      },
+      {
+        title: 'Leveranciers achter interfaces',
+        body: 'Advertenties, aankopen, notificaties en game services zitten elk achter één interface, met een mock voor tests en een adapter voor de echte SDK. De game bouwt en draait zonder ook maar één daarvan.',
+      },
+      {
+        title: 'Analytics die ik kan verantwoorden',
+        body: 'Staat uit tenzij de speler ervoor kiest. Events gaan naar mijn eigen Cloudflare Worker en worden in de EU opgeslagen zonder IP-adressen. De testsuite faalt als er een event wordt verstuurd dat niet in de documentatie staat.',
+      },
+    ],
+    processLabel: 'Hoe het is gebouwd',
+    processBody:
+      'Elk onderdeel begon als een geschreven taak met acceptatiecriteria. Een agent bouwde het test-first en mocht het pas af noemen als de volledige testsuite slaagde. Een aparte review-agent controleerde elke mijlpaal. Alles wat een test niet kan beoordelen, zoals of het goed voelt, bleef bij mij.',
+    processLink: 'Het hele verhaal en de lessen',
+    privacy: 'Privacybeleid',
+  },
+  about: {
+    title: 'Over mij',
+    seoTitle: 'Over Ian, software- en security-engineer',
+    heading: 'Hoi, ik ben Ian.',
+    paragraphs: [
+      'Ik ben software engineer uit Nederland en werk aan ontwikkeling, serverbeheer en cybersecurity.',
+      'Het meeste van mijn werk zit aan de minder glamoureuze kant van software: backends, infrastructuur en security. Integratieplatformen die met meer dan vijftig API’s praten, AWS-omgevingen, meer dan 25 Linux-productieservers, encryptie op gebruikersniveau en security code reviews. Die combinatie leerde me altijd te vragen wat er gebeurt als iets misgaat.',
+      'Omdat ik alle drie doe, zie ik vaak de problemen die tussen specialisten in vallen: de functie die prima is tot hij wordt uitgerold, of de server die prima is tot iemand de code leest. De laatste tijd houd ik me ook bezig met AI en apps, en schrijf ik op wat ik leer, in gewone taal.',
+    ],
+    beliefsLabel: 'Waar ik in geloof',
+    beliefs: [
+      { title: 'Security is een gewoonte.', body: 'Het werkt als het deel uitmaakt van hoe software wordt gebouwd, niet als controle helemaal aan het eind.' },
+      { title: 'Reken op fouten.', body: 'Alles gaat een keer stuk. Het gaat erom of je het merkt, en hoe snel je herstelt.' },
+      { title: 'Saai is een compliment.', body: 'De beste systemen zijn de systemen waar niemand aan hoeft te denken.' },
+    ],
+    toolsLabel: 'Gereedschap dat ik gebruik',
+    tools: ['PHP / Laravel', 'TypeScript', 'Linux', 'AWS', 'Docker', 'Elasticsearch', 'SQL', 'OWASP', 'Cloudflare Workers', 'Godot', 'Claude Code'],
+  },
+  knowledge: {
+    title: 'Kennis',
+    seoTitle: 'Aantekeningen over software, security en AI',
+    heading: 'Aantekeningen uit de praktijk.',
+    lede: 'Praktische aantekeningen over software bouwen, beheren en beveiligen, en over waar AI daarin past. In gewone taal, nieuwste eerst.',
+    tracks: {
+      software: 'Software',
+      product: 'AI in software',
+      workflow: 'Bouwen met AI',
+      foundations: 'Hoe AI werkt',
+    },
+    minutes: 'min lezen',
+    back: 'Alle kennis',
+    draft: 'Concept, wordt nog nagekeken',
+    rss: 'RSS-feed',
+    related: 'Wil je dit in je eigen project?',
+    relatedBody: 'Ik help teams om dit soort kennis om te zetten in werkende software.',
+    relatedCta: 'Bekijk hoe ik werk',
+  },
+  footer: {
+    heading: 'Iets interessants gevonden?',
+    body: 'Vertel waar je aan werkt. Meestal antwoord ik binnen 1 à 2 werkdagen.',
+    rights: 'Alle rechten voorbehouden.',
+    privacy: 'Privacybeleid Relic Sweeper',
+    language: 'Taal',
+  },
+};

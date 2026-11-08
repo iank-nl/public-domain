@@ -1,0 +1,18 @@
+---
+interface Props {
+  variant?: 1 | 2 | 3 | 4;
+}
+
+const paths = {
+  1: 'M0,70 C210,18 430,96 720,58 C1010,20 1220,88 1440,44 L1440,100 L0,100 Z',
+  2: 'M0,38 C260,92 470,14 760,52 C1040,88 1230,26 1440,66 L1440,100 L0,100 Z',
+  3: 'M0,62 C180,30 390,30 640,66 C900,100 1190,14 1440,50 L1440,100 L0,100 Z',
+  4: 'M0,44 C300,82 520,62 800,36 C1060,12 1250,78 1440,62 L1440,100 L0,100 Z',
+};
+
+const { variant = 1 } = Astro.props;
+---
+
+<svg class="stratum-edge" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+  <path d={paths[variant]}></path>
+</svg>

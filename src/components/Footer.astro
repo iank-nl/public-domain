@@ -1,0 +1,133 @@
+---
+import { site } from '../site.config';
+import { dictionaries, href, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  path?: string;
+  strata: boolean;
+}
+
+const { lang, path, strata } = Astro.props;
+const t = dictionaries[lang];
+const year = new Date().getFullYear();
+---
+
+{
+  strata && (
+    <svg class="strip" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="var(--s1)" d="M0,60 C210,10 430,86 720,48 C1010,10 1220,78 1440,34 L1440,200 L0,200 Z" />
+      <path fill="var(--s2)" d="M0,88 C260,142 470,64 760,102 C1040,138 1230,76 1440,116 L1440,200 L0,200 Z" />
+      <path fill="var(--s3)" d="M0,136 C180,104 390,104 640,140 C900,174 1190,88 1440,124 L1440,200 L0,200 Z" />
+      <path fill="var(--s4)" d="M0,166 C300,204 520,184 800,158 C1060,134 1250,190 1440,174 L1440,200 L0,200 Z" />
+    </svg>
+  )
+}
+<footer class="magma">
+  <svg class="crust" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,0 L1440,0 L1440,26 C1200,58 1010,8 720,30 C430,52 210,6 0,34 Z"></path>
+  </svg>
+  <div class="wrap inner">
+    <h2>{t.footer.heading}</h2>
+    <p>{t.footer.body}</p>
+    <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
+    <div class="base">
+      <span>&copy; {year} {site.legalName}. KVK {site.kvk}. {t.footer.rights}</span>
+      <span class="links">
+        <a href="/apps/privacy-policy/relic-sweeper.txt">{t.footer.privacy}</a>
+        {
+          path ? (
+            <span class="switch" aria-label={t.footer.language}>
+              <a href={href('en', path)} data-lang="en" aria-current={lang === 'en' ? 'true' : undefined} hreflang="en">EN</a>
+              <a href={href('nl', path)} data-lang="nl" aria-current={lang === 'nl' ? 'true' : undefined} hreflang="nl">NL</a>
+            </span>
+          ) : null
+        }
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang]').forEach((link) => {
+    link.addEventListener('click', () => {
+      try {
+        localStorage.setItem('lang', link.dataset.lang ?? 'en');
+      } catch {
+        // Without storage the switch still works for this page.
+      }
+    });
+  });
+</script>
+
+<style>
+  .strip {
+    width: 100%;
+    height: clamp(90px, 13vw, 180px);
+    margin-top: clamp(32px, 5vw, 72px);
+    margin-bottom: -1px;
+  }
+
+  .magma {
+    position: relative;
+    background: var(--magma);
+    color: var(--magma-ink);
+    padding-block: clamp(56px, 8vw, 110px) 1.75rem;
+  }
+
+  .crust {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    height: clamp(24px, 4vw, 60px);
+    fill: var(--s4);
+  }
+
+  h2 {
+    font-size: clamp(2.2rem, 6vw, 4.6rem);
+    max-width: 15ch;
+    margin-bottom: 0.4em;
+  }
+
+  .mail {
+    display: inline-block;
+    margin-top: 1.1rem;
+    font-family: var(--display);
+    font-size: clamp(1.7rem, 7.6vw, 6.5rem);
+    line-height: 1.1;
+    text-decoration: none;
+    border-bottom: 3px solid currentColor;
+    overflow-wrap: anywhere;
+  }
+
+  .mail:hover {
+    opacity: 0.7;
+  }
+
+  .base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    margin-top: clamp(40px, 7vw, 88px);
+    font-size: 0.9rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .switch {
+    display: inline-flex;
+    gap: 0.6rem;
+    font-family: var(--mono);
+  }
+
+  .switch [aria-current] {
+    font-weight: 700;
+    text-decoration: none;
+  }
+</style>

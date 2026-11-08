@@ -1,0 +1,82 @@
+---
+title: Wat er echt gebeurt tussen je prompt en het antwoord
+description: Een taalmodel doet één verrassend eenvoudig ding, steeds opnieuw. Dit is de hele reis, zonder mystiek.
+date: 2026-09-07
+track: foundations
+draft: true
+---
+import NextWord from '../../../components/NextWord.astro';
+import AttentionArcs from '../../../components/AttentionArcs.astro';
+
+Je typt een vraag en er komt een alinea terug. Het voelt alsof je met iemand praat. Wat eronder gebeurt is vreemder en tegelijk veel eenvoudiger. Een taalmodel heeft precies één taak: **schat bij een stuk tekst in wat er daarna komt.** Al het andere is daarop gebouwd.
+
+Dit is de route die je woorden afleggen.
+
+## Stap 1: je tekst wordt in tokens gehakt
+
+Een model leest geen letters en zelfs geen hele woorden. Je tekst wordt eerst opgeknipt in **tokens**: veelvoorkomende stukjes die een woord kunnen zijn, een deel van een woord of een leesteken. Een zin kan bijvoorbeeld zo worden verdeeld:
+
+<div class="chips wide">
+  <span>De</span><span>arche</span><span>oloog</span><span>vond</span><span>een</span><span>rel</span><span>iek</span><span>.</span>
+</div>
+
+Elk token is eigenlijk gewoon een getal uit een vaste lijst. Dat kleine detail verklaart een bekend trucje: vraag een model hoe vaak een letter in een woord voorkomt, en het kan het fout hebben. Het heeft de letters nooit gezien. Het zag `arche` en `oloog`.
+
+## Stap 2: tokens worden posities in een ruimte van betekenis
+
+Het getal van een token zegt niets over wat het betekent. Daarom wordt elk token vervangen door een **embedding**: een lange lijst getallen, vaak honderden of duizenden, die werkt als coördinaten.
+
+Niemand schrijft die coördinaten met de hand. Ze worden geleerd, met als resultaat dat woorden die op vergelijkbare manieren worden gebruikt dicht bij elkaar terechtkomen. "Troffel" belandt dicht bij "schep" en ver van "factuur". Betekenis is meetkunde geworden, en daar kan een computer wél mee rekenen.
+
+## Stap 3: woorden kijken naar elkaar
+
+"Bank" betekent iets anders naast "park" dan naast "lening". De betekenis van een token hangt af van zijn buren, dus het model heeft een manier nodig om context binnen te laten.
+
+Dat mechanisme heet **attention**, en het is het grote idee achter moderne AI. Voor elk token bepaalt het model welke eerdere tokens ertoe doen om het te begrijpen, en mengt het informatie van die tokens erdoorheen, naar rato van hoe belangrijk ze zijn.
+
+<AttentionArcs
+  words={['De', 'troffel', 'bleef', 'in', 'de', 'sleuf', 'liggen', 'omdat', 'hij']}
+  focus={8}
+  weights={{ 1: 0.95, 5: 0.35, 7: 0.15 }}
+  caption="Bij het verwerken van “hij” kijkt het model vooral naar “troffel”. De lijndikte is ter illustratie."
+/>
+
+Dat gebeurt in veel lagen boven op elkaar, en in veel parallelle varianten binnen elke laag. Vroege lagen pikken meestal eenvoudige verbanden op. Latere lagen stellen veel abstractere dingen voor. Aan het eind draagt de vector van het laatste token een samengeperst beeld van alles wat eraan voorafging.
+
+## Stap 4: raad het volgende token
+
+De laatste vector wordt omgezet in een score voor elk token dat het model kent, en die scores worden kansen. Dat is de uitvoer: geen antwoord, maar een gerangschikte lijst van wat er zou kunnen volgen.
+
+Eén token wordt gekozen en aan de tekst toegevoegd. Daarna **draait het hele proces opnieuw** op de iets langere tekst, en nog eens, tot het model een token produceert dat "ik ben klaar" betekent. Lange antwoorden zijn duizenden kleine voorspellingen achter elkaar.
+
+Hieronder kun je diezelfde lus zelf proberen. Dit is een echt, werkend taalmodel, alleen een heel klein. Het telt alleen welk woord op welk woord volgt, dus het kan niet verder terugkijken dan één woord. Precies die beperking neemt attention weg.
+
+<div class="wide">
+  <NextWord lang="nl" />
+</div>
+
+## Stap 5: waar de kennis vandaan komt
+
+Waar haalt een model zijn vaardigheden dan vandaan? Uit training, en dat is hetzelfde raad-het-volgende-token-spel op enorme schaal.
+
+Het model begint met willekeurige interne getallen, de **gewichten**. Het krijgt een stuk echte tekst te zien en moet het volgende token voorspellen. Dat gaat natuurlijk mis. De grootte van de fout wordt gemeten, en elk gewicht wordt een klein beetje bijgesteld in de richting die de fout kleiner had gemaakt. Herhaal dat over een enorme hoeveelheid tekst, met miljarden gewichten, en er ontstaat bruikbare structuur. Om het eind van een zin over scheikunde te voorspellen, helpt het als je wat scheikunde hebt opgenomen.
+
+Een tweede trainingsfase leert het model zich als assistent te gedragen, met voorbeelden en feedback over welke antwoorden beter zijn.
+
+Let op wat training achterlaat: gewichten, geen database. Het model zoekt geen feiten op. Er zit geen tabel met bronnen in.
+
+## Waarom antwoorden verschillen: temperatuur
+
+Als het model altijd het meest waarschijnlijke token zou nemen, werd het eentonig en voorspelbaar. Daarom **trekt** het meestal een token: het gooit met gewogen dobbelstenen. De temperatuur vervormt die kansen. Bij een lage temperatuur wint de veiligste keuze vaker, bij een hoge krijgen onwaarschijnlijke tokens meer kans. Beweeg de schuif in de demo hierboven en kijk hoe de balken veranderen.
+
+## Wat dit in de praktijk verklaart
+
+Als je het mechaniek kent, valt veel verwarrend gedrag op zijn plek.
+
+- **Zelfverzekerde fouten.** Het model is gebouwd om plausibele tekst te maken. Niets in de lus controleert of het klopt. Vloeiend taalgebruik is geen bewijs.
+- **Geheugen is schijn.** Alles wat het van je gesprek weet, is de tekst die met het laatste verzoek wordt meegestuurd. Past die tekst niet meer in het contextvenster, dan zijn de oudere stukken weg.
+- **Documenten meegeven helpt.** Als je een contract in de prompt plakt, staat er echte tekst in het pad van attention, zodat de voorspelling daarop kan leunen in plaats van op een vaag statistisch geheugen. Dat is het idee achter assistenten die eerst zoeken.
+- **Tools vangen zwakke plekken op.** Het model kan een verzoek uitvoeren om een rekenmachine of databasequery te gebruiken en daarna het resultaat lezen. Dat is vaak betrouwbaarder dan het antwoord zelf laten uitrekenen.
+- **Dezelfde vraag, andere antwoorden.** Dat zijn de dobbelstenen.
+
+Dit alles maakt de techniek niet minder indrukwekkend. Het is opmerkelijk dat het voorspellen van het volgende token opschaalt tot het schrijven van werkende software. Maar "een zeer capabele voorspeller" is een veel beter denkmodel dan "een geest die dingen weet", en het helpt je om te bepalen waar je het kunt vertrouwen.

@@ -1,0 +1,87 @@
+---
+interface Props {
+  words: string[];
+  /** Index of the word doing the looking. */
+  focus: number;
+  /** Illustrative strength per word index, 0 to 1. */
+  weights: Record<number, number>;
+  caption: string;
+}
+
+const { words, focus, weights, caption } = Astro.props;
+
+const charWidth = 10.2;
+const gap = 12;
+const fontSize = 17;
+let cursor = 8;
+const placed = words.map((word) => {
+  const width = word.length * charWidth;
+  const item = { word, x: cursor, center: cursor + width / 2 };
+  cursor += width + gap;
+  return item;
+});
+const totalWidth = cursor;
+const height = 170;
+const baseline = height - 14;
+const arcStart = baseline - 22;
+const focusX = placed[focus].center;
+---
+
+<figure class="arcs wide">
+  <div class="scroll">
+    <svg viewBox={`0 0 ${totalWidth} ${height}`} role="img" aria-label={caption} style={`min-width:${Math.round(totalWidth * 0.86)}px`}>
+      {
+        Object.entries(weights).map(([index, weight]) => {
+          const x = placed[Number(index)].center;
+          const lift = 26 + (Math.abs(focusX - x) / totalWidth) * 150;
+          return (
+            <path
+              d={`M${focusX} ${arcStart} C${focusX} ${arcStart - lift} ${x} ${arcStart - lift} ${x} ${arcStart}`}
+              fill="none"
+              stroke="var(--accent)"
+              stroke-linecap="round"
+              stroke-width={1 + weight * 6}
+              opacity={0.25 + weight * 0.75}
+            />
+          );
+        })
+      }
+      {
+        placed.map((item, index) => (
+          <text
+            x={item.x}
+            y={baseline}
+            font-family="var(--mono)"
+            font-size={fontSize}
+            font-weight={index === focus ? 700 : 400}
+            fill={index === focus ? 'var(--accent)' : 'currentColor'}
+          >
+            {item.word}
+          </text>
+        ))
+      }
+    </svg>
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .scroll {
+    overflow-x: auto;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+
+  figcaption {
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    margin-top: 0.5rem;
+  }
+</style>

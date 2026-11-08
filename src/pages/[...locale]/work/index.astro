@@ -1,0 +1,241 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import icon from '../../../assets/relic-sweeper/icon.png';
+import { site } from '../../../site.config';
+import { dictionaries, href, localePaths, type Lang } from '../../../i18n';
+import { servicePages } from '../../../i18n/services';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = Astro.props.lang as Lang;
+const t = dictionaries[lang];
+---
+
+<Base lang={lang} path="/work/" title={t.work.seoTitle}>
+  <section class="wrap page-head">
+    <span class="tag">{t.work.title}</span>
+    <h1>{t.work.heading}</h1>
+    <p class="lede">{t.work.lede}</p>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="tag">{t.work.servicesLabel}</span>
+      <div class="services">
+        {
+          t.work.services.map((service, i) => (
+            <article class={`tone-${i + 1}`}>
+              <h2>{service.title}</h2>
+              <div>
+                <p>{service.body}</p>
+                {servicePages[lang][i] && (
+                  <a class="link arrow more" href={href(lang, `/work/${servicePages[lang][i].slug}/`)}>{t.layers.more}</a>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="selected">
+    <div class="wrap">
+      <span class="tag">{t.work.selectedLabel}</span>
+      <div class="selected">
+        {
+          t.work.selected.map((group) => (
+            <div>
+              <h2>{group.title}</h2>
+              <ul>
+                {group.items.map((item) => <li><h3>{item.title}</h3><p>{item.body}</p></li>)}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="tag">{t.work.processLabel}</span>
+      <ol class="process">
+        {t.work.process.map((step) => <li><h3>{step.title}</h3><p>{step.body}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="tag">{t.work.caseLabel}</span>
+      <a class="case" href={href(lang, '/work/relic-sweeper/')}>
+        <Image src={icon} alt="" width={120} height={120} format="webp" />
+        <div>
+          <h2>{t.relic.heading}</h2>
+          <p>{t.relic.lede}</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap ask">
+      <h2>{t.work.cta}</h2>
+      <p>{t.work.ctaBody}</p>
+      <a class="btn" href={`mailto:${site.email}`}>{t.nav.contact}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .services {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .services article {
+    background-color: var(--band);
+    background-image: var(--litho);
+    color: var(--band-ink);
+    padding: clamp(24px, 3.4vw, 44px);
+    min-height: 17rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2.5rem;
+  }
+
+  .services h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+    max-width: 12ch;
+  }
+
+  .services p {
+    max-width: 34em;
+  }
+
+  .more {
+    display: inline-block;
+    margin-top: 0.9rem;
+  }
+
+  .selected {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .selected h2 {
+    font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+  }
+
+  .selected ul {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+
+  .selected li {
+    padding-block: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .selected h3 {
+    font-family: var(--body);
+    font-size: 1.05rem;
+    font-weight: 650;
+    letter-spacing: 0;
+    margin-bottom: 0.2em;
+  }
+
+  .selected p {
+    font-size: 0.97rem;
+    color: var(--ink-2);
+  }
+
+  .process {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: step;
+  }
+
+  .process li {
+    counter-increment: step;
+  }
+
+  .process li::before {
+    content: '0' counter(step);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+
+  .process h3 {
+    font-size: 1.6rem;
+    margin-block: 0.3em;
+  }
+
+  .case {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .case img {
+    border-radius: 24px;
+  }
+
+  .case h2 {
+    font-size: clamp(1.7rem, 3.4vw, 2.8rem);
+    margin-bottom: 0.4em;
+  }
+
+  .case:hover h2 {
+    color: var(--accent);
+  }
+
+  .ask h2 {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    margin-bottom: 0.4em;
+  }
+
+  .ask .btn {
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 860px) {
+    .services,
+    .selected {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .services article {
+      min-height: 0;
+    }
+
+    .process {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .process {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .case {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
