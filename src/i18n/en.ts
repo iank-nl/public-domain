@@ -196,10 +196,10 @@ export const en = {
   },
   about: {
     title: 'About',
-    seoTitle: 'About Ian, software and security engineer',
+    seoTitle: 'About Ian Ketelings, software and security engineer',
     heading: "Hi, I'm Ian.",
     paragraphs: [
-      'I am a software engineer from the Netherlands, working across development, server management and cyber security.',
+      'I am Ian Ketelings, a software engineer from the Netherlands, working across development, server management and cyber security.',
       'Most of my work sits on the less glamorous side of software: backends, infrastructure and security. Integration platforms talking to more than fifty APIs, AWS environments, more than 25 Linux production servers, user-level encryption and security code reviews. That mix taught me to always ask what happens when something fails.',
       'Because I do all three, I tend to catch the problems that fall between specialists: the feature that is fine until it is deployed, or the server that is fine until someone reads the code. Lately I also spend time on AI and apps, and I write down what I learn in plain language.',
     ],

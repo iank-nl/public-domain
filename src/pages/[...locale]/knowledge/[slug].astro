@@ -40,7 +40,7 @@ const schema = {
   inLanguage: lang,
   url: new URL(href(lang, path), site.url).href,
   image: new URL('/og.png', site.url).href,
-  author: { '@type': 'Person', name: 'Ian', url: new URL(href(lang, '/about/'), site.url).href },
+  author: { '@type': 'Person', '@id': `${site.url}/#owner`, name: site.owner, url: new URL(href(lang, '/about/'), site.url).href },
   publisher: { '@id': `${site.url}/#business` },
 };
 ---
@@ -60,7 +60,7 @@ const schema = {
       <h1>{article.data.title}</h1>
       <p class="lede">{article.data.description}</p>
       <p class="tag meta">
-        {formatDate(lang, article.data.date)} · {readingMinutes(article.body)} {t.knowledge.minutes}
+        {site.owner} · {formatDate(lang, article.data.date)} · {readingMinutes(article.body)} {t.knowledge.minutes}
         {article.data.draft && <span class="draft">{t.knowledge.draft}</span>}
       </p>
     </header>

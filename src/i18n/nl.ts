@@ -198,10 +198,10 @@ export const nl: typeof en = {
   },
   about: {
     title: 'Over mij',
-    seoTitle: 'Over Ian, software- en security-engineer',
+    seoTitle: 'Over Ian Ketelings, software- en security-engineer',
     heading: 'Hoi, ik ben Ian.',
     paragraphs: [
-      'Ik ben software engineer uit Nederland en werk aan ontwikkeling, serverbeheer en cybersecurity.',
+      'Ik ben Ian Ketelings, software engineer uit Nederland, en ik werk aan ontwikkeling, serverbeheer en cybersecurity.',
       'Het meeste van mijn werk zit aan de minder glamoureuze kant van software: backends, infrastructuur en security. Integratieplatformen die met meer dan vijftig API’s praten, AWS-omgevingen, meer dan 25 Linux-productieservers, encryptie op gebruikersniveau en security code reviews. Die combinatie leerde me altijd te vragen wat er gebeurt als iets misgaat.',
       'Omdat ik alle drie doe, zie ik vaak de problemen die tussen specialisten in vallen: de functie die prima is tot hij wordt uitgerold, of de server die prima is tot iemand de code leest. De laatste tijd houd ik me ook bezig met AI en apps, en schrijf ik op wat ik leer, in gewone taal.',
     ],
