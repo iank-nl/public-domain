@@ -1,0 +1,85 @@
+---
+title: What PHP2Shell taught me about protecting more than 100 sites
+description: Two critical PHP flaws, a lot of sites, and no compromises. What mattered most was knowing what you run, patching in order of risk, and watching what you can't take offline.
+date: 2026-11-08
+track: software
+---
+
+In October 2026, PHP disclosed two critical remote code execution flaws in the interpreter itself, together known as PHP2Shell (CVE-2026-109618 and CVE-2026-109619). A flaw in PHP itself, not in one plugin or framework, means almost every PHP site is a possible target.
+
+I handled the response for more than 100 sites. Some owners chose to take their site offline until it was safe. A few critical systems had to stay up, so we kept them running under close, AI-assisted monitoring. In the end, not a single domain was compromised.
+
+These are the lessons I'd want in place before the next one.
+
+## What PHP2Shell is
+
+According to [PHP's security advisory](https://www.php.net/archive/2026.php#2026-10-21-5), every PHP installation that serves web requests is at risk. That covers PHP-FPM, Apache with mod_php, php-cgi, FrankenPHP and LiteSpeed. Both flaws are rated 9.2 on CVSS v4.0. PHP considers mod_php the highest risk: there is a demonstrated exploit where a request without any login triggers the attack before any application code runs. How well your own code is written makes no difference.
+
+The fixed versions came out on 21 October 2026: 8.5.12, 8.4.27, 8.3.36 and 8.2.35. For the unsupported 7.4, 8.0 and 8.1 branches, the PHP team published minimal source backports.
+
+[watchTowr reported exploitation in the wild](https://watchtowr.com/intelligence/php-cve-2026-109618-faq/) from the day of release. That makes this kind of event a race, and every hour you spend working out where you stand is an hour you aren't patching.
+
+## 1. Know what you run before you need to
+
+The first question is simple: which sites run which PHP version, and in what way? With mod_php or FPM, on which server, maintained by whom?
+
+If answering that takes a day, you've lost a day. Keep an inventory that lists the PHP version and how PHP is run for each site, and keep it up to date as part of normal work, not during an incident.
+
+## 2. Patch in order of risk
+
+You can't do 100 sites at once, so decide the order:
+
+- Internet-facing sites before internal ones.
+- mod_php before the other setups, since it is the highest risk here.
+- Sites with sensitive data or many users before small brochure sites.
+
+Check the actual fix, not just the version number. Linux distributions received the patches in advance, so their packages can contain the fix under an older version string. And an updated binary does nothing until the PHP workers restart. Confirm what the running process uses, not what is installed on disk.
+
+## 3. Use interim measures, but don't rely on them
+
+PHP's advisory lists measures for when you can't update right away, such as setting `session.upload_progress.enabled=0` and lowering `post_max_size`. A [follow-up note on 23 October](https://www.php.net/archive/2026.php#2026-10-23-1) advises keeping the upload progress setting off until the next regular bugfix release.
+
+Two details matter. Put these settings in `php.ini` or the FPM pool configuration, not in `ini_set()` or `.user.ini`, which apply too late. And restart every worker afterwards.
+
+Even then, these measures only reduce risk while you work through the list. PHP is blunt about it: there are no complete mitigations, and updating is the only safe choice. Treat them as a way to buy time.
+
+## 4. Taking a site offline is a valid choice
+
+For some owners, the safest option was to take their site down until it was patched. That isn't a failure. A site that is offline for a few hours costs something. A compromised site can cost far more: stolen data, malware on visitors' computers, and a long cleanup.
+
+Present the choice honestly: what the risk is, how long patching will take, and what downtime costs. Then let the owner decide. It's their business.
+
+## 5. Watch closely what has to stay up
+
+Some systems can't go offline, even for a few hours. For those we chose to keep them running while the risk remained, and to watch them with AI-assisted monitoring.
+
+During an incident like this, the logs are too large to read by hand. AI helps sift through them and flag what stands out, so a person can look at the few things that matter. The decision to act still belongs to a human.
+
+Things worth watching for on a PHP server after a flaw like this:
+
+- New or changed PHP files in web directories.
+- PHP workers starting other processes, such as a shell.
+- Unexpected outgoing connections from the web server.
+- Unusual requests to endpoints that normally see little traffic.
+
+Monitoring doesn't replace the patch. It narrows the window in which something can go wrong unnoticed.
+
+## 6. Finish properly
+
+When the last site is patched, the incident isn't over. Confirm per site that the running PHP version includes the fix, and check the systems that were exposed for the signs listed above. "We patched it" and "nothing happened" are two different claims, and you want to be able to support both.
+
+Then look ahead. PHP 8.2 reaches end of life on 31 December 2026 and gets no security fixes after that. A site still on 8.2 or older will have no official patch at all for the next flaw like this. Plan those upgrades now, while there is no deadline forcing you.
+
+## A short checklist
+
+Before the next critical PHP flaw, I'd want a yes to all of these:
+
+- Do we know, for every site, which PHP version runs and how?
+- Is every site on a PHP version that still receives security fixes?
+- Is there an agreed order for patching under time pressure?
+- Can we confirm that the fix is active in the running process, not just installed?
+- Does every site owner know in advance who decides about taking the site offline?
+- Is there monitoring in place for the systems that can never go down?
+- Do we check afterwards for signs of compromise, instead of assuming there are none?
+
+Critical vulnerabilities will keep coming. What decides how one ends is mostly the preparation done before it is announced.
