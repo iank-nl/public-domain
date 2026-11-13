@@ -1,6 +1,6 @@
 /**
  * Everything that identifies the site lives here.
- * To rebrand, change `name`. It flows into the header, footer, page titles,
+ * To rebrand, change `name`. It flows into the header, footer, page titles, etc,
  * feeds and the social preview image.
  */
 export const site = {
