@@ -1,0 +1,72 @@
+﻿PRIVACY POLICY - POPSLIDE
+
+Last updated: 13 November 2026
+
+Popslide ("the game") is made by Ian Cyber Security & Software ("we", "us"), based in the Netherlands. This policy explains what data the game uses and why.
+
+Contact: contact-app@iank.nl
+
+1. DATA STORED ON YOUR DEVICE
+
+The game saves your progress (the game in progress and your best score), settings and purchases on your device. This data stays on your device, except as described below. Uninstalling the game deletes it.
+
+
+2. USAGE STATISTICS (ONLY IF YOU AGREE)
+
+When you first start the game, it asks whether you want to share anonymous usage statistics. This is off unless you say yes, and you can change it at any time in Settings.
+
+If you agree, the game records events about how the game is played: which screens you open, games started and finished (the score, swipes, longest cascade, stones seen and why the game ended) and new best scores, which settings you change, whether ads were shown or available, purchases (product id only) and failed purchases (product id, whether you cancelled and the store's error code), that you sent feedback (its category only), that you agreed to share statistics, when the store's rating dialog was shown, when a cloud save replaced your progress, error reports and whether the previous session ended in a crash. Each event has a timestamp and a session number. They are recorded together with a random install id created by the game, the app version and the platform. The install id is not linked to your name, email address, advertising id or any account.
+
+Events are sent in batches over an encrypted connection (HTTPS) to our server at app.iank.nl. It runs on Cloudflare, our hosting provider, which processes the data only on our behalf; it is stored in the European Union and your IP address is not stored with it. While you're offline they wait on your device (at most 500, the oldest are dropped first). We use them only to find out where the game is too hard, what players use and what goes wrong, and we don't share them with anyone else. We keep them for at most two years. Turning statistics off stops recording and deletes events that were not sent yet. To have events already sent deleted, email us; the install id is shown nowhere in the game, so tell us roughly when you played and on which device, and we'll do our best to find them.
+
+
+3. FEEDBACK YOU SEND
+
+In Settings > Send feedback you can write us a message (a bug, an idea or anything else). It is only sent when you press Send, whether or not you share usage statistics. With the message the game sends the category you picked, the time, the app version, the platform, your device model, the game's language and how far you are in the game (the current score and swipes, your best score and the number of games played), plus a random id created by the game: the install id from section 2 if you share usage statistics, otherwise a separate random id used only for feedback. Nothing else is added: no name, email address, advertising id or account. Please don't write personal details in the message.
+
+Messages written offline wait on your device (at most 10) and are sent when you're online. They are sent over an encrypted connection (HTTPS) to our server at app.iank.nl, hosted as described in section 2, read only by us to improve the game, and not shared with anyone else. We keep a message for at most two years. If you want a message deleted, email us with roughly when you sent it and what it said.
+
+
+4. ADVERTISING
+
+The game shows ads from Google AdMob: a banner under the game and, now and then, an ad between games. AdMob may collect your device's advertising id, IP address and information about your device and your interaction with ads, to show and measure ads and to prevent fraud.
+
+In the European Economic Area, the United Kingdom and Switzerland, the game asks for your consent through Google's consent form before personalized ads are shown. You can change your choice later in Settings > Privacy options. On iOS, the game asks for your permission before the advertising id can be used for tracking.
+
+How Google uses data from apps that use its services:
+https://policies.google.com/technologies/partner-sites
+
+Buying "Remove ads" turns off the banner and the ads between games.
+
+
+5. IN-APP PURCHASES
+
+Purchases are handled by Google Play (Android) or the App Store (iOS). We do not receive your payment details. The game receives a confirmation of the purchase and remembers which products you own, so it can restore them.
+
+
+6. GOOGLE PLAY GAMES AND GAME CENTER
+
+On Android the game uses Google Play Games for a leaderboard and a cloud copy of your progress. If you use Play Games, it signs you in automatically when the game starts; otherwise it asks when you open the leaderboard. You can play without signing in.
+
+When you're signed in, the game sends to Google your leaderboard scores (the score of each finished game; the leaderboard keeps your best) and, when you leave the game, a copy of your save. That copy holds the same data as the save on your device (section 1), including usage statistics and feedback messages that were not sent yet. It is stored with your Google account and used only to restore your progress, for example on a new device; we cannot see it.
+
+Other players see your leaderboard score with your Play Games profile name and picture, as your Play Games profile settings allow. The game does not read your name, email address or any other details of your Google account. Google processes this data under its own privacy policy: https://policies.google.com/privacy. You can sign out, change who sees your profile or delete your Play Games data for this game in the Google Play Games settings.
+
+On iOS the game uses Apple Game Center for the leaderboard, under Apple's privacy policy (https://www.apple.com/legal/privacy/). There is no cloud copy on iOS.
+
+
+7. CHILDREN
+
+The game is not directed at children under 13. We do not knowingly collect personal data from children.
+
+
+8. YOUR RIGHTS
+
+You can turn usage statistics off at any time in Settings, change your ad consent in Settings > Privacy options, reset your advertising id in your device settings, and sign out of or delete your Play Games data in the Google Play Games settings.
+
+Under the General Data Protection Regulation (GDPR) you have the right to access, correct or delete personal data we hold about you, and to object to its use. Email contact-app@iank.nl for any request. You also have the right to lodge a complaint with a data protection authority; in the Netherlands that is the Autoriteit Persoonsgegevens (https://autoriteitpersoonsgegevens.nl).
+
+
+9. CHANGES
+
+We may update this policy, for example when the game adds a feature that uses data. The date at the top shows the latest version.
