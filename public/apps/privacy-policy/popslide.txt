@@ -29,7 +29,7 @@ Messages written offline wait on your device (at most 10) and are sent when you'
 
 4. ADVERTISING
 
-The game shows ads from Google AdMob: a banner under the game and, now and then, an ad between games. AdMob may collect your device's advertising id, IP address and information about your device and your interaction with ads, to show and measure ads and to prevent fraud.
+The game shows ads from Google AdMob: a banner under the game and an ad between games. AdMob may collect your device's advertising id, IP address and information about your device and your interaction with ads, to show and measure ads and to prevent fraud.
 
 In the European Economic Area, the United Kingdom and Switzerland, the game asks for your consent through Google's consent form before personalized ads are shown. You can change your choice later in Settings > Privacy options. On iOS, the game asks for your permission before the advertising id can be used for tracking.
 
