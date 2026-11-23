@@ -17,6 +17,7 @@ export const caseLabels = {
     stack: 'Stack',
     article: 'Read the full write-up',
     offer: 'Want the same for your setup?',
+    noOffer: 'Need something similar built?',
     anonymised: 'Client details are anonymised.',
     facts: { client: 'For', role: 'My role', duration: 'Timeline' },
   },
@@ -30,6 +31,7 @@ export const caseLabels = {
     stack: 'Stack',
     article: 'Lees het hele verhaal',
     offer: 'Wil je dit ook voor jouw omgeving?',
+    noOffer: 'Iets vergelijkbaars laten bouwen?',
     anonymised: 'Klantgegevens zijn geanonimiseerd.',
     facts: { client: 'Voor', role: 'Mijn rol', duration: 'Doorlooptijd' },
   },
@@ -53,7 +55,8 @@ export interface CaseStudy {
   stack: string[];
   /** Knowledge article slug with the longer story. */
   article?: string;
-  offer: OfferSlug;
+  /** Related fixed-scope offer. Leave out when none fits; the CTA then points to the general intake. */
+  offer?: OfferSlug;
 }
 
 export const cases: Record<Lang, CaseStudy[]> = {
@@ -86,7 +89,7 @@ export const cases: Record<Lang, CaseStudy[]> = {
         'Work that used to mean logging in to a dozen different systems happens in one place. The platform is still growing: new integrations and features keep being released on the same foundation.',
       stack: ['PHP', 'Laravel', 'MySQL', 'PostgreSQL', 'MongoDB'],
       article: 'software-that-keeps-working',
-      offer: 'takeover',
+      // A new build, not a rescue: no fixed-scope offer fits, so the CTA goes to the general intake.
     },
     {
       slug: 'linux-server-fleet',
@@ -196,7 +199,7 @@ export const cases: Record<Lang, CaseStudy[]> = {
         'Werk waarvoor je vroeger in een tiental systemen moest inloggen, gebeurt nu op één plek. Het platform groeit nog steeds: er komen nieuwe koppelingen en functies bij op hetzelfde fundament.',
       stack: ['PHP', 'Laravel', 'MySQL', 'PostgreSQL', 'MongoDB'],
       article: 'software-that-keeps-working',
-      offer: 'takeover',
+      // A new build, not a rescue: no fixed-scope offer fits, so the CTA goes to the general intake.
     },
     {
       slug: 'linux-server-fleet',

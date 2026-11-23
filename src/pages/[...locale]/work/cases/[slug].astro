@@ -18,7 +18,7 @@ export function getStaticPaths() {
 const { lang, study } = Astro.props as { lang: Lang; study: CaseStudy };
 const t = dictionaries[lang];
 const labels = caseLabels[lang];
-const offer = offerBySlug(lang, study.offer);
+const offer = study.offer ? offerBySlug(lang, study.offer) : undefined;
 const path = `/work/cases/${study.slug}/`;
 const facts = [
   { label: labels.facts.client, value: study.client },
@@ -83,13 +83,19 @@ const schema = {
               <a class="link arrow" href={href(lang, `/knowledge/${study.article}/`)}>{labels.article}</a>
             )
           }
-          <a class="link arrow" href={href(lang, `/work/offers/#${offer.slug}`)}>{offer.name}</a>
+          {offer && <a class="link arrow" href={href(lang, `/work/offers/#${offer.slug}`)}>{offer.name}</a>}
         </p>
       </div>
     </div>
   </section>
 
-  <ContactCta lang={lang} heading={labels.offer} body={offer.summary} />
+  {
+    offer ? (
+      <ContactCta lang={lang} heading={labels.offer} body={offer.summary} />
+    ) : (
+      <ContactCta lang={lang} heading={labels.noOffer} />
+    )
+  }
 </Base>
 
 <style>
