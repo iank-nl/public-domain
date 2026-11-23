@@ -13,6 +13,7 @@ import {
   type Article,
   type Lang,
 } from '../../../i18n';
+import { offerBySlug, offerLabels } from '../../../i18n/offers';
 
 export async function getStaticPaths() {
   const [en, nl] = await Promise.all([getArticles('en'), getArticles('nl')]);
@@ -32,6 +33,7 @@ const { lang, article } = Astro.props as { lang: Lang; article: Article };
 const t = dictionaries[lang];
 const { Content } = await render(article);
 const path = `/knowledge/${slugOf(article)}/`;
+const offer = article.data.offer ? offerBySlug(lang, article.data.offer) : undefined;
 const schema = {
   '@type': 'Article',
   headline: article.data.title,
@@ -70,11 +72,25 @@ const schema = {
   </article>
 
   <aside class="wrap">
-    <div class="prose pitch">
-      <h2>{t.knowledge.related}</h2>
-      <p>{t.knowledge.relatedBody}</p>
-      <p><a href={href(lang, '/work/')}>{t.knowledge.relatedCta}</a></p>
-    </div>
+    {
+      offer ? (
+        <div class:list={['offer', offer.tone]}>
+          <span class="tag">{t.knowledge.offerLabel}</span>
+          <h2>{offer.name}</h2>
+          <p>{offer.summary}</p>
+          <div class="actions">
+            <a class="btn" href={href(lang, `/contact/?offer=${offer.slug}#intake`)}>{offerLabels[lang].cta}</a>
+            <a class="link arrow" href={href(lang, `/work/offers/#${offer.slug}`)}>{t.knowledge.offerMore}</a>
+          </div>
+        </div>
+      ) : (
+        <div class="prose pitch">
+          <h2>{t.knowledge.related}</h2>
+          <p>{t.knowledge.relatedBody}</p>
+          <p><a href={href(lang, '/work/')}>{t.knowledge.relatedCta}</a></p>
+        </div>
+      )
+    }
   </aside>
 </Base>
 
@@ -111,6 +127,38 @@ const schema = {
   .draft {
     margin-left: 0.75em;
     padding: 0.15em 0.5em;
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  .offer {
+    max-width: 40rem;
+    margin: clamp(40px, 6vw, 80px) auto 0;
+    padding: clamp(24px, 4vw, 44px);
+    background-color: var(--band);
+    background-image: var(--litho);
+    color: var(--band-ink);
+  }
+
+  .offer h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+    margin-block: 0.5rem 0.6rem;
+  }
+
+  .offer .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .offer .btn {
+    background: var(--band-ink);
+    color: var(--band);
+  }
+
+  .offer .btn:hover {
     background: var(--accent);
     color: var(--paper);
   }

@@ -240,6 +240,8 @@ export const en = {
     related: 'Want this in your own project?',
     relatedBody: 'I help teams turn this kind of knowledge into working software.',
     relatedCta: 'See how I work',
+    offerLabel: 'Related offer',
+    offerMore: 'See what’s included',
   },
   contact: {
     title: 'Contact',

@@ -12,6 +12,8 @@ const knowledge = defineCollection({
     track: z.enum(['software', 'product', 'workflow', 'foundations']),
     /** Shows a visible "draft" label on the article. Delete the line once reviewed. */
     draft: z.boolean().default(false),
+    /** Offer slug from src/i18n/offers.ts. Ends the article with a CTA box for that offer. */
+    offer: z.enum(['security-check', 'aws-review', 'care', 'ai-sprint', 'takeover']).optional(),
   }),
 });
 

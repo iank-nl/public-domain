@@ -242,6 +242,8 @@ export const nl: typeof en = {
     related: 'Wil je dit in je eigen project?',
     relatedBody: 'Ik help teams om dit soort kennis om te zetten in werkende software.',
     relatedCta: 'Bekijk hoe ik werk',
+    offerLabel: 'Bijpassend pakket',
+    offerMore: 'Bekijk wat je krijgt',
   },
   contact: {
     title: 'Contact',
