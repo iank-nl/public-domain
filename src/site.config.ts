@@ -25,7 +25,7 @@ export const site = {
   /** Intake form backend (workers/intake). Both values are public; see workers/intake/README.md. */
   intake: {
     /** URL of the deployed intake Worker, without a trailing slash. */
-    endpoint: '[TODO: intake Worker URL]',
+    endpoint: 'https://iank-intake.calm-hill-35b5.workers.dev',
     /** Cloudflare Turnstile site key (not the secret). */
     turnstileSiteKey: '0x4AAAAAAGOyIi8FTBr50Pk8',
   },

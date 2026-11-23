@@ -2,6 +2,9 @@
 name = "iank-intake"
 main = "src/index.ts"
 compatibility_date = "2026-11-01"
+# The site posts to https://iank-intake.calm-hill-35b5.workers.dev. Preview URLs are not needed.
+workers_dev = true
+preview_urls = false
 
 [vars]
 # Origins allowed to post. Add http://localhost:4321 for `npm run dev` of the site.
