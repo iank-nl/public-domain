@@ -33,6 +33,14 @@ export const site = {
    * Umami Cloud: cookieless page views and custom events, so no consent banner is needed.
    * The script only loads when `websiteId` is filled in, and only counts visits on the domain of `url`.
    */
+  /**
+   * Optional meta-tag fallback for Google Search Console and Bing Webmaster Tools.
+   * Leave empty when the domain is verified through a DNS TXT record; see SEO-SETUP.md.
+   */
+  verification: {
+    google: '',
+    bing: '',
+  },
   analytics: {
     /** [TODO] Website ID from Umami Cloud: Settings → Websites → Edit → Website ID. */
     websiteId: '[TODO: Umami website ID]',

@@ -154,6 +154,7 @@ export const nl: typeof en = {
   },
   relic: {
     title: 'Relic Sweeper',
+    seoTitle: 'Relic Sweeper: een puzzelgame gebouwd met AI-agents',
     label: 'Case study',
     heading: 'Relic Sweeper: hoe ver komt een gedisciplineerde agent-workflow?',
     lede: 'Een logische puzzelgame voor Android en iOS, gebouwd met Claude Code als belangrijkste paar handen. Acht gebieden, een museum om te vullen, een gedeeld dagelijks bord en een eigen kleine backend.',

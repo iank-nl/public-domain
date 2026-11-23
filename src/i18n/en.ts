@@ -152,6 +152,7 @@ export const en = {
   },
   relic: {
     title: 'Relic Sweeper',
+    seoTitle: 'Relic Sweeper: a puzzle game built with AI agents',
     label: 'Case study',
     heading: 'Relic Sweeper: how far can a disciplined agent workflow go?',
     lede: 'A logic puzzle game for Android and iOS, built with Claude Code as the main pair of hands. Eight regions, a museum to fill, a shared daily board, and a small backend of its own.',
