@@ -6,27 +6,23 @@ compatibility_date = "2026-11-01"
 [vars]
 # Origins allowed to post. Add http://localhost:4321 for `npm run dev` of the site.
 ALLOWED_ORIGINS = "https://iank.nl,http://localhost:4321"
-# The only address this Worker ever sends to. With the send_email binding it must be a
-# verified destination address in Email Routing, and match destination_address below.
-TO_EMAIL = "[TODO: your verified inbox address]"
-# Sender. Any address on iank.nl works for Email Routing; for Resend, the domain must be verified there.
-FROM_EMAIL = "[TODO: sender address on iank.nl]"
+# The only address this Worker ever sends to. Never taken from the request.
+TO_EMAIL = "hello@iank.nl"
+# Sender, on the domain verified in Resend (mail.iank.nl).
+FROM_EMAIL = "intake@mail.iank.nl"
 
 # Secrets (set with `wrangler secret put`, never in this file):
 #   TURNSTILE_SECRET   Turnstile secret key
 #   FORM_SIGNING_KEY   long random string
-#   RESEND_API_KEY     optional; when set, mail goes through Resend instead of send_email
+#   RESEND_API_KEY     Resend API key (sending access); mail goes out through Resend
 
 # Rate limiting: a counter per hashed IP per hour, expired by KV TTL.
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = "[TODO: KV namespace id]"
+id = "38d028252e224219982b48f00242c641"
 
-# Cloudflare Email Routing. destination_address locks the binding to one recipient,
-# so even a bug in the code cannot send mail anywhere else.
-[[send_email]]
-name = "SEND_EMAIL"
-destination_address = "[TODO: your verified inbox address]"
+# Mail goes through Resend. Email Routing is not enabled on iank.nl (it would replace the
+# existing MX records), so there is no send_email binding. To switch, see README.md, option A.
 
 [observability]
 enabled = true

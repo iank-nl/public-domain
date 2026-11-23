@@ -27,6 +27,6 @@ export const site = {
     /** URL of the deployed intake Worker, without a trailing slash. */
     endpoint: '[TODO: intake Worker URL]',
     /** Cloudflare Turnstile site key (not the secret). */
-    turnstileSiteKey: '[TODO: Turnstile site key]',
+    turnstileSiteKey: '0x4AAAAAAGOyIi8FTBr50Pk8',
   },
 };

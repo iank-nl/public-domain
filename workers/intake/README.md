@@ -104,8 +104,14 @@ cp .dev.vars.example .dev.vars   # Turnstile test secret that always passes, dum
 npm run dev                      # http://127.0.0.1:8787
 ```
 
-- Locally, `send_email` doesn't deliver anything. It writes each message as an `.eml` file under `.wrangler/tmp/email/` and logs the path.
-- The local binding still enforces `destination_address`. Set it in `wrangler.toml` to the same address as `TO_EMAIL` in `.dev.vars`, or you'll get `email to … not allowed` (a useful check that the lock works). Don't commit that change.
+- This setup sends through Resend, so locally a valid submission needs `RESEND_API_KEY` in `.dev.vars` and sends a **real** email to `TO_EMAIL`. Without the key, every check still runs, and a valid submission ends in `{"ok":false,"error":"server"}` with `No mail transport` in the log.
+- To test without sending real mail, temporarily add a `send_email` binding to `wrangler.toml` (don't commit it):
+  ```toml
+  [[send_email]]
+  name = "SEND_EMAIL"
+  destination_address = "you@example.com"   # must equal TO_EMAIL in .dev.vars
+  ```
+  Leave `RESEND_API_KEY` out of `.dev.vars`. Locally the binding delivers nothing: it writes each message as an `.eml` file under `.wrangler/tmp/email/` and logs the path.
 - To test from the site, temporarily set `intake.endpoint` to `http://127.0.0.1:8787` and `intake.turnstileSiteKey` to Cloudflare's always-pass test key `1x00000000000000000000AA` in `src/site.config.ts`, then run `npm run dev` in the site root (port 4321 is in `ALLOWED_ORIGINS`).
 
 From the command line (the test secret accepts any token, and the token must be at least 3 seconds old):
