@@ -20,12 +20,7 @@ const list = testimonials[lang];
             <li>
               <figure>
                 <blockquote>{item.quote}</blockquote>
-                <figcaption>
-                  <strong>{item.name}</strong>
-                  <span>
-                    {item.role}, {item.company}
-                  </span>
-                </figcaption>
+                <figcaption>{item.attribution}</figcaption>
               </figure>
             </li>
           ))}
@@ -72,12 +67,8 @@ const list = testimonials[lang];
   }
 
   figcaption {
-    display: grid;
     margin-top: 1rem;
     font-size: 0.95rem;
-  }
-
-  figcaption span {
     color: var(--ink-2);
   }
 </style>
