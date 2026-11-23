@@ -115,7 +115,7 @@ export const nl: typeof en = {
       {
         title: 'Software',
         items: [
-          { title: 'API-integratieplatform', body: 'Meer dan 50 verschillende API’s op één plek beheerd, met foutafhandeling, rate limiting en monitoring.', case: 'api-integration-platform' },
+          { title: 'API-integratieplatform', body: 'Een dashboardomgeving die meer dan 50 externe API’s op één plek samenbrengt en beheert, met foutafhandeling, rate limiting en monitoring.', case: 'api-integration-platform' },
           { title: 'OData-interfacesysteem', body: 'Gestandaardiseerde toegang tot data in meerdere bedrijfssystemen, met gegenereerde interfaces.' },
           { title: 'Centraal productdashboard', body: 'Eén webdashboard voor het beheer van meerdere productomgevingen, met rolgebaseerde toegang.' },
           { title: 'Gestandaardiseerd databaseplatform', body: 'Data uit veel bronnen in één formaat, met automatische imports en validatie.' },
@@ -127,7 +127,7 @@ export const nl: typeof en = {
           { title: 'Geautomatiseerde monitoring', body: 'Realtime alerts voor draaiende producten, met dashboards en notificatieregels.' },
           { title: 'AWS-kostenbeheer', body: 'Cloudkosten volgen en voorspellen, met budgetalerts en besparingsadviezen.', case: 'aws-cost-management' },
           { title: 'Docker-deploymentautomatisering', body: 'Continue levering van containers, met automatische tests en rollback.' },
-          { title: 'AWS API-integratieplatform', body: 'Een uitbreidbaar platform voor managed services op AWS, met veilige authenticatie en rate limiting. [TODO: één regel over het verschil met het API-integratieplatform onder Software]' },
+          { title: 'AWS-automatiseringsplatform', body: 'Een uitbreidbaar platform op basis van de AWS SDK dat de API’s van AWS zelf gebruikt om AWS-omgevingen te automatiseren, te beheren en overzichtelijk te houden, met veilige authenticatie en rate limiting.' },
           { title: 'Centrale Elasticsearch-omgeving', body: 'Data uit verschillende applicaties volgen en analyseren, met automatische invoer en dashboards.' },
         ],
       },

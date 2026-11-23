@@ -20,6 +20,6 @@ export const site = {
   insured: true,
   url: 'https://iank.nl',
   email: 'hello@iank.nl',
-  /** Scheduling page for the free intro call. [TODO: Cal.com/Calendly URL] */
-  bookingUrl: '#todo-booking-url',
+  /** Scheduling page for the free intro call. */
+  bookingUrl: 'https://cal.com/ian-ketelings-icss/20min',
 };

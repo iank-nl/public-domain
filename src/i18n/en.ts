@@ -113,7 +113,7 @@ export const en = {
       {
         title: 'Software',
         items: [
-          { title: 'API integration platform', body: 'More than 50 different APIs managed in one place, with error handling, rate limiting and monitoring.', case: 'api-integration-platform' },
+          { title: 'API integration platform', body: 'A dashboard environment that combines and manages more than 50 external APIs in one place, with error handling, rate limiting and monitoring.', case: 'api-integration-platform' },
           { title: 'OData interface system', body: 'Standardised data access across multiple enterprise systems, with generated interfaces.' },
           { title: 'Central product dashboard', body: 'One web dashboard for managing multiple product environments, with role-based access.' },
           { title: 'Standardised database platform', body: 'Data from many sources in one format, with automated imports and validation.' },
@@ -125,7 +125,7 @@ export const en = {
           { title: 'Automated monitoring', body: 'Real-time alerting for deployed products, with dashboards and notification rules.' },
           { title: 'AWS cost management', body: 'Tracking and predicting cloud spending, with budget alerts and savings recommendations.', case: 'aws-cost-management' },
           { title: 'Docker deployment automation', body: 'Continuous delivery of containers, with automated testing and rollback.' },
-          { title: 'AWS API integration platform', body: 'An extensible platform for managed services on AWS, with secure authentication and rate limiting. [TODO: one line on how this differs from the API integration platform under Software]' },
+          { title: 'AWS automation platform', body: 'An extensible platform built on the AWS SDK that uses AWS’s own APIs to automate, manage and keep an overview of AWS environments, with secure authentication and rate limiting.' },
           { title: 'Central Elasticsearch environment', body: 'Tracking and analysing data across applications, with automated ingestion and dashboards.' },
         ],
       },
