@@ -20,6 +20,7 @@ const t = dictionaries[lang];
       <a class="btn" href={site.bookingUrl}>{t.contact.book}</a>
       <a class="link arrow" href={href(lang, '/contact/#intake')}>{t.contact.intake}</a>
     </div>
+    <p class="available">{t.availability}</p>
     <p class="mail">{t.contact.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
   </div>
 </section>
@@ -40,6 +41,23 @@ const t = dictionaries[lang];
     align-items: center;
     gap: 1rem 1.75rem;
     margin-top: 1.5rem;
+  }
+
+  .available {
+    margin-top: 1.5rem;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.55em;
+  }
+
+  .available::before {
+    content: '';
+    flex: none;
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-0.05em);
   }
 
   .mail {

@@ -39,6 +39,7 @@ const primary = [
         <a class="link arrow" href={href(lang, '/work/offers/')}>{t.home.ctaOffers}</a>
         <a class="link arrow" href={href(lang, '/work/#selected')}>{t.home.ctaSecond}</a>
       </div>
+      <p class="available rise" style="--i:4">{t.availability}</p>
       <a class="dig tag" href="#strata">{t.home.dig} ↓</a>
     </div>
   </section>
@@ -218,6 +219,25 @@ const primary = [
     align-items: center;
     gap: 1rem 1.75rem;
     margin-top: 2rem;
+  }
+
+  .available {
+    margin-top: 1.75rem;
+    font-size: 0.97rem;
+    color: var(--ink-2);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.55em;
+  }
+
+  .available::before {
+    content: '';
+    flex: none;
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-0.05em);
   }
 
   .dig {

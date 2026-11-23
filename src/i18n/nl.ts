@@ -2,6 +2,7 @@ import type { en } from './en';
 
 export const nl: typeof en = {
   nav: { knowledge: 'Kennis', work: 'Werk', about: 'Over mij', contact: 'Neem contact op', menu: 'Hoofdmenu' },
+  availability: 'Beschikbaar voor projecten en doorlopende opdrachten, zo’n 10 à 15 uur per week, op afstand (NL/BE/EU).',
   meta: {
     description:
       'Freelance softwareontwikkeling, serverbeheer en cybersecurity. Webapplicaties en API’s, Linux en AWS, securityreviews en hardening.',

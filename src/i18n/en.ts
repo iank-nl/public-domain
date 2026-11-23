@@ -1,5 +1,6 @@
 export const en = {
   nav: { knowledge: 'Knowledge', work: 'Work', about: 'About', contact: 'Get in touch', menu: 'Main' },
+  availability: 'Available for projects and retainers, ~10–15 hrs/week, remote (NL/BE/EU).',
   meta: {
     description:
       'Freelance software development, server management and cyber security. Web applications and APIs, Linux and AWS, security reviews and hardening.',

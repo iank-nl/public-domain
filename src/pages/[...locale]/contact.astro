@@ -22,6 +22,7 @@ const c = t.contact;
       <a class="btn" href={site.bookingUrl}>{c.book}</a>
       <a class="link arrow" href="#intake">{c.intake}</a>
     </div>
+    <p class="note available">{t.availability}</p>
     <p class="note">{c.reply}</p>
   </section>
 
@@ -124,6 +125,22 @@ const c = t.contact;
     margin-top: 1rem;
     color: var(--ink-2);
     max-width: 32em;
+  }
+
+  .available {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.55em;
+  }
+
+  .available::before {
+    content: '';
+    flex: none;
+    width: 0.55em;
+    height: 0.55em;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-0.05em);
   }
 
   .columns {

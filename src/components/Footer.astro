@@ -30,6 +30,7 @@ const year = new Date().getFullYear();
   <div class="wrap inner">
     <h2>{t.footer.heading}</h2>
     <p>{t.footer.body}</p>
+    <p class="available">{t.availability}</p>
     <div class="actions">
       <a class="btn" href={site.bookingUrl}>{t.contact.book}</a>
       <a class="link arrow" href={href(lang, '/contact/#intake')}>{t.contact.intake}</a>
@@ -93,6 +94,11 @@ const year = new Date().getFullYear();
     font-size: clamp(2.2rem, 6vw, 4.6rem);
     max-width: 15ch;
     margin-bottom: 0.4em;
+  }
+
+  .available {
+    margin-top: 0.4rem;
+    font-weight: 600;
   }
 
   .actions {
