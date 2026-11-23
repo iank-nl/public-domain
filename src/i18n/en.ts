@@ -281,7 +281,6 @@ export const en = {
     based: 'Based in Limburg, the Netherlands',
     insured: 'Professional liability insurance',
     linkedin: 'Connect on LinkedIn',
-    privacy: 'Relic Sweeper privacy policy',
     language: 'Language',
   },
 };

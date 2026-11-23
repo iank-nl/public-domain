@@ -283,7 +283,6 @@ export const nl: typeof en = {
     based: 'Gevestigd in Limburg',
     insured: 'Verzekerd voor beroepsaansprakelijkheid',
     linkedin: 'Bekijk mijn LinkedIn',
-    privacy: 'Privacybeleid Relic Sweeper',
     language: 'Taal',
   },
 };
