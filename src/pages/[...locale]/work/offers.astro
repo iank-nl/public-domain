@@ -36,7 +36,13 @@ const list = offers[lang];
               <h2>{offer.name}</h2>
               <p class="summary">{offer.summary}</p>
               <p class="price">{offer.price}</p>
-              <a class="btn" href={href(lang, `/contact/?offer=${offer.slug}#intake`)}>
+              <a
+                class="btn"
+                href={href(lang, `/contact/?offer=${offer.slug}#intake`)}
+                data-umami-event="offer-quote"
+                data-umami-event-offer={offer.slug}
+                data-umami-event-position="offers"
+              >
                 {labels.cta}
               </a>
             </div>

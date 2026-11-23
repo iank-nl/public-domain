@@ -5,7 +5,7 @@ import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../site.config';
+import { analyticsEnabled, site } from '../site.config';
 import { dictionaries, href, type Lang } from '../i18n';
 import { offers } from '../i18n/offers';
 
@@ -128,6 +128,17 @@ const structuredData = JSON.stringify({
     <meta property="og:locale" content={lang === 'nl' ? 'nl_NL' : 'en_US'} />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={structuredData} />
+    {
+      analyticsEnabled && (
+        <script
+          is:inline
+          defer
+          src={site.analytics.src}
+          data-website-id={site.analytics.websiteId}
+          data-domains={new URL(site.url).hostname}
+        />
+      )
+    }
     {
       path && lang === 'en' && (
         <script is:inline>

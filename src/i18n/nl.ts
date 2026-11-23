@@ -288,6 +288,7 @@ export const nl: typeof en = {
     sending: 'Bezig met versturen…',
     formNote: 'Een paar zinnen is genoeg. Wat ontbreekt, vraag ik zelf na.',
     privacy: 'Ik gebruik deze gegevens alleen om je te antwoorden. Ze komen als e-mail bij mij binnen en worden nergens anders opgeslagen.',
+    analytics: 'De site telt bezoeken met Umami, zonder cookies en zonder persoonsgegevens, alleen om te zien welke pagina’s helpen.',
     noscript: 'Dit formulier heeft JavaScript nodig voor de spamcheck.',
     status: {
       success: 'Bedankt, ik antwoord binnen 1 à 2 werkdagen.',

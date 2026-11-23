@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { site } from '../../site.config';
+import { analyticsEnabled, site } from '../../site.config';
 import { dictionaries, localePaths, type Lang } from '../../i18n';
 import { offers } from '../../i18n/offers';
 
@@ -24,7 +24,7 @@ if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.sta
     <h1>{c.heading}</h1>
     <p class="lede">{c.lede}</p>
     <div class="actions">
-      <a class="btn" href={site.bookingUrl}>{c.book}</a>
+      <a class="btn" href={site.bookingUrl} data-umami-event="book-call" data-umami-event-position="contact">{c.book}</a>
       <a class="link arrow" href="#intake">{c.intake}</a>
     </div>
     <p class="note available">{t.availability}</p>
@@ -37,7 +37,7 @@ if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.sta
         <span class="tag section-tag">{c.formLabel}</span>
         <h2>{c.intake}</h2>
         <p class="note">{c.formNote}</p>
-        <p class="note">{c.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p class="note">{c.orEmail} <a class="link" href={`mailto:${site.email}`} data-umami-event="email-click" data-umami-event-position="contact">{site.email}</a></p>
       </div>
 
       <form class="intake" data-endpoint={site.intake.endpoint} data-sending={c.sending}>
@@ -103,18 +103,18 @@ if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.sta
           data-size="flexible"
         >
         </div>
-        <p class="privacy">{c.privacy}</p>
+        <p class="privacy">{c.privacy}{analyticsEnabled && ` ${c.analytics}`}</p>
         <!-- The script enables this. Without JavaScript there is no spam check, so the form can't be sent. -->
         <button class="btn" type="submit" disabled>{c.submit}</button>
         <noscript>
-          <p class="message">{c.noscript} {c.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+          <p class="message">{c.noscript} {c.orEmail} <a class="link" href={`mailto:${site.email}`} data-umami-event="email-click" data-umami-event-position="intake">{site.email}</a>.</p>
         </noscript>
         <div class="status" aria-live="polite">
           <p class="message" data-status="success" hidden>{c.status.success}</p>
           {
             errorStates.map((state) => (
               <p class="message" data-status={state} hidden>
-                {c.status[state]} {c.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a>.
+                {c.status[state]} {c.orEmail} <a class="link" href={`mailto:${site.email}`} data-umami-event="email-click" data-umami-event-position="intake">{site.email}</a>.
               </p>
             ))
           }
@@ -132,6 +132,9 @@ if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.sta
       turnstile?: { reset: () => void };
     }
   }
+
+  // Only choices from fixed lists are sent along, never what someone typed.
+  const track = (event: string, data: Record<string, string>) => window.umami?.track(event, data);
 
   // The Worker silently drops submissions made within 3 seconds of issuing the timestamp.
   const MIN_WAIT_MS = 3500;
@@ -181,6 +184,11 @@ if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.sta
       button.textContent = form.dataset.sending ?? label;
 
       let state = 'error';
+      const choices = {
+        offer: need.value,
+        budget: (form.elements.namedItem('budget') as HTMLSelectElement).value || 'none',
+        timeline: (form.elements.namedItem('timeline') as HTMLSelectElement).value || 'none',
+      };
       try {
         if (!stamp.value) await fetchStamp();
         const wait = MIN_WAIT_MS - (Date.now() - stampedAt);
@@ -197,6 +205,9 @@ if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.sta
       } catch {
         // Network error: keep the generic error, which includes the email fallback.
       }
+
+      if (state === 'success') track('intake-submit', choices);
+      else track('intake-error', { reason: state });
 
       // Turnstile tokens are single-use, and a fresh timestamp keeps the next attempt valid.
       window.turnstile?.reset();

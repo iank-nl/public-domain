@@ -21,7 +21,7 @@ const c = dictionaries[lang].contact;
     <a href={href(lang, '/work/')}>{t.work}</a>
     <a href={href(lang, '/about/')}>{t.about}</a>
     <a href={href(lang, '/knowledge/')}>{t.knowledge}</a>
-    <a class="btn book" href={site.bookingUrl}>{c.bookShort}</a>
+    <a class="btn book" href={site.bookingUrl} data-umami-event="book-call" data-umami-event-position="header">{c.bookShort}</a>
   </nav>
 </header>
 

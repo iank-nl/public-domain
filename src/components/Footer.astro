@@ -32,11 +32,11 @@ const year = new Date().getFullYear();
     <p>{t.footer.body}</p>
     <p class="available">{t.availability}</p>
     <div class="actions">
-      <a class="btn" href={site.bookingUrl}>{t.contact.book}</a>
+      <a class="btn" href={site.bookingUrl} data-umami-event="book-call" data-umami-event-position="footer">{t.contact.book}</a>
       <a class="link arrow" href={href(lang, '/contact/#intake')}>{t.contact.intake}</a>
       <a class="link arrow" href={site.linkedin} rel="me noopener">{t.footer.linkedin}</a>
     </div>
-    <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
+    <a class="mail" href={`mailto:${site.email}`} data-umami-event="email-click" data-umami-event-position="footer">{site.email}</a>
     <ul class="trust">
       <li>{site.legalName}</li>
       <li>KVK {site.kvk}</li>

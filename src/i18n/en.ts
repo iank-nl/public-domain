@@ -286,6 +286,7 @@ export const en = {
     sending: 'Sending…',
     formNote: 'A few sentences is enough. I will ask about anything that is missing.',
     privacy: 'I only use these details to reply to you. They reach me as an email and are not stored anywhere else.',
+    analytics: 'The site counts visits with Umami, without cookies and without personal data, only to see which pages help.',
     noscript: 'This form needs JavaScript for its spam check.',
     status: {
       success: 'Thanks, I’ll reply within 1–2 business days.',

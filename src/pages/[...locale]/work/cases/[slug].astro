@@ -91,9 +91,9 @@ const schema = {
 
   {
     offer ? (
-      <ContactCta lang={lang} heading={labels.offer} body={offer.summary} />
+      <ContactCta lang={lang} heading={labels.offer} body={offer.summary} caseSlug={study.slug} />
     ) : (
-      <ContactCta lang={lang} heading={labels.noOffer} />
+      <ContactCta lang={lang} heading={labels.noOffer} caseSlug={study.slug} />
     )
   }
 </Base>

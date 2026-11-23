@@ -29,4 +29,16 @@ export const site = {
     /** Cloudflare Turnstile site key (not the secret). */
     turnstileSiteKey: '0x4AAAAAAGOyIi8FTBr50Pk8',
   },
+  /**
+   * Umami Cloud: cookieless page views and custom events, so no consent banner is needed.
+   * The script only loads when `websiteId` is filled in, and only counts visits on the domain of `url`.
+   */
+  analytics: {
+    /** [TODO] Website ID from Umami Cloud: Settings → Websites → Edit → Website ID. */
+    websiteId: '[TODO: Umami website ID]',
+    src: 'https://cloud.umami.is/script.js',
+  },
 };
+
+/** True once a real Umami website ID is set. */
+export const analyticsEnabled = site.analytics.websiteId !== '' && !site.analytics.websiteId.startsWith('[TODO');
