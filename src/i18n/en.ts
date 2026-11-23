@@ -253,6 +253,7 @@ export const en = {
     lede: 'Book a free 20-minute intro call, or fill in a few details below. Either way you talk to me directly, not to a sales team.',
     book: 'Book a free 20-minute intro call',
     bookShort: 'Book an intro call',
+    bookNote: "20 minutes, free. You'll be asked 3 short questions so I can prepare.",
     intake: 'Describe your project',
     orEmail: 'Or email me directly at',
     reply: 'I usually reply within 1 to 2 business days.',

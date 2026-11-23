@@ -255,6 +255,7 @@ export const nl: typeof en = {
     lede: 'Plan een gratis kennismaking van 20 minuten, of vul hieronder een paar gegevens in. Je praat in beide gevallen direct met mij, niet met een verkoopteam.',
     book: 'Plan een gratis kennismaking van 20 minuten',
     bookShort: 'Plan een kennismaking',
+    bookNote: 'Twintig minuten, gratis. Je krijgt 3 korte vragen, zodat ik me kan voorbereiden.',
     intake: 'Beschrijf je project',
     orEmail: 'Of mail me direct op',
     reply: 'Meestal antwoord ik binnen 1 à 2 werkdagen.',

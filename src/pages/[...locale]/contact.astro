@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { analyticsEnabled, site } from '../../site.config';
+import { bookingHref } from '../../lib/booking';
 import { dictionaries, localePaths, type Lang } from '../../i18n';
 import { offers } from '../../i18n/offers';
 
@@ -24,9 +25,12 @@ if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.sta
     <h1>{c.heading}</h1>
     <p class="lede">{c.lede}</p>
     <div class="actions">
-      <a class="btn" href={site.bookingUrl} data-umami-event="book-call" data-umami-event-position="contact">{c.book}</a>
+      <a class="btn book" href={bookingHref('contact', Astro.url.pathname)} data-umami-event="book-call" data-umami-event-position="contact">
+        {c.book}
+      </a>
       <a class="link arrow" href="#intake">{c.intake}</a>
     </div>
+    <p class="note">{c.bookNote}</p>
     <p class="note available">{t.availability}</p>
     <p class="note">{c.reply}</p>
   </section>
@@ -158,7 +162,15 @@ if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.sta
 
     // Offer pages link here with ?offer=<slug>, so the right option is already picked.
     const requested = new URLSearchParams(location.search).get('offer');
-    if (requested && [...need.options].some((option) => option.value === requested)) need.value = requested;
+    if (requested && [...need.options].some((option) => option.value === requested)) {
+      need.value = requested;
+      // Cal.com stores UTM parameters with the booking, so a call booked from here shows which offer it came from.
+      document.querySelectorAll<HTMLAnchorElement>('.page-head a.book').forEach((link) => {
+        const url = new URL(link.href);
+        url.searchParams.set('utm_campaign', requested);
+        link.href = url.href;
+      });
+    }
 
     const show = (state: string | null) =>
       messages.forEach((message) => (message.hidden = message.dataset.status !== state));

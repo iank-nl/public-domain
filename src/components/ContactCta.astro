@@ -1,5 +1,6 @@
 ---
 import { site } from '../site.config';
+import { bookingHref } from '../lib/booking';
 import { dictionaries, href, type Lang } from '../i18n';
 
 interface Props {
@@ -20,11 +21,12 @@ const t = dictionaries[lang];
     <p>{body ?? t.work.ctaBody}</p>
     <slot />
     <div class="actions">
-      <a class="btn" href={site.bookingUrl} data-umami-event="book-call" data-umami-event-position="cta" data-cta="book">
+      <a class="btn" href={bookingHref('cta', Astro.url.pathname)} data-umami-event="book-call" data-umami-event-position="cta" data-cta="book">
         {t.contact.book}
       </a>
       <a class="link arrow" href={href(lang, '/contact/#intake')} data-cta="intake">{t.contact.intake}</a>
     </div>
+    <p class="hint">{t.contact.bookNote}</p>
     <p class="available">{t.availability}</p>
     <p class="mail">{t.contact.orEmail} <a class="link" href={`mailto:${site.email}`} data-umami-event="email-click" data-umami-event-position="cta">{site.email}</a></p>
   </div>
@@ -80,6 +82,12 @@ const t = dictionaries[lang];
     border-radius: 50%;
     background: var(--accent);
     transform: translateY(-0.05em);
+  }
+
+  .hint {
+    margin-top: 0.75rem;
+    color: var(--ink-2);
+    font-size: 0.97rem;
   }
 
   .mail {

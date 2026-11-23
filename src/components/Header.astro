@@ -1,6 +1,7 @@
 ---
 import Mark from './Mark.astro';
 import { site } from '../site.config';
+import { bookingHref } from '../lib/booking';
 import { dictionaries, href, type Lang } from '../i18n';
 
 interface Props {
@@ -21,7 +22,7 @@ const c = dictionaries[lang].contact;
     <a href={href(lang, '/work/')}>{t.work}</a>
     <a href={href(lang, '/about/')}>{t.about}</a>
     <a href={href(lang, '/knowledge/')}>{t.knowledge}</a>
-    <a class="btn book" href={site.bookingUrl} data-umami-event="book-call" data-umami-event-position="header">{c.bookShort}</a>
+    <a class="btn book" href={bookingHref('header', Astro.url.pathname)} data-umami-event="book-call" data-umami-event-position="header">{c.bookShort}</a>
   </nav>
 </header>
 
