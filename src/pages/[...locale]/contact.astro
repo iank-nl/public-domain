@@ -70,11 +70,11 @@ const c = t.contact;
         <div class="pair">
           <label>
             <span>{c.fields.timeline}</span>
-            <select name="timeline">{c.timelines.map((option) => <option>{option}</option>)}</select>
+            <select name="timeline"><option value="">{c.choose}</option>{c.timelines.map((option) => <option>{option}</option>)}</select>
           </label>
           <label>
             <span>{c.fields.budget}</span>
-            <select name="budget">{c.budgets.map((option) => <option>{option}</option>)}</select>
+            <select name="budget"><option value="">{c.choose}</option>{c.budgets.map((option) => <option>{option}</option>)}</select>
           </label>
         </div>
         <button class="btn" type="submit">{c.submit}</button>
@@ -97,7 +97,8 @@ const c = t.contact;
       const lines = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]')]
         .map((field) => {
           const label = field.closest('label')?.querySelector('span')?.textContent ?? field.name;
-          const value = field instanceof HTMLSelectElement ? field.selectedOptions[0]?.text : field.value.trim();
+          // Unanswered selects have an empty value and are left out of the email.
+          const value = field instanceof HTMLSelectElement ? field.value && field.selectedOptions[0]?.text : field.value.trim();
           return value ? `${label}:\n${value}` : '';
         })
         .filter(Boolean);

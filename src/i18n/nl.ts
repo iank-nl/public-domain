@@ -270,6 +270,7 @@ export const nl: typeof en = {
     },
     timelines: ['Zo snel mogelijk', 'Binnen een maand', 'Over 1 tot 3 maanden', 'Nog geen vaste datum'],
     budgets: ['Onder € 2.500', '€ 2.500 tot € 10.000', 'Boven € 10.000', 'Weet ik nog niet'],
+    choose: 'Kies…',
     submit: 'Open in mijn mailprogramma',
     formNote: 'Dit opent je eigen mailprogramma met alles al ingevuld. Deze website verstuurt of bewaart niets.',
     subject: 'Projectaanvraag',

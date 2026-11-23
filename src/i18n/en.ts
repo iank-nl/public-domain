@@ -268,6 +268,7 @@ export const en = {
     },
     timelines: ['As soon as possible', 'Within a month', 'In 1 to 3 months', 'No fixed date yet'],
     budgets: ['Under €2,500', '€2,500 to €10,000', 'Over €10,000', 'Not sure yet'],
+    choose: 'Choose…',
     submit: 'Open in my email app',
     formNote: 'This opens your own email app with everything filled in. Nothing is sent or stored by this website.',
     subject: 'Project enquiry',
