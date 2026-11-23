@@ -75,7 +75,15 @@ const caseText = caseLabels[lang];
             <div>
               <h2>{group.title}</h2>
               <ul>
-                {group.items.map((item) => <li><h3>{item.title}</h3><p>{item.body}</p></li>)}
+                {group.items.map((item) => (
+                  <li>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                    {'case' in item && item.case && (
+                      <a class="link arrow" href={href(lang, `/work/cases/${item.case}/`)}>{caseText.read}</a>
+                    )}
+                  </li>
+                ))}
               </ul>
             </div>
           ))
@@ -215,6 +223,12 @@ const caseText = caseLabels[lang];
     font-weight: 650;
     letter-spacing: 0;
     margin-bottom: 0.2em;
+  }
+
+  .selected li .link {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.95rem;
   }
 
   .selected p {

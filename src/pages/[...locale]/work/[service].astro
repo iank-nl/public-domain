@@ -5,6 +5,7 @@ import { site } from '../../../site.config';
 import { dictionaries, getArticles, href, slugOf, type Lang } from '../../../i18n';
 import { serviceLabels, servicePages, type ServicePage } from '../../../i18n/services';
 import { offerBySlug, offerLabels } from '../../../i18n/offers';
+import { caseLabels } from '../../../i18n/cases';
 
 export function getStaticPaths() {
   return (['en', 'nl'] as Lang[]).flatMap((lang) =>
@@ -81,7 +82,15 @@ const schema = {
           <div>
             <span class="tag section-tag">{labels.past}</span>
             <ul class="past">
-              {projects.map((project) => <li><h3>{project.title}</h3><p>{project.body}</p></li>)}
+              {projects.map((project) => (
+                <li>
+                  <h3>{project.title}</h3>
+                  <p>{project.body}</p>
+                  {'case' in project && project.case && (
+                    <a class="link arrow case" href={href(lang, `/work/cases/${project.case}/`)}>{caseLabels[lang].read}</a>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
         )
@@ -172,6 +181,12 @@ const schema = {
     font-weight: 650;
     letter-spacing: 0;
     margin-bottom: 0.2em;
+  }
+
+  .past .case {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.95rem;
   }
 
   .past p {

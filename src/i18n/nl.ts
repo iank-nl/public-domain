@@ -28,9 +28,9 @@ export const nl: typeof en = {
       body: 'Webapplicaties, API’s en koppelingen die ook lang na de oplevering blijven werken. Heldere code, logische datamodellen en geen verrassingen voor wie het daarna onderhoudt.',
       points: ['PHP / Laravel', 'TypeScript / JavaScript', 'API-ontwikkeling', 'Databaseontwerp'],
       work: [
-        'Een integratieplatform dat meer dan 50 API’s koppelt',
-        'Een centraal dashboard voor het beheer van meerdere productomgevingen',
-        'Een uniform databaseplatform dat veel databronnen samenbrengt',
+        { title: 'Een integratieplatform dat meer dan 50 API’s koppelt', case: 'api-integration-platform' },
+        { title: 'Een centraal dashboard voor het beheer van meerdere productomgevingen' },
+        { title: 'Een uniform databaseplatform dat veel databronnen samenbrengt' },
       ],
     },
     servers: {
@@ -40,9 +40,9 @@ export const nl: typeof en = {
       body: 'Linux-servers en AWS-omgevingen die automatisch worden gepatcht, gemonitord en uitgerold, zodat problemen opvallen voordat je gebruikers ze merken.',
       points: ['Linux-serverbeheer', 'AWS-architectuur', 'CI/CD-pipelines', 'Systeemmonitoring'],
       work: [
-        'Meer dan 25 Linux-productieservers, gepatcht en gehard',
-        'Realtime monitoring en alerting voor draaiende producten',
-        'Docker-deploymentpipelines met automatische rollback',
+        { title: 'Meer dan 25 Linux-productieservers, gepatcht en gehard', case: 'linux-server-fleet' },
+        { title: 'Realtime monitoring en alerting voor draaiende producten' },
+        { title: 'Docker-deploymentpipelines met automatische rollback' },
       ],
     },
     security: {
@@ -52,9 +52,9 @@ export const nl: typeof en = {
       body: 'De zwakke plekken vinden voordat iemand anders dat doet. Reviews van je code en infrastructuur, gevolgd door oplossingen die ook echt worden doorgevoerd.',
       points: ['Applicatiebeveiliging', 'Secure code review', 'API-beveiliging', 'OWASP best practices'],
       work: [
-        'Security code reviews met concrete herstelstappen',
-        'Encryptie van data op gebruikersniveau, inclusief sleutelbeheer',
-        'Geautomatiseerde compliancecontroles en inbraakdetectie',
+        { title: 'Ruim 100 sites veilig gehouden tijdens de PHP2Shell-lekken', case: 'php2shell-response' },
+        { title: 'Security code reviews met concrete herstelstappen' },
+        { title: 'Encryptie van data op gebruikersniveau, inclusief sleutelbeheer' },
       ],
     },
     finds: {
@@ -66,7 +66,8 @@ export const nl: typeof en = {
       appsBody: 'Een complete mobiele puzzelgame met een eigen oplosser en backend, gebouwd om te testen hoe ver een gedisciplineerde workflow met AI komt.',
       appsLink: 'Lees de case study',
     },
-    doneLabel: 'Eerder gedaan',
+    recentLabel: 'Recente projecten',
+    caseLink: 'Case study',
     readLabel: 'Lees',
     more: 'Meer hierover',
   },
@@ -112,28 +113,29 @@ export const nl: typeof en = {
       {
         title: 'Software',
         items: [
-          { title: 'API-integratieplatform', body: 'Meer dan 50 verschillende API’s op één plek beheerd, met foutafhandeling, rate limiting en monitoring.' },
+          { title: 'API-integratieplatform', body: 'Meer dan 50 verschillende API’s op één plek beheerd, met foutafhandeling, rate limiting en monitoring.', case: 'api-integration-platform' },
           { title: 'OData-interfacesysteem', body: 'Gestandaardiseerde toegang tot data in meerdere bedrijfssystemen, met gegenereerde interfaces.' },
           { title: 'Centraal productdashboard', body: 'Eén webdashboard voor het beheer van meerdere productomgevingen, met rolgebaseerde toegang.' },
           { title: 'Gestandaardiseerd databaseplatform', body: 'Data uit veel bronnen in één formaat, met automatische imports en validatie.' },
         ],
       },
       {
-        title: 'Servers & cloud',
+        title: 'Servers, cloud & data',
         items: [
           { title: 'Geautomatiseerde monitoring', body: 'Realtime alerts voor draaiende producten, met dashboards en notificatieregels.' },
-          { title: 'AWS-kostenbeheer', body: 'Cloudkosten volgen en voorspellen, met budgetalerts en besparingsadviezen.' },
+          { title: 'AWS-kostenbeheer', body: 'Cloudkosten volgen en voorspellen, met budgetalerts en besparingsadviezen.', case: 'aws-cost-management' },
           { title: 'Docker-deploymentautomatisering', body: 'Continue levering van containers, met automatische tests en rollback.' },
-          { title: 'AWS API-integratieplatform', body: 'Een uitbreidbaar platform voor managed services, met veilige authenticatie en rate limiting.' },
+          { title: 'AWS API-integratieplatform', body: 'Een uitbreidbaar platform voor managed services op AWS, met veilige authenticatie en rate limiting. [TODO: één regel over het verschil met het API-integratieplatform onder Software]' },
+          { title: 'Centrale Elasticsearch-omgeving', body: 'Data uit verschillende applicaties volgen en analyseren, met automatische invoer en dashboards.' },
         ],
       },
       {
         title: 'Security',
         items: [
-          { title: 'Veilig serverbeheer', body: 'Meer dan 25 Linux-productieservers veilig gehouden met automatische patches, hardening en inbraakdetectie.' },
+          { title: 'Veilig serverbeheer', body: 'Meer dan 25 Linux-productieservers veilig gehouden met automatische patches, hardening en inbraakdetectie.', case: 'linux-server-fleet' },
+          { title: 'PHP2Shell-afhandeling', body: 'Ruim 100 PHP-sites gepatcht in volgorde van risico tijdens twee kritieke lekken, zonder één inbraak.', case: 'php2shell-response' },
           { title: 'Data-encryptie op gebruikersniveau', body: 'Gevoelige data beschermd in alle applicatielagen, inclusief sleutelbeheer.' },
           { title: 'Security code reviews', body: 'Kwetsbaarheden opsporen en rapporteren met concrete herstelstappen.' },
-          { title: 'Centrale Elasticsearch-omgeving', body: 'Data uit verschillende applicaties volgen en analyseren, met automatische invoer en dashboards.' },
         ],
       },
     ],

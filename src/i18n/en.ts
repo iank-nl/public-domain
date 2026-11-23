@@ -26,9 +26,9 @@ export const en = {
       body: 'Web applications, APIs and integrations built to keep working long after launch. Clear code, sensible data models and no surprises for whoever maintains it next.',
       points: ['PHP / Laravel', 'TypeScript / JavaScript', 'API development', 'Database design'],
       work: [
-        'An integration platform connecting more than 50 APIs',
-        'A central dashboard for running multiple product environments',
-        'A unified database platform combining many data sources',
+        { title: 'An integration platform connecting more than 50 APIs', case: 'api-integration-platform' },
+        { title: 'A central dashboard for running multiple product environments' },
+        { title: 'A unified database platform combining many data sources' },
       ],
     },
     servers: {
@@ -38,9 +38,9 @@ export const en = {
       body: 'Linux servers and AWS environments that are patched, monitored and deployed automatically, so problems get noticed before your users notice them.',
       points: ['Linux server management', 'AWS architecture', 'CI/CD pipelines', 'System monitoring'],
       work: [
-        'More than 25 Linux production servers, patched and hardened',
-        'Real-time monitoring and alerting for deployed products',
-        'Docker deployment pipelines with automated rollback',
+        { title: 'More than 25 Linux production servers, patched and hardened', case: 'linux-server-fleet' },
+        { title: 'Real-time monitoring and alerting for deployed products' },
+        { title: 'Docker deployment pipelines with automated rollback' },
       ],
     },
     security: {
@@ -50,9 +50,9 @@ export const en = {
       body: 'Finding the weak spots before someone else does. Reviews of your code and infrastructure, followed by fixes that actually get made.',
       points: ['Application security', 'Secure code review', 'API security', 'OWASP best practices'],
       work: [
-        'Security code reviews with concrete remediation steps',
-        'User-level data encryption with key management',
-        'Automated security compliance checks and intrusion detection',
+        { title: 'Keeping more than 100 sites safe through the PHP2Shell vulnerabilities', case: 'php2shell-response' },
+        { title: 'Security code reviews with concrete remediation steps' },
+        { title: 'User-level data encryption with key management' },
       ],
     },
     finds: {
@@ -64,7 +64,8 @@ export const en = {
       appsBody: 'A complete mobile puzzle game with its own solver and backend, built to test how far a disciplined AI-assisted workflow goes.',
       appsLink: 'Read the case study',
     },
-    doneLabel: 'Done before',
+    recentLabel: 'Recent projects',
+    caseLink: 'Case study',
     readLabel: 'Read',
     more: 'More about this',
   },
@@ -110,28 +111,29 @@ export const en = {
       {
         title: 'Software',
         items: [
-          { title: 'API integration platform', body: 'More than 50 different APIs managed in one place, with error handling, rate limiting and monitoring.' },
+          { title: 'API integration platform', body: 'More than 50 different APIs managed in one place, with error handling, rate limiting and monitoring.', case: 'api-integration-platform' },
           { title: 'OData interface system', body: 'Standardised data access across multiple enterprise systems, with generated interfaces.' },
           { title: 'Central product dashboard', body: 'One web dashboard for managing multiple product environments, with role-based access.' },
           { title: 'Standardised database platform', body: 'Data from many sources in one format, with automated imports and validation.' },
         ],
       },
       {
-        title: 'Servers & cloud',
+        title: 'Servers, cloud & data',
         items: [
           { title: 'Automated monitoring', body: 'Real-time alerting for deployed products, with dashboards and notification rules.' },
-          { title: 'AWS cost management', body: 'Tracking and predicting cloud spending, with budget alerts and savings recommendations.' },
+          { title: 'AWS cost management', body: 'Tracking and predicting cloud spending, with budget alerts and savings recommendations.', case: 'aws-cost-management' },
           { title: 'Docker deployment automation', body: 'Continuous delivery of containers, with automated testing and rollback.' },
-          { title: 'AWS API integration platform', body: 'An extensible platform for managed services, with secure authentication and rate limiting.' },
+          { title: 'AWS API integration platform', body: 'An extensible platform for managed services on AWS, with secure authentication and rate limiting. [TODO: one line on how this differs from the API integration platform under Software]' },
+          { title: 'Central Elasticsearch environment', body: 'Tracking and analysing data across applications, with automated ingestion and dashboards.' },
         ],
       },
       {
         title: 'Security',
         items: [
-          { title: 'Secure server management', body: 'More than 25 Linux production servers kept safe with automated patching, hardening and intrusion detection.' },
+          { title: 'Secure server management', body: 'More than 25 Linux production servers kept safe with automated patching, hardening and intrusion detection.', case: 'linux-server-fleet' },
+          { title: 'PHP2Shell response', body: 'More than 100 PHP sites patched in order of risk during two critical vulnerabilities, without a single compromise.', case: 'php2shell-response' },
           { title: 'User-level data encryption', body: 'Protecting sensitive data across application layers, including key management.' },
           { title: 'Security code reviews', body: 'Finding vulnerabilities and delivering reports with concrete remediation steps.' },
-          { title: 'Central Elasticsearch environment', body: 'Tracking and analysing data across applications, with automated ingestion and dashboards.' },
         ],
       },
     ],

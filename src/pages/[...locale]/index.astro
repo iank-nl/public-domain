@@ -61,8 +61,16 @@ const primary = [
             <div class="layer-body">
               <p class="lede">{layer.body}</p>
               <ul class="points">{layer.points.map((point) => <li>{point}</li>)}</ul>
+              <span class="tag recent">{t.layers.recentLabel}</span>
               <ul class="done">
-                {layer.work.map((item) => <li><span class="tag">{t.layers.doneLabel}</span><span>{item}</span></li>)}
+                {layer.work.map((item) => (
+                  <li>
+                    <span>{item.title}</span>
+                    {'case' in item && item.case && (
+                      <a class="tag" href={href(lang, `/work/cases/${item.case}/`)}>{t.layers.caseLink} →</a>
+                    )}
+                  </li>
+                ))}
               </ul>
               <a class="link arrow more" href={href(lang, `/work/${slug}/`)}>{t.layers.more}</a>
               {slug === 'software' && <ArticleLinks lang={lang} articles={softwareArticles} label={t.layers.readLabel} />}
@@ -302,14 +310,20 @@ const primary = [
     border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
   }
 
+  .recent {
+    display: block;
+    margin-top: 1.75rem;
+  }
+
   .done {
     list-style: none;
-    margin: 1.5rem 0 0;
+    margin: 0.6rem 0 0;
     padding: 0;
   }
 
   .done li {
     display: flex;
+    justify-content: space-between;
     gap: 0.75rem;
     align-items: baseline;
     padding-block: 0.5rem;
@@ -318,7 +332,7 @@ const primary = [
 
   .done .tag {
     flex: none;
-    width: 7.5rem;
+    white-space: nowrap;
   }
 
   .more {
