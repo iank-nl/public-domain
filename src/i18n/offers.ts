@@ -32,7 +32,7 @@ export const offerLabels = {
     description:
       'Vaste pakketten van een freelance Laravel-developer: security-audit van je Laravel/PHP-webapplicatie, AWS-kostenreview, serverbeheer uitbesteden, AI-feature-sprint en code overnemen.',
     heading: 'Een duidelijke afbakening en een offerte, voordat er iets begint.',
-    lede: 'Vijf manieren om samen te werken waarbij je precies weet wat je krijgt. Je ontvangt vooraf een vaste offerte, dus geen open eind aan uren.',
+    lede: 'Vijf manieren om samen te werken waarbij je precies weet wat je krijgt. Je ontvangt vooraf een vaste offerte, dus geen uren die blijven doortikken.',
     includes: 'Wat je krijgt',
     price: 'Vaste prijs, vooraf geoffreerd',
     cta: 'Vraag een offerte aan',
@@ -126,7 +126,7 @@ export const offers: Record<Lang, Offer[]> = {
     {
       slug: 'security-check',
       tone: 'tone-3',
-      name: 'Laravel/PHP Security & Health Check',
+      name: 'Security-audit & health check (Laravel/PHP)',
       summary: 'Ontdek waar je Laravel- of PHP-applicatie kwetsbaar is, en wat je als eerste moet oplossen.',
       includes: [
         'Code review op basis van de OWASP Top 10',
@@ -151,7 +151,7 @@ export const offers: Record<Lang, Offer[]> = {
     {
       slug: 'care',
       tone: 'tone-1',
-      name: 'Server- & applicatiebeheer (abonnement)',
+      name: 'Server- en applicatiebeheer (abonnement)',
       summary: 'Je servers en applicatie elke maand onderhouden, zonder dat je daar iemand voor hoeft aan te nemen.',
       includes: [
         'Beveiligingsupdates voor servers en dependencies',
@@ -164,7 +164,7 @@ export const offers: Record<Lang, Offer[]> = {
     {
       slug: 'ai-sprint',
       tone: 'tone-4',
-      name: 'AI-feature-sprint',
+      name: 'AI-featuresprint',
       summary: 'Eén praktische AI-functie toegevoegd aan de software die je al hebt, klaar voor productie.',
       includes: [
         'Een korte sessie om de functie met de duidelijkste opbrengst te kiezen',
@@ -177,7 +177,7 @@ export const offers: Record<Lang, Offer[]> = {
     {
       slug: 'takeover',
       tone: 'tone-3',
-      name: 'Code overnemen / redden',
+      name: 'Bestaande code overnemen of redden',
       summary: 'Een bestaande Laravel-codebase waar niemand meer aan durft te komen, weer veilig aanpasbaar gemaakt.',
       includes: [
         'Beoordeling van architectuur, codekwaliteit, security en deployment',

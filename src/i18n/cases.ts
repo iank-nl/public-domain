@@ -233,7 +233,7 @@ export const cases: Record<Lang, CaseStudy[]> = {
       tone: 'tone-3',
       title: 'PHP2Shell-afhandeling voor 100+ sites',
       heading: 'Twee kritieke PHP-lekken, ruim 100 sites, geen enkele inbraak.',
-      summary: 'Ruim 100 PHP-sites gepatcht in volgorde van risico tijdens PHP2Shell, terwijl de sites die niet offline konden scherp in de gaten werden gehouden.',
+      summary: 'Ruim 100 PHP-sites gepatcht in volgorde van risico tijdens PHP2Shell, terwijl de sites die online moesten blijven scherp in de gaten werden gehouden.',
       client: '[TODO: bijv. “hosting- en onderhoudsportfolio van ~100 klantsites”]',
       role: '[TODO: bijv. leidde de incidentafhandeling]',
       duration: '[TODO: bijv. oktober 2026, X dagen]',
@@ -271,7 +271,7 @@ export const cases: Record<Lang, CaseStudy[]> = {
       problem: 'De cloudkosten bleven stijgen en niemand kon precies zeggen waarom. [TODO: de beginsituatie, bijv. maandbedrag, aantal accounts.]',
       approach: [
         'De uitgaven per dienst gevolgd, zodat duidelijk was waar het geld heen ging.',
-        'De uitgaven voorspeld, vóórdat de rekening kwam.',
+        'De uitgaven vooraf voorspeld, in plaats van achteraf verrast te worden door de rekening.',
         'Budgetalerts, zodat onverwachte groei binnen dagen opvalt in plaats van aan het eind van de maand.',
         'Concrete besparingsadviezen, zoals rightsizing van resources. [TODO: welke zijn doorgevoerd]',
       ],

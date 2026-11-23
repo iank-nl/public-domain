@@ -162,7 +162,7 @@ export const servicePages: Record<'en' | 'nl', ServicePage[]> = {
       help: [
         { title: 'Linux-serverbeheer', body: 'Inrichting, automatische patches en hardening, voor één server of een heel park.' },
         { title: 'AWS-architectuur', body: 'Betrouwbare en schaalbare omgevingen, zonder meer onderdelen dan nodig.' },
-        { title: 'Automatische deployments', body: 'Docker en CI/CD-pipelines met automatische tests en rollback, zodat een release geen gebeurtenis meer is.' },
+        { title: 'Automatische deployments', body: 'Docker en CI/CD-pipelines met automatische tests en rollback, zodat een release geen spannend moment meer is.' },
         { title: 'Monitoring en alerting', body: 'Realtime alerts en dashboards, zodat jij problemen eerder ziet dan je klanten.' },
         { title: 'Cloudkosten', body: 'Je uitgaven volgen en voorspellen, met budgetalerts en concrete besparingen.' },
       ],
