@@ -24,7 +24,7 @@ const facts = [
   { label: labels.facts.client, value: study.client },
   { label: labels.facts.role, value: study.role },
   { label: labels.facts.duration, value: study.duration },
-];
+].filter((fact) => fact.value);
 const schema = {
   '@type': 'Article',
   headline: study.heading,
@@ -161,7 +161,7 @@ const schema = {
 
   .stats {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
     gap: 1.5rem;
     margin: 1.5rem 0 0;
   }

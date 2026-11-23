@@ -29,7 +29,6 @@ const pageTitle = `${title} · ${site.name}`;
 const desc = description ?? t.meta.description;
 const canonical = new URL(path ? href(lang, path) : Astro.url.pathname, site.url).href;
 const ogImage = new URL('/og.png', site.url).href;
-const isSet = (value: string) => !value.includes('TODO');
 const structuredData = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
@@ -45,7 +44,7 @@ const structuredData = JSON.stringify({
       address: {
         '@type': 'PostalAddress',
         addressCountry: 'NL',
-        ...(isSet(site.region) ? { addressRegion: site.region } : {}),
+        addressRegion: site.region,
       },
       areaServed: [
         { '@type': 'Country', name: 'Netherlands' },
@@ -53,7 +52,7 @@ const structuredData = JSON.stringify({
         { '@type': 'Place', name: 'European Union' },
       ],
       identifier: { '@type': 'PropertyValue', propertyID: 'KVK', value: site.kvk },
-      ...(isSet(site.vatId) ? { vatID: site.vatId } : {}),
+      vatID: site.vatId,
       sameAs: [site.linkedin],
       founder: { '@id': `${site.url}/#owner` },
       knowsAbout: [
