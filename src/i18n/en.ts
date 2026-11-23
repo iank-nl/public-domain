@@ -10,6 +10,8 @@ export const en = {
     eyebrow: 'Software, servers & cyber security',
     hero: 'Software, secure all the way down.',
     lede: "I'm Ian. I build software, run the servers it lives on and make sure both are secure. One engineer for the whole stack, from the first line of code to the production machine.",
+    positioning: 'For SMEs and digital agencies running Laravel/PHP on AWS or Linux, without their own DevOps or security person.',
+    whiteLabel: 'Agencies: I also work white-label, under your name, for your clients.',
     ctaWork: 'What I can do for you',
     ctaOffers: 'Fixed-scope offers',
     ctaSecond: 'See past work',

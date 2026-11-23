@@ -35,6 +35,7 @@ const primary = [
       <span class="tag rise" style="--i:0">{t.home.eyebrow}</span>
       <h1 class="rise" style="--i:1">{t.home.hero}</h1>
       <p class="lede rise" style="--i:2">{t.home.lede}</p>
+      <p class="for rise" style="--i:2"><strong>{t.home.positioning}</strong> {t.home.whiteLabel}</p>
       <div class="cta rise" style="--i:3">
         <a class="btn" href={href(lang, '/work/')}>{t.home.ctaWork}</a>
         <a class="link arrow" href={href(lang, '/work/offers/')}>{t.home.ctaOffers}</a>
@@ -215,6 +216,17 @@ const primary = [
 
   .hero .lede {
     max-width: 33em;
+  }
+
+  .for {
+    max-width: 36em;
+    margin-top: 1.1rem;
+    padding-left: 0.9rem;
+    border-left: 3px solid var(--accent);
+  }
+
+  .for strong {
+    font-weight: 650;
   }
 
   .cta {

@@ -12,6 +12,8 @@ export const nl: typeof en = {
     eyebrow: 'Software, servers & cybersecurity',
     hero: 'Software, tot op de bodem veilig.',
     lede: 'Ik ben Ian. Ik bouw software, beheer de servers waarop die draait en zorg dat beide veilig zijn. Eén engineer voor het hele traject, van de eerste regel code tot de productieserver.',
+    positioning: 'Voor mkb-bedrijven en digitale bureaus die Laravel/PHP draaien op AWS of Linux, zonder eigen DevOps- of securityspecialist.',
+    whiteLabel: 'Ben je een bureau? Ik werk ook white-label, onder jouw naam, voor jouw klanten.',
     ctaWork: 'Wat ik voor je kan doen',
     ctaOffers: 'Vaste pakketten',
     ctaSecond: 'Bekijk eerder werk',
