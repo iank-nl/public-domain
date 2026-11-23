@@ -112,6 +112,7 @@ const schema = {
               <a href={href(lang, `/work/offers/#${offer.slug}`)}>
                 <h3>{offer.name}</h3>
                 <p>{offer.summary}</p>
+                <p class="tag from">{offer.from} · {offerText.exVat}</p>
               </a>
             </li>
           ))
@@ -220,6 +221,10 @@ const schema = {
   .offers h3 {
     font-size: clamp(1.4rem, 2.4vw, 1.9rem);
     margin-bottom: 0.4em;
+  }
+
+  .offers .from {
+    margin-top: 1rem;
   }
 
   .offers a:hover h3 {

@@ -2,7 +2,9 @@ import type { Lang } from './index';
 
 /**
  * Fixed-scope offers, shown on /work/offers/ and linked from service pages and articles.
- * Prices are deliberately not shown: every offer ends in a quote request.
+ * Each offer shows a "from" price (excl. BTW) to set expectations; the final price is still a
+ * fixed quote after intake, so every offer ends in a quote request.
+ * `amount` and `unit` feed the structured data in Base.astro; keep them in line with `price`.
  */
 export type OfferSlug = 'security-check' | 'aws-review' | 'care' | 'ai-sprint' | 'takeover';
 
@@ -16,7 +18,11 @@ export const offerLabels = {
     heading: 'A clear scope and a quote, before anything starts.',
     lede: 'Five ways to work together where you know exactly what you get. You receive a fixed quote up front, so there are no open-ended hours.',
     includes: 'What’s included',
-    price: 'Fixed price, quoted up front',
+    vat: 'Prices excl. BTW',
+    exVat: 'excl. BTW',
+    priceNote:
+      'The final price depends on the size of your codebase or infrastructure. You always get a fixed quote before any work starts.',
+    hourly: 'Hourly work outside these offers: €105/hour excl. BTW',
     cta: 'Ask for a quote',
     teaser: 'Prefer a fixed scope?',
     teaserBody: 'Most first projects start as one of these offers, with a fixed quote before any work begins.',
@@ -34,7 +40,11 @@ export const offerLabels = {
     heading: 'Een duidelijke afbakening en een offerte, voordat er iets begint.',
     lede: 'Vijf manieren om samen te werken waarbij je precies weet wat je krijgt. Je ontvangt vooraf een vaste offerte, dus geen uren die blijven doortikken.',
     includes: 'Wat je krijgt',
-    price: 'Vaste prijs, vooraf geoffreerd',
+    vat: 'Prijzen excl. btw',
+    exVat: 'excl. btw',
+    priceNote:
+      'De uiteindelijke prijs hangt af van de omvang van je codebase of infrastructuur. Je krijgt altijd een vaste offerte voordat het werk begint.',
+    hourly: 'Werk buiten deze pakketten: €105 per uur excl. btw',
     cta: 'Vraag een offerte aan',
     teaser: 'Liever een vaste afbakening?',
     teaserBody: 'De meeste eerste opdrachten beginnen als een van deze pakketten, met een vaste offerte voordat het werk start.',
@@ -51,8 +61,14 @@ interface Offer {
   name: string;
   summary: string;
   includes: string[];
-  /** Overrides the default price line, e.g. for a monthly retainer. */
-  price?: string;
+  /** Full price line on the offers page. */
+  price: string;
+  /** Short version for teasers elsewhere on the site. */
+  from: string;
+  /** Lowest price in euros, excl. BTW, for structured data. */
+  amount: number;
+  /** Set for recurring prices. */
+  unit?: 'month';
 }
 
 export const offers: Record<Lang, Offer[]> = {
@@ -69,6 +85,9 @@ export const offers: Record<Lang, Offer[]> = {
         'A written report with findings ranked by real risk',
         'A walkthrough call to go through the findings with your team',
       ],
+      price: 'From €1,750 · fixed price after a short intake',
+      from: 'From €1,750',
+      amount: 1750,
     },
     {
       slug: 'aws-review',
@@ -81,6 +100,9 @@ export const offers: Record<Lang, Offer[]> = {
         'Gaps in backups, monitoring and alerting',
         'A concrete list of savings, ordered by effort and impact',
       ],
+      price: 'From €1,250 · often pays for itself within months',
+      from: 'From €1,250',
+      amount: 1250,
     },
     {
       slug: 'care',
@@ -93,7 +115,10 @@ export const offers: Record<Lang, Offer[]> = {
         'Backups that are tested, not just configured',
         '2 hours per month for small changes and fixes',
       ],
-      price: 'Fixed monthly fee, quoted up front',
+      price: 'From €295/month · 1 server, 2 hours of changes included · each extra server +€75/month',
+      from: 'From €295/month',
+      amount: 295,
+      unit: 'month',
     },
     {
       slug: 'ai-sprint',
@@ -107,6 +132,9 @@ export const offers: Record<Lang, Offer[]> = {
         'Tested against real examples from your own data before launch',
         'Handover with documentation',
       ],
+      price: 'From €3,500',
+      from: 'From €3,500',
+      amount: 3500,
     },
     {
       slug: 'takeover',
@@ -119,7 +147,9 @@ export const offers: Record<Lang, Offer[]> = {
         'Stabilisation: tests around critical paths, fixes and safer deployments',
         'Documentation, so the next developer does not start from zero',
       ],
-      price: 'Starts with a fixed-price assessment',
+      price: 'Assessment from €950, then fixed price or hourly',
+      from: 'Assessment from €950',
+      amount: 950,
     },
   ],
   nl: [
@@ -135,6 +165,9 @@ export const offers: Record<Lang, Offer[]> = {
         'Een schriftelijk rapport met bevindingen op volgorde van echt risico',
         'Een call waarin we de bevindingen samen met je team doorlopen',
       ],
+      price: 'Vanaf €1.750 · vaste prijs na korte intake',
+      from: 'Vanaf €1.750',
+      amount: 1750,
     },
     {
       slug: 'aws-review',
@@ -147,6 +180,9 @@ export const offers: Record<Lang, Offer[]> = {
         'Gaten in back-ups, monitoring en alerting',
         'Een concrete lijst met besparingen, op volgorde van moeite en effect',
       ],
+      price: 'Vanaf €1.250 · verdient zich vaak binnen enkele maanden terug',
+      from: 'Vanaf €1.250',
+      amount: 1250,
     },
     {
       slug: 'care',
@@ -159,7 +195,10 @@ export const offers: Record<Lang, Offer[]> = {
         'Back-ups die getest worden, niet alleen ingesteld',
         '2 uur per maand voor kleine wijzigingen en fixes',
       ],
-      price: 'Vast bedrag per maand, vooraf geoffreerd',
+      price: 'Vanaf €295 per maand · 1 server, 2 uur wijzigingen inbegrepen · extra server +€75 per maand',
+      from: 'Vanaf €295 per maand',
+      amount: 295,
+      unit: 'month',
     },
     {
       slug: 'ai-sprint',
@@ -173,6 +212,9 @@ export const offers: Record<Lang, Offer[]> = {
         'Getest op echte voorbeelden uit je eigen data, voordat het live gaat',
         'Overdracht met documentatie',
       ],
+      price: 'Vanaf €3.500',
+      from: 'Vanaf €3.500',
+      amount: 3500,
     },
     {
       slug: 'takeover',
@@ -185,7 +227,9 @@ export const offers: Record<Lang, Offer[]> = {
         'Stabiliseren: tests rond kritieke onderdelen, fixes en veiligere deployments',
         'Documentatie, zodat de volgende ontwikkelaar niet bij nul begint',
       ],
-      price: 'Begint met een beoordeling tegen een vaste prijs',
+      price: 'Beoordeling vanaf €950, daarna vaste prijs of per uur',
+      from: 'Beoordeling vanaf €950',
+      amount: 950,
     },
   ],
 };

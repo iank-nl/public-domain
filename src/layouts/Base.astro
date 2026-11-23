@@ -73,6 +73,13 @@ const structuredData = JSON.stringify({
           '@type': 'Offer',
           url: new URL(href(lang, `/work/offers/#${offer.slug}`), site.url).href,
           itemOffered: { '@type': 'Service', name: offer.name, description: offer.summary },
+          priceSpecification: {
+            '@type': offer.unit ? 'UnitPriceSpecification' : 'PriceSpecification',
+            minPrice: offer.amount,
+            priceCurrency: 'EUR',
+            valueAddedTaxIncluded: false,
+            ...(offer.unit === 'month' && { unitCode: 'MON', unitText: 'month' }),
+          },
         })),
       },
     },

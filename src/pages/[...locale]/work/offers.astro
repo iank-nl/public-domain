@@ -21,6 +21,7 @@ const list = offers[lang];
     <span class="tag">{labels.tag}</span>
     <h1>{labels.heading}</h1>
     <p class="lede">{labels.lede}</p>
+    <p class="tag vat">{labels.vat}</p>
     <ul class="index">
       {list.map((offer) => <li><a class="link" href={`#${offer.slug}`}>{offer.name}</a></li>)}
     </ul>
@@ -34,7 +35,7 @@ const list = offers[lang];
             <div class="head">
               <h2>{offer.name}</h2>
               <p class="summary">{offer.summary}</p>
-              <p class="tag price">{offer.price ?? labels.price}</p>
+              <p class="price">{offer.price}</p>
               <a class="btn" href={href(lang, `/contact/?offer=${offer.slug}#intake`)}>
                 {labels.cta}
               </a>
@@ -47,11 +48,14 @@ const list = offers[lang];
         </article>
       ))
     }
+    <p class="wrap note">{labels.priceNote}</p>
   </section>
 
   <Testimonials lang={lang} />
 
-  <ContactCta lang={lang} heading={labels.other} body={labels.otherBody} />
+  <ContactCta lang={lang} heading={labels.other} body={labels.otherBody}>
+    <p>{labels.hourly}</p>
+  </ContactCta>
 </Base>
 
 <style>
@@ -101,8 +105,20 @@ const list = offers[lang];
     max-width: 30em;
   }
 
+  .vat {
+    margin-top: 1.5rem;
+    color: var(--ink-2);
+  }
+
   .price {
     margin-block: 1.5rem 1rem;
+    max-width: 30em;
+    font-weight: 600;
+  }
+
+  .note {
+    margin-top: clamp(24px, 4vw, 40px);
+    color: var(--ink-2);
   }
 
   .offer .btn {

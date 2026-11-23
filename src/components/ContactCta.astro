@@ -16,6 +16,7 @@ const t = dictionaries[lang];
   <div class="wrap ask">
     <h2>{heading ?? t.work.cta}</h2>
     <p>{body ?? t.work.ctaBody}</p>
+    <slot />
     <div class="actions">
       <a class="btn" href={site.bookingUrl}>{t.contact.book}</a>
       <a class="link arrow" href={href(lang, '/contact/#intake')}>{t.contact.intake}</a>
@@ -31,8 +32,13 @@ const t = dictionaries[lang];
     margin-bottom: 0.4em;
   }
 
-  .ask > p {
+  /* :global so paragraphs passed in through the slot get the same measure. */
+  .ask > :global(p) {
     max-width: 38em;
+  }
+
+  .ask > :global(p + p) {
+    margin-top: 0.75rem;
   }
 
   .actions {
