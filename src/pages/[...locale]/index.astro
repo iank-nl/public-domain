@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Edge from '../../components/Edge.astro';
 import Phone from '../../components/Phone.astro';
 import ArticleLinks from '../../components/ArticleLinks.astro';
+import Testimonials from '../../components/Testimonials.astro';
 import { contourPaths } from '../../lib/contours';
 import { screenshots } from '../../lib/screenshots';
 import { dictionaries, getArticles, href, localePaths, type Lang } from '../../i18n';
@@ -43,6 +44,8 @@ const primary = [
       <a class="dig tag" href="#strata">{t.home.dig} ↓</a>
     </div>
   </section>
+
+  <Testimonials lang={lang} />
 
   <div id="strata" data-strata>
     {

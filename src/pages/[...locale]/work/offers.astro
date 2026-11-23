@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import ContactCta from '../../../components/ContactCta.astro';
+import Testimonials from '../../../components/Testimonials.astro';
 import { dictionaries, href, localePaths, type Lang } from '../../../i18n';
 import { offerLabels, offers } from '../../../i18n/offers';
 
@@ -47,6 +48,8 @@ const list = offers[lang];
       ))
     }
   </section>
+
+  <Testimonials lang={lang} />
 
   <ContactCta lang={lang} heading={labels.other} body={labels.otherBody} />
 </Base>
