@@ -22,4 +22,11 @@ export const site = {
   email: 'hello@iank.nl',
   /** Scheduling page for the free intro call. */
   bookingUrl: 'https://cal.com/ian-ketelings-icss/20min',
+  /** Intake form backend (workers/intake). Both values are public; see workers/intake/README.md. */
+  intake: {
+    /** URL of the deployed intake Worker, without a trailing slash. */
+    endpoint: '[TODO: intake Worker URL]',
+    /** Cloudflare Turnstile site key (not the secret). */
+    turnstileSiteKey: '[TODO: Turnstile site key]',
+  },
 };

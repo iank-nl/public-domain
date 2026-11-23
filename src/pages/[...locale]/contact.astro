@@ -11,6 +11,11 @@ export function getStaticPaths() {
 const lang = Astro.props.lang as Lang;
 const t = dictionaries[lang];
 const c = t.contact;
+const errorStates = ['error', 'invalid', 'verification', 'rateLimited', 'expired'] as const;
+
+if (site.intake.endpoint.startsWith('[TODO') || site.intake.turnstileSiteKey.startsWith('[TODO')) {
+  console.warn('[contact] site.intake is not configured yet, so the intake form cannot send. See workers/intake/README.md.');
+}
 ---
 
 <Base lang={lang} path="/contact/" title={c.seoTitle} description={c.description}>
@@ -35,22 +40,20 @@ const c = t.contact;
         <p class="note">{c.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
 
-      <!-- Without JavaScript the browser falls back to a plain mailto submission. -->
-      <form
-        class="intake"
-        action={`mailto:${site.email}`}
-        method="post"
-        enctype="text/plain"
-        data-email={site.email}
-        data-subject={c.subject}
-      >
+      <form class="intake" data-endpoint={site.intake.endpoint} data-sending={c.sending}>
+        <input type="hidden" name="lang" value={lang} />
+        <input type="hidden" name="t" />
         <label>
           <span>{c.fields.name}</span>
-          <input name="name" autocomplete="name" required />
+          <input name="name" autocomplete="name" maxlength="100" required />
+        </label>
+        <label>
+          <span>{c.fields.email}</span>
+          <input name="email" type="email" autocomplete="email" maxlength="200" required />
         </label>
         <label>
           <span>{c.fields.company}</span>
-          <input name="company" autocomplete="organization" />
+          <input name="company" autocomplete="organization" maxlength="200" />
         </label>
         <label>
           <span>{c.fields.need}</span>
@@ -61,50 +64,147 @@ const c = t.contact;
         </label>
         <label>
           <span>{c.fields.details}</span>
-          <textarea name="details" rows="5" required></textarea>
+          <textarea name="details" rows="5" maxlength="4000" required></textarea>
         </label>
         <label>
           <span>{c.fields.stack}</span>
-          <input name="stack" />
+          <input name="stack" maxlength="200" />
         </label>
         <div class="pair">
           <label>
             <span>{c.fields.timeline}</span>
-            <select name="timeline"><option value="">{c.choose}</option>{c.timelines.map((option) => <option>{option}</option>)}</select>
+            <select name="timeline">
+              <option value="">{c.choose}</option>
+              {c.timelines.map((option) => <option value={option.value}>{option.label}</option>)}
+            </select>
           </label>
           <label>
             <span>{c.fields.budget}</span>
-            <select name="budget"><option value="">{c.choose}</option>{c.budgets.map((option) => <option>{option}</option>)}</select>
+            <select name="budget">
+              <option value="">{c.choose}</option>
+              {c.budgets.map((option) => <option value={option.value}>{option.label}</option>)}
+            </select>
           </label>
         </div>
-        <button class="btn" type="submit">{c.submit}</button>
+
+        <!-- Honeypot: off-screen and hidden from assistive tech. Only bots fill it in. -->
+        <div class="hp" aria-hidden="true">
+          <label>
+            <span>{c.fields.honeypot}</span>
+            <input name="referral_code" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        <div
+          class="cf-turnstile"
+          data-sitekey={site.intake.turnstileSiteKey}
+          data-language={lang}
+          data-theme="light"
+          data-size="flexible"
+        >
+        </div>
+        <p class="privacy">{c.privacy}</p>
+        <!-- The script enables this. Without JavaScript there is no spam check, so the form can't be sent. -->
+        <button class="btn" type="submit" disabled>{c.submit}</button>
+        <noscript>
+          <p class="message">{c.noscript} {c.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+        </noscript>
+        <div class="status" aria-live="polite">
+          <p class="message" data-status="success" hidden>{c.status.success}</p>
+          {
+            errorStates.map((state) => (
+              <p class="message" data-status={state} hidden>
+                {c.status[state]} {c.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a>.
+              </p>
+            ))
+          }
+        </div>
       </form>
     </div>
   </section>
 </Base>
 
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 <script>
+  declare global {
+    interface Window {
+      turnstile?: { reset: () => void };
+    }
+  }
+
+  // The Worker silently drops submissions made within 3 seconds of issuing the timestamp.
+  const MIN_WAIT_MS = 3500;
+  const ERRORS: Record<string, string> = {
+    verification: 'verification',
+    invalid: 'invalid',
+    rate_limited: 'rateLimited',
+    expired: 'expired',
+  };
+
   const form = document.querySelector<HTMLFormElement>('form.intake');
 
   if (form) {
+    const endpoint = (form.dataset.endpoint ?? '').replace(/\/$/, '');
     const need = form.elements.namedItem('need') as HTMLSelectElement;
+    const stamp = form.elements.namedItem('t') as HTMLInputElement;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const label = button.textContent;
+    const messages = form.querySelectorAll<HTMLElement>('[data-status]');
+    let stampedAt = 0;
+
     // Offer pages link here with ?offer=<slug>, so the right option is already picked.
     const requested = new URLSearchParams(location.search).get('offer');
     if (requested && [...need.options].some((option) => option.value === requested)) need.value = requested;
 
-    form.addEventListener('submit', (event) => {
+    const show = (state: string | null) =>
+      messages.forEach((message) => (message.hidden = message.dataset.status !== state));
+
+    const fetchStamp = async () => {
+      try {
+        const response = await fetch(`${endpoint}/token`);
+        if (!response.ok) return;
+        stamp.value = (await response.json()).token;
+        stampedAt = Date.now();
+      } catch {
+        // Worker unreachable. The submit fails as well and shows the email fallback.
+      }
+    };
+
+    fetchStamp();
+    button.disabled = false;
+
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      const lines = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]')]
-        .map((field) => {
-          const label = field.closest('label')?.querySelector('span')?.textContent ?? field.name;
-          // Unanswered selects have an empty value and are left out of the email.
-          const value = field instanceof HTMLSelectElement ? field.value && field.selectedOptions[0]?.text : field.value.trim();
-          return value ? `${label}:\n${value}` : '';
-        })
-        .filter(Boolean);
-      const chosen = need.selectedOptions[0]?.text ?? '';
-      const subject = `${form.dataset.subject}: ${chosen}`;
-      location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n\n'))}`;
+      show(null);
+      button.disabled = true;
+      button.textContent = form.dataset.sending ?? label;
+
+      let state = 'error';
+      try {
+        if (!stamp.value) await fetchStamp();
+        const wait = MIN_WAIT_MS - (Date.now() - stampedAt);
+        if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
+
+        const data = new FormData(form);
+        if (!data.get('cf-turnstile-response')) {
+          state = 'verification';
+        } else {
+          const response = await fetch(endpoint, { method: 'POST', body: data });
+          const result = await response.json().catch(() => ({}));
+          state = response.ok && result.ok ? 'success' : (ERRORS[result.error] ?? 'error');
+        }
+      } catch {
+        // Network error: keep the generic error, which includes the email fallback.
+      }
+
+      // Turnstile tokens are single-use, and a fresh timestamp keeps the next attempt valid.
+      window.turnstile?.reset();
+      if (state === 'success') form.reset();
+      if (state === 'success' || state === 'expired') await fetchStamp();
+      button.disabled = false;
+      button.textContent = label;
+      show(state);
     });
   }
 </script>
@@ -155,6 +255,7 @@ const c = t.contact;
   }
 
   .intake {
+    position: relative;
     display: grid;
     gap: 1.1rem;
   }
@@ -196,12 +297,43 @@ const c = t.contact;
     gap: 1.1rem;
   }
 
+  /* Off-screen rather than display:none, so bots that skip hidden fields still fill it in. */
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .privacy {
+    color: var(--ink-2);
+    font-size: 0.9rem;
+    max-width: 36em;
+  }
+
   .intake .btn {
     justify-self: start;
     border: 0;
     cursor: pointer;
     font: inherit;
     font-weight: 600;
+  }
+
+  .intake .btn:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  .message {
+    max-width: 36em;
+    padding: 0.75em 1em;
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, var(--paper));
+  }
+
+  .message[hidden] {
+    display: none;
   }
 
   @media (max-width: 760px) {

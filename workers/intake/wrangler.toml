@@ -1,0 +1,32 @@
+# Intake form backend for iank.nl. See README.md for setup.
+name = "iank-intake"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+[vars]
+# Origins allowed to post. Add http://localhost:4321 for `npm run dev` of the site.
+ALLOWED_ORIGINS = "https://iank.nl,http://localhost:4321"
+# The only address this Worker ever sends to. With the send_email binding it must be a
+# verified destination address in Email Routing, and match destination_address below.
+TO_EMAIL = "[TODO: your verified inbox address]"
+# Sender. Any address on iank.nl works for Email Routing; for Resend, the domain must be verified there.
+FROM_EMAIL = "[TODO: sender address on iank.nl]"
+
+# Secrets (set with `wrangler secret put`, never in this file):
+#   TURNSTILE_SECRET   Turnstile secret key
+#   FORM_SIGNING_KEY   long random string
+#   RESEND_API_KEY     optional; when set, mail goes through Resend instead of send_email
+
+# Rate limiting: a counter per hashed IP per hour, expired by KV TTL.
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "[TODO: KV namespace id]"
+
+# Cloudflare Email Routing. destination_address locks the binding to one recipient,
+# so even a bug in the code cannot send mail anywhere else.
+[[send_email]]
+name = "SEND_EMAIL"
+destination_address = "[TODO: your verified inbox address]"
+
+[observability]
+enabled = true

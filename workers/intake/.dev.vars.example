@@ -1,0 +1,7 @@
+# Copy to .dev.vars for `wrangler dev`. These are Cloudflare's Turnstile test keys,
+# which always pass; use them with site key 1x00000000000000000000AA.
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+FORM_SIGNING_KEY=local-dev-only-change-me
+TO_EMAIL=you@example.com
+FROM_EMAIL=intake@iank.nl
+# RESEND_API_KEY=re_...
