@@ -1,16 +1,33 @@
 import type { OfferSlug } from './offers';
 
-/** Content of the service pages under /work/<slug>/. `group` points at the matching list in work.selected. */
+/**
+ * Content of the service pages under /work/<slug>/. `group` points at the matching list in work.selected.
+ * A page without a group shows its proof (articles and the Relic Sweeper case) instead.
+ */
 export const serviceLabels = {
-  en: { help: 'What I can help with', signs: 'You might need this when', past: 'Past work', back: 'Work' },
-  nl: { help: 'Waarmee ik kan helpen', signs: 'Dit is iets voor jou als', past: 'Eerder werk', back: 'Werk' },
+  en: { help: 'What I can help with', signs: 'You might need this when', past: 'Past work', proof: 'In practice', back: 'Work' },
+  nl: { help: 'Waarmee ik kan helpen', signs: 'Dit is iets voor jou als', past: 'Eerder werk', proof: 'In de praktijk', back: 'Werk' },
 };
 
-export const servicePages = {
+export interface ServicePage {
+  slug: string;
+  offers: OfferSlug[];
+  group?: number;
+  tone: string;
+  name: string;
+  seoTitle: string;
+  description: string;
+  heading: string;
+  lede: string;
+  help: { title: string; body: string }[];
+  signs: string[];
+}
+
+export const servicePages: Record<'en' | 'nl', ServicePage[]> = {
   en: [
     {
       slug: 'software',
-      offers: ['takeover', 'security-check'] as OfferSlug[],
+      offers: ['takeover', 'security-check'],
       group: 0,
       tone: 'tone-1',
       name: 'Software development',
@@ -34,7 +51,7 @@ export const servicePages = {
     },
     {
       slug: 'servers',
-      offers: ['care', 'aws-review'] as OfferSlug[],
+      offers: ['care', 'aws-review'],
       group: 1,
       tone: 'tone-2',
       name: 'Server management & cloud',
@@ -59,7 +76,7 @@ export const servicePages = {
     },
     {
       slug: 'security',
-      offers: ['security-check', 'care'] as OfferSlug[],
+      offers: ['security-check', 'care'],
       group: 2,
       tone: 'tone-3',
       name: 'Cyber security',
@@ -81,11 +98,35 @@ export const servicePages = {
         'Nobody has looked at the security of your application in a while.',
       ],
     },
+    {
+      slug: 'ai',
+      offers: ['ai-sprint'],
+      tone: 'tone-4',
+      name: 'AI & apps',
+      seoTitle: 'Practical AI features for existing software, freelance',
+      description:
+        'Freelance AI integration in the Netherlands: practical AI features added to your existing software, such as classification, summarisation, smart search and report generation. Only when it is the right tool.',
+      heading: 'Practical AI, inside the software you already have.',
+      lede: 'I add AI to existing applications where it saves real time: usually one small, well-guarded model step inside an otherwise ordinary process. And when plain code is the better tool, I will tell you.',
+      help: [
+        { title: 'Classification', body: 'Sorting tickets, emails or documents into the right category, with a person checking the cases the model is unsure about.' },
+        { title: 'Summarisation', body: 'Long threads, reports or call notes turned into short summaries that people actually read.' },
+        { title: 'Smart search', body: 'Search that understands what people mean, across your own documents and data.' },
+        { title: 'Report generation', body: 'Readable reports from your own data, with the figures calculated by code and the wording drafted by the model.' },
+        { title: 'Agent-assisted development', body: 'Coding agents such as Claude Code, with written tasks, tests and review as guardrails, to ship faster without lowering the bar.' },
+      ],
+      signs: [
+        'Someone spends hours every month copying information out of documents or emails.',
+        'Your team reads through piles of text to find the few items that matter.',
+        'People cannot find things in your own system, even though the information is there.',
+        'You want to use AI, but only where it pays off and without putting customer data at risk.',
+      ],
+    },
   ],
   nl: [
     {
       slug: 'software',
-      offers: ['takeover', 'security-check'] as OfferSlug[],
+      offers: ['takeover', 'security-check'],
       group: 0,
       tone: 'tone-1',
       name: 'Softwareontwikkeling',
@@ -109,7 +150,7 @@ export const servicePages = {
     },
     {
       slug: 'servers',
-      offers: ['care', 'aws-review'] as OfferSlug[],
+      offers: ['care', 'aws-review'],
       group: 1,
       tone: 'tone-2',
       name: 'Serverbeheer & cloud',
@@ -134,7 +175,7 @@ export const servicePages = {
     },
     {
       slug: 'security',
-      offers: ['security-check', 'care'] as OfferSlug[],
+      offers: ['security-check', 'care'],
       group: 2,
       tone: 'tone-3',
       name: 'Cybersecurity',
@@ -154,6 +195,30 @@ export const servicePages = {
         'Je verwerkt persoonsgegevens of andere gevoelige data.',
         'Je gaat binnenkort live en wilt eerst een tweede paar ogen.',
         'Niemand heeft al een tijd naar de beveiliging van je applicatie gekeken.',
+      ],
+    },
+    {
+      slug: 'ai',
+      offers: ['ai-sprint'],
+      tone: 'tone-4',
+      name: 'AI & apps',
+      seoTitle: 'Praktische AI-functies in bestaande software, freelance',
+      description:
+        'Freelance AI-integratie in Nederland: praktische AI-functies in je bestaande software, zoals classificatie, samenvatten, slim zoeken en rapportages maken. Alleen als het het juiste gereedschap is.',
+      heading: 'Praktische AI, in de software die je al hebt.',
+      lede: 'Ik voeg AI toe aan bestaande applicaties waar het echt tijd bespaart: meestal één kleine, goed bewaakte modelstap in een verder gewoon proces. En als gewone code beter werkt, zeg ik dat ook.',
+      help: [
+        { title: 'Classificatie', body: 'Tickets, e-mails of documenten in de juiste categorie, waarbij een mens de twijfelgevallen van het model controleert.' },
+        { title: 'Samenvatten', body: 'Lange threads, rapporten of gespreksnotities omgezet in korte samenvattingen die mensen echt lezen.' },
+        { title: 'Slim zoeken', body: 'Zoeken dat begrijpt wat mensen bedoelen, in je eigen documenten en data.' },
+        { title: 'Rapportages maken', body: 'Leesbare rapportages uit je eigen data, waarbij code de cijfers berekent en het model de tekst opstelt.' },
+        { title: 'Ontwikkelen met agents', body: 'Coding agents zoals Claude Code, met geschreven taken, tests en reviews als vangrails, zodat je sneller oplevert zonder dat de lat lager komt te liggen.' },
+      ],
+      signs: [
+        'Iemand is elke maand uren bezig met informatie uit documenten of e-mails overtikken.',
+        'Je team leest stapels tekst door om de paar dingen te vinden die ertoe doen.',
+        'Mensen vinden dingen niet terug in je eigen systeem, terwijl de informatie er wel in staat.',
+        'Je wilt AI inzetten, maar alleen waar het iets oplevert en zonder klantdata in gevaar te brengen.',
       ],
     },
   ],

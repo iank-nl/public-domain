@@ -2,8 +2,8 @@
 import Base from '../../../layouts/Base.astro';
 import ContactCta from '../../../components/ContactCta.astro';
 import { site } from '../../../site.config';
-import { dictionaries, href, type Lang } from '../../../i18n';
-import { serviceLabels, servicePages } from '../../../i18n/services';
+import { dictionaries, getArticles, href, slugOf, type Lang } from '../../../i18n';
+import { serviceLabels, servicePages, type ServicePage } from '../../../i18n/services';
 import { offerBySlug, offerLabels } from '../../../i18n/offers';
 
 export function getStaticPaths() {
@@ -15,11 +15,13 @@ export function getStaticPaths() {
   );
 }
 
-type Page = (typeof servicePages)['en'][number];
-const { lang, page } = Astro.props as { lang: Lang; page: Page };
+const { lang, page } = Astro.props as { lang: Lang; page: ServicePage };
 const t = dictionaries[lang];
 const labels = serviceLabels[lang];
-const projects = t.work.selected[page.group].items;
+const projects = page.group === undefined ? [] : t.work.selected[page.group].items;
+// Pages without client projects (AI) show the AI articles and the Relic Sweeper case as proof.
+const proof =
+  page.group === undefined ? (await getArticles(lang)).filter((article) => article.data.track !== 'software') : [];
 const path = `/work/${page.slug}/`;
 const offerText = offerLabels[lang];
 const related = page.offers.map((slug) => offerBySlug(lang, slug));
@@ -58,12 +60,32 @@ const schema = {
         <span class="tag section-tag">{labels.signs}</span>
         <ul class="signs">{page.signs.map((sign) => <li>{sign}</li>)}</ul>
       </div>
-      <div>
-        <span class="tag section-tag">{labels.past}</span>
-        <ul class="past">
-          {projects.map((project) => <li><h3>{project.title}</h3><p>{project.body}</p></li>)}
-        </ul>
-      </div>
+      {
+        page.group === undefined ? (
+          <div>
+            <span class="tag section-tag">{labels.proof}</span>
+            <ul class="past">
+              <li>
+                <h3><a class="link arrow" href={href(lang, '/work/relic-sweeper/')}>{t.relic.heading}</a></h3>
+                <p>{t.layers.finds.appsBody}</p>
+              </li>
+              {proof.map((article) => (
+                <li>
+                  <h3><a class="link arrow" href={href(lang, `/knowledge/${slugOf(article)}/`)}>{article.data.title}</a></h3>
+                  <p>{article.data.description}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div>
+            <span class="tag section-tag">{labels.past}</span>
+            <ul class="past">
+              {projects.map((project) => <li><h3>{project.title}</h3><p>{project.body}</p></li>)}
+            </ul>
+          </div>
+        )
+      }
     </div>
   </section>
 
