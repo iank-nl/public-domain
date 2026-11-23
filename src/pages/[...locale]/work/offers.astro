@@ -1,6 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import { site } from '../../../site.config';
+import ContactCta from '../../../components/ContactCta.astro';
 import { dictionaries, href, localePaths, type Lang } from '../../../i18n';
 import { offerLabels, offers } from '../../../i18n/offers';
 
@@ -34,7 +34,7 @@ const list = offers[lang];
               <h2>{offer.name}</h2>
               <p class="summary">{offer.summary}</p>
               <p class="tag price">{offer.price ?? labels.price}</p>
-              <a class="btn" href={`mailto:${site.email}?subject=${encodeURIComponent(`${labels.cta}: ${offer.name}`)}`}>
+              <a class="btn" href={href(lang, `/contact/?offer=${offer.slug}#intake`)}>
                 {labels.cta}
               </a>
             </div>
@@ -48,13 +48,7 @@ const list = offers[lang];
     }
   </section>
 
-  <section class="section">
-    <div class="wrap ask">
-      <h2>{labels.other}</h2>
-      <p>{labels.otherBody}</p>
-      <a class="btn" href={`mailto:${site.email}`}>{t.nav.contact}</a>
-    </div>
-  </section>
+  <ContactCta lang={lang} heading={labels.other} body={labels.otherBody} />
 </Base>
 
 <style>
@@ -127,15 +121,6 @@ const list = offers[lang];
   .includes li {
     padding-block: 0.6rem;
     border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
-  }
-
-  .ask h2 {
-    font-size: clamp(2rem, 4.5vw, 3.4rem);
-    margin-bottom: 0.4em;
-  }
-
-  .ask .btn {
-    margin-top: 1.5rem;
   }
 
   @media (max-width: 760px) {

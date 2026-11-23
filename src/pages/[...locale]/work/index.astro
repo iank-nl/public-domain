@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
+import ContactCta from '../../../components/ContactCta.astro';
 import icon from '../../../assets/relic-sweeper/icon.png';
-import { site } from '../../../site.config';
 import { dictionaries, href, localePaths, type Lang } from '../../../i18n';
 import { servicePages } from '../../../i18n/services';
 import { offerLabels, offers } from '../../../i18n/offers';
@@ -104,13 +104,7 @@ const offerText = offerLabels[lang];
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap ask">
-      <h2>{t.work.cta}</h2>
-      <p>{t.work.ctaBody}</p>
-      <a class="btn" href={`mailto:${site.email}`}>{t.nav.contact}</a>
-    </div>
-  </section>
+  <ContactCta lang={lang} />
 </Base>
 
 <style>
@@ -252,15 +246,6 @@ const offerText = offerLabels[lang];
 
   .case:hover h2 {
     color: var(--accent);
-  }
-
-  .ask h2 {
-    font-size: clamp(2rem, 4.5vw, 3.4rem);
-    margin-bottom: 0.4em;
-  }
-
-  .ask .btn {
-    margin-top: 1.5rem;
   }
 
   @media (max-width: 860px) {

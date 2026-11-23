@@ -1,0 +1,195 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../site.config';
+import { dictionaries, localePaths, type Lang } from '../../i18n';
+import { offers } from '../../i18n/offers';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = Astro.props.lang as Lang;
+const t = dictionaries[lang];
+const c = t.contact;
+---
+
+<Base lang={lang} path="/contact/" title={c.seoTitle} description={c.description}>
+  <section class="wrap page-head">
+    <span class="tag">{c.title}</span>
+    <h1>{c.heading}</h1>
+    <p class="lede">{c.lede}</p>
+    <div class="actions">
+      <a class="btn" href={site.bookingUrl}>{c.book}</a>
+      <a class="link arrow" href="#intake">{c.intake}</a>
+    </div>
+    <p class="note">{c.reply}</p>
+  </section>
+
+  <section class="section" id="intake">
+    <div class="wrap columns">
+      <div>
+        <span class="tag section-tag">{c.formLabel}</span>
+        <h2>{c.intake}</h2>
+        <p class="note">{c.formNote}</p>
+        <p class="note">{c.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+
+      <!-- Without JavaScript the browser falls back to a plain mailto submission. -->
+      <form
+        class="intake"
+        action={`mailto:${site.email}`}
+        method="post"
+        enctype="text/plain"
+        data-email={site.email}
+        data-subject={c.subject}
+      >
+        <label>
+          <span>{c.fields.name}</span>
+          <input name="name" autocomplete="name" required />
+        </label>
+        <label>
+          <span>{c.fields.company}</span>
+          <input name="company" autocomplete="organization" />
+        </label>
+        <label>
+          <span>{c.fields.need}</span>
+          <select name="need" required>
+            {offers[lang].map((offer) => <option value={offer.slug}>{offer.name}</option>)}
+            <option value="other" selected>{c.fields.needOther}</option>
+          </select>
+        </label>
+        <label>
+          <span>{c.fields.details}</span>
+          <textarea name="details" rows="5" required></textarea>
+        </label>
+        <label>
+          <span>{c.fields.stack}</span>
+          <input name="stack" />
+        </label>
+        <div class="pair">
+          <label>
+            <span>{c.fields.timeline}</span>
+            <select name="timeline">{c.timelines.map((option) => <option>{option}</option>)}</select>
+          </label>
+          <label>
+            <span>{c.fields.budget}</span>
+            <select name="budget">{c.budgets.map((option) => <option>{option}</option>)}</select>
+          </label>
+        </div>
+        <button class="btn" type="submit">{c.submit}</button>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('form.intake');
+
+  if (form) {
+    const need = form.elements.namedItem('need') as HTMLSelectElement;
+    // Offer pages link here with ?offer=<slug>, so the right option is already picked.
+    const requested = new URLSearchParams(location.search).get('offer');
+    if (requested && [...need.options].some((option) => option.value === requested)) need.value = requested;
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const lines = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]')]
+        .map((field) => {
+          const label = field.closest('label')?.querySelector('span')?.textContent ?? field.name;
+          const value = field instanceof HTMLSelectElement ? field.selectedOptions[0]?.text : field.value.trim();
+          return value ? `${label}:\n${value}` : '';
+        })
+        .filter(Boolean);
+      const chosen = need.selectedOptions[0]?.text ?? '';
+      const subject = `${form.dataset.subject}: ${chosen}`;
+      location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n\n'))}`;
+    });
+  }
+</script>
+
+<style>
+  .page-head h1 {
+    max-width: 16ch;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 2rem;
+  }
+
+  .note {
+    margin-top: 1rem;
+    color: var(--ink-2);
+    max-width: 32em;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 2rem clamp(2rem, 6vw, 6rem);
+  }
+
+  .columns h2 {
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+  }
+
+  .intake {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .intake label {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .intake label > span {
+    font-weight: 600;
+    font-size: 0.97rem;
+  }
+
+  .intake input,
+  .intake select,
+  .intake textarea {
+    font: inherit;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid color-mix(in srgb, var(--ink) 40%, transparent);
+    border-radius: 0;
+    padding: 0.65em 0.75em;
+    width: 100%;
+  }
+
+  .intake textarea {
+    resize: vertical;
+  }
+
+  .intake :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem;
+  }
+
+  .intake .btn {
+    justify-self: start;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+  }
+
+  @media (max-width: 760px) {
+    .columns,
+    .pair {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

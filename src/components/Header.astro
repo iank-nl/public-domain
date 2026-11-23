@@ -9,6 +9,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = dictionaries[lang].nav;
+const c = dictionaries[lang].contact;
 ---
 
 <header class="wrap bar">
@@ -20,6 +21,7 @@ const t = dictionaries[lang].nav;
     <a href={href(lang, '/work/')}>{t.work}</a>
     <a href={href(lang, '/about/')}>{t.about}</a>
     <a href={href(lang, '/knowledge/')}>{t.knowledge}</a>
+    <a class="btn book" href={site.bookingUrl}>{c.bookShort}</a>
   </nav>
 </header>
 
@@ -45,7 +47,10 @@ const t = dictionaries[lang].nav;
 
   nav {
     display: flex;
-    gap: clamp(0.9rem, 3vw, 2.25rem);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem clamp(0.9rem, 3vw, 2.25rem);
   }
 
   nav a {
@@ -54,7 +59,27 @@ const t = dictionaries[lang].nav;
     font-size: 1rem;
   }
 
-  nav a:hover {
+  nav a:not(.btn):hover {
     color: var(--accent);
+  }
+
+  nav .book {
+    padding: 0.6em 1em;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 560px) {
+    .bar {
+      flex-wrap: wrap;
+    }
+
+    nav {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    nav .book {
+      margin-left: auto;
+    }
   }
 </style>

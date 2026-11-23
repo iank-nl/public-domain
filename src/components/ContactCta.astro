@@ -1,0 +1,50 @@
+---
+import { site } from '../site.config';
+import { dictionaries, href, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  heading?: string;
+  body?: string;
+}
+
+const { lang, heading, body } = Astro.props;
+const t = dictionaries[lang];
+---
+
+<section class="section">
+  <div class="wrap ask">
+    <h2>{heading ?? t.work.cta}</h2>
+    <p>{body ?? t.work.ctaBody}</p>
+    <div class="actions">
+      <a class="btn" href={site.bookingUrl}>{t.contact.book}</a>
+      <a class="link arrow" href={href(lang, '/contact/#intake')}>{t.contact.intake}</a>
+    </div>
+    <p class="mail">{t.contact.orEmail} <a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
+  </div>
+</section>
+
+<style>
+  .ask h2 {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    margin-bottom: 0.4em;
+  }
+
+  .ask > p {
+    max-width: 38em;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .mail {
+    margin-top: 1.25rem;
+    color: var(--ink-2);
+    font-size: 0.97rem;
+  }
+</style>

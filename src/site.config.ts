@@ -14,4 +14,6 @@ export const site = {
   kvk: '86493329',
   url: 'https://iank.nl',
   email: 'hello@iank.nl',
+  /** Scheduling page for the free intro call. [TODO: Cal.com/Calendly URL] */
+  bookingUrl: '#todo-booking-url',
 };

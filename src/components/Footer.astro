@@ -30,6 +30,10 @@ const year = new Date().getFullYear();
   <div class="wrap inner">
     <h2>{t.footer.heading}</h2>
     <p>{t.footer.body}</p>
+    <div class="actions">
+      <a class="btn" href={site.bookingUrl}>{t.contact.book}</a>
+      <a class="link arrow" href={href(lang, '/contact/#intake')}>{t.contact.intake}</a>
+    </div>
     <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
     <div class="base">
       <span>&copy; {year} {site.legalName}. KVK {site.kvk}. {t.footer.rights}</span>
@@ -89,6 +93,24 @@ const year = new Date().getFullYear();
     font-size: clamp(2.2rem, 6vw, 4.6rem);
     max-width: 15ch;
     margin-bottom: 0.4em;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .actions .btn {
+    background: var(--magma-ink);
+    color: var(--magma);
+  }
+
+  .actions .btn:hover {
+    background: var(--paper);
+    color: var(--magma-ink);
   }
 
   .mail {
