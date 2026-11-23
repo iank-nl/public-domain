@@ -12,6 +12,12 @@ export const site = {
   legalName: 'Ian Cyber Security & Software',
   /** Dutch Chamber of Commerce number. */
   kvk: '86493329',
+  /** Dutch VAT number (btw-id). [TODO] */
+  vatId: '[TODO: BTW-id]',
+  /** Where the business is based, shown in the footer. [TODO] */
+  region: '[TODO: region]',
+  /** Professional liability insurance (beroepsaansprakelijkheid). Set to false to hide the line. [TODO: confirm] */
+  insured: true,
   url: 'https://iank.nl',
   email: 'hello@iank.nl',
   /** Scheduling page for the free intro call. [TODO: Cal.com/Calendly URL] */

@@ -34,10 +34,18 @@ const year = new Date().getFullYear();
     <div class="actions">
       <a class="btn" href={site.bookingUrl}>{t.contact.book}</a>
       <a class="link arrow" href={href(lang, '/contact/#intake')}>{t.contact.intake}</a>
+      <a class="link arrow" href={site.linkedin} rel="me noopener">{t.footer.linkedin}</a>
     </div>
     <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
+    <ul class="trust">
+      <li>{site.legalName}</li>
+      <li>KVK {site.kvk}</li>
+      <li>{t.footer.vat} {site.vatId}</li>
+      <li>{t.footer.based} {site.region}</li>
+      {site.insured && <li>{t.footer.insured}</li>}
+    </ul>
     <div class="base">
-      <span>&copy; {year} {site.legalName}. KVK {site.kvk}. {t.footer.rights}</span>
+      <span>&copy; {year} {site.legalName}. {t.footer.rights}</span>
       <span class="links">
         <a href={site.linkedin} rel="me noopener">LinkedIn</a>
         <a href="/apps/privacy-policy/relic-sweeper.txt">{t.footer.privacy}</a>
@@ -134,12 +142,24 @@ const year = new Date().getFullYear();
     opacity: 0.7;
   }
 
+  .trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    list-style: none;
+    margin: clamp(40px, 7vw, 88px) 0 0;
+    padding: 1rem 0 0;
+    border-top: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+  }
+
   .base {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.5rem 2rem;
-    margin-top: clamp(40px, 7vw, 88px);
+    margin-top: 1rem;
     font-size: 0.9rem;
   }
 
