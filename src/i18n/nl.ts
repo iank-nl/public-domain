@@ -5,10 +5,10 @@ export const nl: typeof en = {
   availability: 'Beschikbaar voor projecten en doorlopende opdrachten, zo’n 10 à 15 uur per week, op afstand (NL/BE/EU).',
   meta: {
     description:
-      'Freelance softwareontwikkeling, serverbeheer en cybersecurity. Webapplicaties en API’s, Linux en AWS, securityreviews en hardening.',
+      'Laravel-developer inhuren voor mkb en bureaus: security-audit van je webapplicatie, serverbeheer uitbesteden en grip op je AWS-kosten. Plan een gratis kennismaking.',
   },
   home: {
-    title: 'Freelance softwareontwikkelaar en cybersecurity-specialist',
+    title: 'Laravel-developer inhuren, serverbeheer en security-audits',
     eyebrow: 'Software, servers & cybersecurity',
     hero: 'Software, tot op de bodem veilig.',
     lede: 'Ik ben Ian. Ik bouw software, beheer de servers waarop die draait en zorg dat beide veilig zijn. Eén engineer voor het hele traject, van de eerste regel code tot de productieserver.',
@@ -86,7 +86,9 @@ export const nl: typeof en = {
   },
   work: {
     title: 'Werk',
-    seoTitle: 'Softwareontwikkeling, serverbeheer en cybersecurity',
+    seoTitle: 'Freelance Laravel-developer: software, serverbeheer en security',
+    description:
+      'Huur een freelance Laravel/PHP-developer in voor webapplicaties en API’s, Linux- en AWS-serverbeheer en security-audits. Vaste pakketten en geanonimiseerde case studies.',
     heading: 'Software, servers en security, van één engineer.',
     lede: 'Ik werk freelance met teams die iets gebouwd willen hebben, draaiend willen houden of veiliger willen maken. Vaak alle drie, en dat gaat makkelijker als één persoon het hele plaatje ziet.',
     servicesLabel: 'Wat ik doe',
@@ -204,7 +206,9 @@ export const nl: typeof en = {
   },
   about: {
     title: 'Over mij',
-    seoTitle: 'Over Ian Ketelings, software- en security-engineer',
+    seoTitle: 'Over Ian Ketelings, freelance Laravel- en security-engineer',
+    description:
+      'Ian Ketelings is freelance software engineer uit Nederland, voor Laravel/PHP-ontwikkeling, Linux- en AWS-serverbeheer en cybersecurity.',
     heading: 'Hoi, ik ben Ian.',
     paragraphs: [
       'Ik ben Ian Ketelings, software engineer uit Nederland, en ik werk aan ontwikkeling, serverbeheer en cybersecurity.',

@@ -10,6 +10,9 @@ export const offerLabels = {
   en: {
     tag: 'Offers',
     title: 'Fixed-scope offers',
+    seoTitle: 'Laravel security audit, AWS cost optimisation and server care',
+    description:
+      'Fixed-scope offers from a freelance Laravel developer: Laravel/PHP security audit, AWS cost and reliability review, server care retainer, AI feature sprint and code takeover.',
     heading: 'A clear scope and a quote, before anything starts.',
     lede: 'Five ways to work together where you know exactly what you get. You receive a fixed quote up front, so there are no open-ended hours.',
     includes: 'What’s included',
@@ -25,6 +28,9 @@ export const offerLabels = {
   nl: {
     tag: 'Aanbod',
     title: 'Vaste pakketten',
+    seoTitle: 'Security-audit webapplicatie, serverbeheer uitbesteden en meer',
+    description:
+      'Vaste pakketten van een freelance Laravel-developer: security-audit van je Laravel/PHP-webapplicatie, AWS-kostenreview, serverbeheer uitbesteden, AI-feature-sprint en code overnemen.',
     heading: 'Een duidelijke afbakening en een offerte, voordat er iets begint.',
     lede: 'Vijf manieren om samen te werken waarbij je precies weet wat je krijgt. Je ontvangt vooraf een vaste offerte, dus geen open eind aan uren.',
     includes: 'Wat je krijgt',

@@ -7,6 +7,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../site.config';
 import { dictionaries, href, type Lang } from '../i18n';
+import { offers } from '../i18n/offers';
 
 interface Props {
   lang: Lang;
@@ -28,6 +29,7 @@ const pageTitle = `${title} · ${site.name}`;
 const desc = description ?? t.meta.description;
 const canonical = new URL(path ? href(lang, path) : Astro.url.pathname, site.url).href;
 const ogImage = new URL('/og.png', site.url).href;
+const isSet = (value: string) => !value.includes('TODO');
 const structuredData = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
@@ -39,19 +41,49 @@ const structuredData = JSON.stringify({
       url: site.url,
       email: site.email,
       image: ogImage,
-      description: dictionaries.en.meta.description,
-      address: { '@type': 'PostalAddress', addressCountry: 'NL' },
-      areaServed: { '@type': 'Country', name: 'Netherlands' },
+      description: dictionaries[lang].meta.description,
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'NL',
+        ...(isSet(site.region) ? { addressRegion: site.region } : {}),
+      },
+      areaServed: [
+        { '@type': 'Country', name: 'Netherlands' },
+        { '@type': 'Country', name: 'Belgium' },
+        { '@type': 'Place', name: 'European Union' },
+      ],
       identifier: { '@type': 'PropertyValue', propertyID: 'KVK', value: site.kvk },
+      ...(isSet(site.vatId) ? { vatID: site.vatId } : {}),
+      sameAs: [site.linkedin],
       founder: { '@id': `${site.url}/#owner` },
-      knowsAbout: ['Software development', 'Linux server management', 'Amazon Web Services', 'Cyber security', 'Artificial intelligence'],
+      knowsAbout: [
+        'Laravel',
+        'PHP',
+        'Web application security',
+        'Linux server management',
+        'Amazon Web Services',
+        'AWS cost optimisation',
+        'Cyber security',
+        'Artificial intelligence',
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: lang === 'nl' ? 'Vaste pakketten' : 'Fixed-scope offers',
+        url: new URL(href(lang, '/work/offers/'), site.url).href,
+        itemListElement: offers[lang].map((offer) => ({
+          '@type': 'Offer',
+          url: new URL(href(lang, `/work/offers/#${offer.slug}`), site.url).href,
+          itemOffered: { '@type': 'Service', name: offer.name, description: offer.summary },
+        })),
+      },
     },
     {
       '@type': 'Person',
       '@id': `${site.url}/#owner`,
       name: site.owner,
       url: `${site.url}/about/`,
-      jobTitle: 'Software and security engineer',
+      jobTitle: 'Freelance Laravel developer and security engineer',
+      knowsLanguage: ['nl', 'en'],
       sameAs: [site.linkedin],
       worksFor: { '@id': `${site.url}/#business` },
     },

@@ -15,7 +15,7 @@ const labels = offerLabels[lang];
 const list = offers[lang];
 ---
 
-<Base lang={lang} path="/work/offers/" title={labels.title}>
+<Base lang={lang} path="/work/offers/" title={labels.seoTitle} description={labels.description}>
   <section class="wrap page-head">
     <a class="tag back" href={href(lang, '/work/')}>← {t.work.title}</a>
     <span class="tag">{labels.tag}</span>

@@ -3,10 +3,10 @@ export const en = {
   availability: 'Available for projects and retainers, ~10–15 hrs/week, remote (NL/BE/EU).',
   meta: {
     description:
-      'Freelance software development, server management and cyber security. Web applications and APIs, Linux and AWS, security reviews and hardening.',
+      'Freelance Laravel/PHP developer for SMEs and agencies in the Netherlands and EU: Laravel security audits, AWS cost optimisation and Linux server management. Book a free intro call.',
   },
   home: {
-    title: 'Freelance software developer & cyber security specialist',
+    title: 'Freelance Laravel developer, AWS & security audits',
     eyebrow: 'Software, servers & cyber security',
     hero: 'Software, secure all the way down.',
     lede: "I'm Ian. I build software, run the servers it lives on and make sure both are secure. One engineer for the whole stack, from the first line of code to the production machine.",
@@ -84,7 +84,9 @@ export const en = {
   },
   work: {
     title: 'Work',
-    seoTitle: 'Software development, server management & cyber security',
+    seoTitle: 'Freelance Laravel developer: software, servers and security',
+    description:
+      'Hire a freelance Laravel/PHP developer for web applications and APIs, Linux and AWS server management, and security audits. Fixed-scope offers and anonymised case studies.',
     heading: 'Software, servers and security, from one engineer.',
     lede: 'I work freelance with teams that need something built, kept running or made safer. Often all three, which is easier when one person can see the whole picture.',
     servicesLabel: 'What I do',
@@ -202,7 +204,9 @@ export const en = {
   },
   about: {
     title: 'About',
-    seoTitle: 'About Ian Ketelings, software and security engineer',
+    seoTitle: 'About Ian Ketelings, freelance Laravel and security engineer',
+    description:
+      'Ian Ketelings is a freelance software engineer from the Netherlands working across Laravel/PHP development, Linux and AWS server management, and cyber security.',
     heading: "Hi, I'm Ian.",
     paragraphs: [
       'I am Ian Ketelings, a software engineer from the Netherlands, working across development, server management and cyber security.',

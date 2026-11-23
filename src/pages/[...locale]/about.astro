@@ -11,7 +11,7 @@ const lang = Astro.props.lang as Lang;
 const t = dictionaries[lang].about;
 ---
 
-<Base lang={lang} path="/about/" title={t.seoTitle}>
+<Base lang={lang} path="/about/" title={t.seoTitle} description={t.description}>
   <section class="wrap page-head">
     <span class="tag">{t.title}</span>
     <h1>{t.heading}</h1>

@@ -31,9 +31,9 @@ export const servicePages: Record<'en' | 'nl', ServicePage[]> = {
       group: 0,
       tone: 'tone-1',
       name: 'Software development',
-      seoTitle: 'Freelance software developer for web applications and APIs',
+      seoTitle: 'Freelance Laravel developer for web applications and APIs',
       description:
-        'Freelance software development in the Netherlands: web applications, APIs, integrations and databases, mainly in PHP/Laravel and TypeScript.',
+        'Hire a freelance Laravel developer in the Netherlands: web applications, APIs, integrations and databases in PHP/Laravel and TypeScript, including taking over existing code.',
       heading: 'Software development that keeps working after launch.',
       lede: 'I build and take over web applications, APIs and integrations, mainly in PHP/Laravel and TypeScript. The goal is software your team can keep changing without fear.',
       help: [
@@ -55,9 +55,9 @@ export const servicePages: Record<'en' | 'nl', ServicePage[]> = {
       group: 1,
       tone: 'tone-2',
       name: 'Server management & cloud',
-      seoTitle: 'Linux server management and AWS, freelance',
+      seoTitle: 'Linux server management and AWS cost optimisation, freelance',
       description:
-        'Freelance Linux server management and AWS in the Netherlands: patching, hardening, monitoring, automated deployments and cloud cost control.',
+        'Outsource Linux server management and AWS to a freelancer: patching, hardening, monitoring, automated deployments and AWS cost optimisation for SMEs and agencies.',
       heading: 'Servers and cloud you do not have to think about.',
       lede: 'I set up and look after Linux servers and AWS environments, with patching, monitoring and deployments automated so that they do not depend on anyone remembering them.',
       help: [
@@ -80,9 +80,9 @@ export const servicePages: Record<'en' | 'nl', ServicePage[]> = {
       group: 2,
       tone: 'tone-3',
       name: 'Cyber security',
-      seoTitle: 'Freelance cyber security specialist for code reviews and hardening',
+      seoTitle: 'Laravel security audit and secure code review, freelance',
       description:
-        'Freelance cyber security in the Netherlands: secure code reviews, application and API security, server hardening and encryption, with clear findings and help fixing them.',
+        'Laravel and PHP security audits by a freelance specialist: secure code reviews, API security, server hardening and encryption, with clear findings and help fixing them.',
       heading: 'Find the weak spots before someone else does.',
       lede: 'I review code and infrastructure for security problems, explain what I find in plain language, and help get the fixes done. A report on its own does not make anything safer.',
       help: [
@@ -130,9 +130,9 @@ export const servicePages: Record<'en' | 'nl', ServicePage[]> = {
       group: 0,
       tone: 'tone-1',
       name: 'Softwareontwikkeling',
-      seoTitle: 'Freelance softwareontwikkelaar voor webapplicaties en API’s',
+      seoTitle: 'Laravel-developer inhuren voor webapplicaties en API’s',
       description:
-        'Freelance softwareontwikkeling in Nederland: webapplicaties, API’s, koppelingen en databases, vooral in PHP/Laravel en TypeScript.',
+        'Laravel-developer inhuren: webapplicaties, API’s, koppelingen en databases in PHP/Laravel en TypeScript, ook het overnemen van bestaande code. Freelance, vanuit Nederland.',
       heading: 'Softwareontwikkeling die ook na de oplevering blijft werken.',
       lede: 'Ik bouw webapplicaties, API’s en koppelingen, en neem ze ook over, vooral in PHP/Laravel en TypeScript. Het doel is software die je team zonder angst kan blijven aanpassen.',
       help: [
@@ -154,9 +154,9 @@ export const servicePages: Record<'en' | 'nl', ServicePage[]> = {
       group: 1,
       tone: 'tone-2',
       name: 'Serverbeheer & cloud',
-      seoTitle: 'Linux-serverbeheer en AWS, freelance',
+      seoTitle: 'Serverbeheer uitbesteden: Linux en AWS',
       description:
-        'Freelance Linux-serverbeheer en AWS in Nederland: patching, hardening, monitoring, automatische deployments en grip op cloudkosten.',
+        'Serverbeheer uitbesteden aan een freelancer: Linux- en AWS-beheer met patching, hardening, monitoring, automatische deployments en lagere cloudkosten.',
       heading: 'Servers en cloud waar je niet aan hoeft te denken.',
       lede: 'Ik richt Linux-servers en AWS-omgevingen in en beheer ze, met geautomatiseerde patches, monitoring en deployments, zodat niets afhangt van iemands geheugen.',
       help: [
@@ -179,9 +179,9 @@ export const servicePages: Record<'en' | 'nl', ServicePage[]> = {
       group: 2,
       tone: 'tone-3',
       name: 'Cybersecurity',
-      seoTitle: 'Freelance cybersecurity-specialist voor code reviews en hardening',
+      seoTitle: 'Security-audit van je webapplicatie en code review',
       description:
-        'Freelance cybersecurity in Nederland: secure code reviews, applicatie- en API-beveiliging, serverhardening en encryptie, met duidelijke bevindingen en hulp bij het oplossen.',
+        'Security-audit van je Laravel- of PHP-webapplicatie: secure code review, API-beveiliging, serverhardening en encryptie, met duidelijke bevindingen en hulp bij het oplossen.',
       heading: 'De zwakke plekken vinden voordat iemand anders dat doet.',
       lede: 'Ik controleer code en infrastructuur op beveiligingsproblemen, leg in gewone taal uit wat ik vind en help de oplossingen door te voeren. Van alleen een rapport wordt niets veiliger.',
       help: [

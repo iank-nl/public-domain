@@ -33,7 +33,11 @@ const schema = {
   description: page.description,
   url: new URL(href(lang, path), site.url).href,
   serviceType: page.name,
-  areaServed: { '@type': 'Country', name: 'Netherlands' },
+  areaServed: [
+    { '@type': 'Country', name: 'Netherlands' },
+    { '@type': 'Country', name: 'Belgium' },
+    { '@type': 'Place', name: 'European Union' },
+  ],
   provider: { '@id': `${site.url}/#business` },
 };
 ---
