@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import { site } from '../../../site.config';
 import { dictionaries, href, type Lang } from '../../../i18n';
 import { serviceLabels, servicePages } from '../../../i18n/services';
+import { offerBySlug, offerLabels } from '../../../i18n/offers';
 
 export function getStaticPaths() {
   return (['en', 'nl'] as Lang[]).flatMap((lang) =>
@@ -19,6 +20,8 @@ const t = dictionaries[lang];
 const labels = serviceLabels[lang];
 const projects = t.work.selected[page.group].items;
 const path = `/work/${page.slug}/`;
+const offerText = offerLabels[lang];
+const related = page.offers.map((slug) => offerBySlug(lang, slug));
 
 const schema = {
   '@type': 'Service',
@@ -60,6 +63,25 @@ const schema = {
           {projects.map((project) => <li><h3>{project.title}</h3><p>{project.body}</p></li>)}
         </ul>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="tag">{offerText.related}</span>
+      <ul class="offers">
+        {
+          related.map((offer) => (
+            <li class={offer.tone}>
+              <a href={href(lang, `/work/offers/#${offer.slug}`)}>
+                <h3>{offer.name}</h3>
+                <p>{offer.summary}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="link arrow more" href={href(lang, '/work/offers/')}>{offerText.all}</a>
     </div>
   </section>
 
@@ -140,6 +162,39 @@ const schema = {
     color: var(--ink-2);
   }
 
+  .offers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .offers a {
+    display: block;
+    height: 100%;
+    padding: clamp(20px, 3vw, 36px);
+    background-color: var(--band);
+    background-image: var(--litho);
+    color: var(--band-ink);
+    text-decoration: none;
+  }
+
+  .offers h3 {
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    margin-bottom: 0.4em;
+  }
+
+  .offers a:hover h3 {
+    text-decoration: underline;
+  }
+
+  .more {
+    display: inline-block;
+    margin-top: 1.25rem;
+  }
+
   .ask h2 {
     font-size: clamp(2rem, 4.5vw, 3.4rem);
     margin-bottom: 0.4em;
@@ -151,7 +206,8 @@ const schema = {
 
   @media (max-width: 760px) {
     .help,
-    .columns {
+    .columns,
+    .offers {
       grid-template-columns: minmax(0, 1fr);
     }
   }

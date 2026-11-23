@@ -1,0 +1,146 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { site } from '../../../site.config';
+import { dictionaries, href, localePaths, type Lang } from '../../../i18n';
+import { offerLabels, offers } from '../../../i18n/offers';
+
+export function getStaticPaths() {
+  return localePaths();
+}
+
+const lang = Astro.props.lang as Lang;
+const t = dictionaries[lang];
+const labels = offerLabels[lang];
+const list = offers[lang];
+---
+
+<Base lang={lang} path="/work/offers/" title={labels.title}>
+  <section class="wrap page-head">
+    <a class="tag back" href={href(lang, '/work/')}>← {t.work.title}</a>
+    <span class="tag">{labels.tag}</span>
+    <h1>{labels.heading}</h1>
+    <p class="lede">{labels.lede}</p>
+    <ul class="index">
+      {list.map((offer) => <li><a class="link" href={`#${offer.slug}`}>{offer.name}</a></li>)}
+    </ul>
+  </section>
+
+  <section class="offers">
+    {
+      list.map((offer) => (
+        <article id={offer.slug} class:list={['offer', offer.tone]}>
+          <div class="wrap grid">
+            <div class="head">
+              <h2>{offer.name}</h2>
+              <p class="summary">{offer.summary}</p>
+              <p class="tag price">{offer.price ?? labels.price}</p>
+              <a class="btn" href={`mailto:${site.email}?subject=${encodeURIComponent(`${labels.cta}: ${offer.name}`)}`}>
+                {labels.cta}
+              </a>
+            </div>
+            <div>
+              <span class="tag">{labels.includes}</span>
+              <ul class="includes">{offer.includes.map((item) => <li>{item}</li>)}</ul>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="section">
+    <div class="wrap ask">
+      <h2>{labels.other}</h2>
+      <p>{labels.otherBody}</p>
+      <a class="btn" href={`mailto:${site.email}`}>{t.nav.contact}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .back {
+    display: block;
+    text-decoration: none;
+    color: var(--ink-2);
+    margin-bottom: 2rem;
+  }
+
+  .page-head h1 {
+    max-width: 20ch;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+  }
+
+  .index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+  }
+
+  .offer {
+    background-color: var(--band);
+    background-image: var(--litho);
+    color: var(--band-ink);
+    padding-block: clamp(40px, 6vw, 80px);
+    scroll-margin-top: 1rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2rem clamp(2rem, 6vw, 6rem);
+  }
+
+  .offer h2 {
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+    max-width: 16ch;
+  }
+
+  .summary {
+    margin-top: 1rem;
+    font-size: 1.15rem;
+    max-width: 30em;
+  }
+
+  .price {
+    margin-block: 1.5rem 1rem;
+  }
+
+  .offer .btn {
+    background: var(--band-ink);
+    color: var(--band);
+  }
+
+  .offer .btn:hover {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  .includes {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+  }
+
+  .includes li {
+    padding-block: 0.6rem;
+    border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  }
+
+  .ask h2 {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    margin-bottom: 0.4em;
+  }
+
+  .ask .btn {
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

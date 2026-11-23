@@ -1,3 +1,5 @@
+import type { OfferSlug } from './offers';
+
 /** Content of the service pages under /work/<slug>/. `group` points at the matching list in work.selected. */
 export const serviceLabels = {
   en: { help: 'What I can help with', signs: 'You might need this when', past: 'Past work', back: 'Work' },
@@ -8,6 +10,7 @@ export const servicePages = {
   en: [
     {
       slug: 'software',
+      offers: ['takeover', 'security-check'] as OfferSlug[],
       group: 0,
       tone: 'tone-1',
       name: 'Software development',
@@ -31,6 +34,7 @@ export const servicePages = {
     },
     {
       slug: 'servers',
+      offers: ['care', 'aws-review'] as OfferSlug[],
       group: 1,
       tone: 'tone-2',
       name: 'Server management & cloud',
@@ -55,6 +59,7 @@ export const servicePages = {
     },
     {
       slug: 'security',
+      offers: ['security-check', 'care'] as OfferSlug[],
       group: 2,
       tone: 'tone-3',
       name: 'Cyber security',
@@ -80,6 +85,7 @@ export const servicePages = {
   nl: [
     {
       slug: 'software',
+      offers: ['takeover', 'security-check'] as OfferSlug[],
       group: 0,
       tone: 'tone-1',
       name: 'Softwareontwikkeling',
@@ -103,6 +109,7 @@ export const servicePages = {
     },
     {
       slug: 'servers',
+      offers: ['care', 'aws-review'] as OfferSlug[],
       group: 1,
       tone: 'tone-2',
       name: 'Serverbeheer & cloud',
@@ -127,6 +134,7 @@ export const servicePages = {
     },
     {
       slug: 'security',
+      offers: ['security-check', 'care'] as OfferSlug[],
       group: 2,
       tone: 'tone-3',
       name: 'Cybersecurity',

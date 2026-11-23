@@ -12,6 +12,7 @@ export const nl: typeof en = {
     hero: 'Software, tot op de bodem veilig.',
     lede: 'Ik ben Ian. Ik bouw software, beheer de servers waarop die draait en zorg dat beide veilig zijn. Eén engineer voor het hele traject, van de eerste regel code tot de productieserver.',
     ctaWork: 'Wat ik voor je kan doen',
+    ctaOffers: 'Vaste pakketten',
     ctaSecond: 'Bekijk eerder werk',
     dig: 'Graaf verder',
     depth: 'diepte',

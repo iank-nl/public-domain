@@ -10,6 +10,7 @@ export const en = {
     hero: 'Software, secure all the way down.',
     lede: "I'm Ian. I build software, run the servers it lives on and make sure both are secure. One engineer for the whole stack, from the first line of code to the production machine.",
     ctaWork: 'What I can do for you',
+    ctaOffers: 'Fixed-scope offers',
     ctaSecond: 'See past work',
     dig: 'Keep digging',
     depth: 'depth',

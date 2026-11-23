@@ -5,6 +5,7 @@ import icon from '../../../assets/relic-sweeper/icon.png';
 import { site } from '../../../site.config';
 import { dictionaries, href, localePaths, type Lang } from '../../../i18n';
 import { servicePages } from '../../../i18n/services';
+import { offerLabels, offers } from '../../../i18n/offers';
 
 export function getStaticPaths() {
   return localePaths();
@@ -12,6 +13,7 @@ export function getStaticPaths() {
 
 const lang = Astro.props.lang as Lang;
 const t = dictionaries[lang];
+const offerText = offerLabels[lang];
 ---
 
 <Base lang={lang} path="/work/" title={t.work.seoTitle}>
@@ -39,6 +41,26 @@ const t = dictionaries[lang];
           ))
         }
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="offers">
+    <div class="wrap teaser">
+      <div>
+        <span class="tag section-tag">{offerText.tag}</span>
+        <h2>{offerText.teaser}</h2>
+        <p>{offerText.teaserBody}</p>
+        <a class="btn" href={href(lang, '/work/offers/')}>{offerText.all}</a>
+      </div>
+      <ul>
+        {
+          offers[lang].map((offer) => (
+            <li>
+              <a class="link arrow" href={href(lang, `/work/offers/#${offer.slug}`)}>{offer.name}</a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
@@ -122,6 +144,33 @@ const t = dictionaries[lang];
   .more {
     display: inline-block;
     margin-top: 0.9rem;
+  }
+
+  .teaser {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem clamp(2rem, 6vw, 6rem);
+  }
+
+  .teaser h2 {
+    font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+    margin-bottom: 0.4em;
+  }
+
+  .teaser .btn {
+    margin-top: 1.5rem;
+  }
+
+  .teaser ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-self: end;
+  }
+
+  .teaser li {
+    padding-block: 0.7rem;
+    border-top: 1px solid var(--line);
   }
 
   .selected {
@@ -216,6 +265,7 @@ const t = dictionaries[lang];
 
   @media (max-width: 860px) {
     .services,
+    .teaser,
     .selected {
       grid-template-columns: minmax(0, 1fr);
     }
