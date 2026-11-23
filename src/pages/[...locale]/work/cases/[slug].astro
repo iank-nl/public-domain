@@ -1,0 +1,216 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import ContactCta from '../../../../components/ContactCta.astro';
+import { site } from '../../../../site.config';
+import { dictionaries, href, type Lang } from '../../../../i18n';
+import { caseLabels, cases, type CaseStudy } from '../../../../i18n/cases';
+import { offerBySlug } from '../../../../i18n/offers';
+
+export function getStaticPaths() {
+  return (['en', 'nl'] as Lang[]).flatMap((lang) =>
+    cases[lang].map((study) => ({
+      params: { locale: lang === 'en' ? undefined : lang, slug: study.slug },
+      props: { lang, study },
+    })),
+  );
+}
+
+const { lang, study } = Astro.props as { lang: Lang; study: CaseStudy };
+const t = dictionaries[lang];
+const labels = caseLabels[lang];
+const offer = offerBySlug(lang, study.offer);
+const path = `/work/cases/${study.slug}/`;
+const facts = [
+  { label: labels.facts.client, value: study.client },
+  { label: labels.facts.role, value: study.role },
+  { label: labels.facts.duration, value: study.duration },
+];
+const schema = {
+  '@type': 'Article',
+  headline: study.heading,
+  description: study.summary,
+  inLanguage: lang,
+  url: new URL(href(lang, path), site.url).href,
+  author: { '@id': `${site.url}/#owner` },
+  publisher: { '@id': `${site.url}/#business` },
+};
+---
+
+<Base lang={lang} path={path} title={`${labels.tag}: ${study.title}`} description={study.summary} schema={[schema]}>
+  <section class="wrap page-head">
+    <a class="tag back" href={href(lang, '/work/#cases')}>← {t.work.title}</a>
+    <span class:list={['tag', 'chip', study.tone]}>{labels.tag} · {study.title}</span>
+    <h1>{study.heading}</h1>
+    <p class="lede">{study.summary}</p>
+    <dl class="facts">
+      {facts.map((fact) => <div><dt class="tag">{fact.label}</dt><dd>{fact.value}</dd></div>)}
+    </dl>
+    <p class="note">{labels.anonymised}</p>
+  </section>
+
+  <section class="section">
+    <div class="wrap columns">
+      <span class="tag section-tag">01 · {labels.problem}</span>
+      <p class="lede">{study.problem}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap columns">
+      <span class="tag section-tag">02 · {labels.approach}</span>
+      <ol class="approach">{study.approach.map((step) => <li>{step}</li>)}</ol>
+    </div>
+  </section>
+
+  <section class:list={['stratum', 'numbers', study.tone]}>
+    <div class="wrap">
+      <span class="tag">03 · {labels.result}</span>
+      <dl class="stats">
+        {study.results.map((stat) => <div><dt>{stat.label}</dt><dd>{stat.value}</dd></div>)}
+      </dl>
+      <p class="lede after">{study.resultBody}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap columns">
+      <span class="tag section-tag">04 · {labels.stack}</span>
+      <div>
+        <ul class="stack">{study.stack.map((item) => <li>{item}</li>)}</ul>
+        <p class="links">
+          {
+            study.article && (
+              <a class="link arrow" href={href(lang, `/knowledge/${study.article}/`)}>{labels.article}</a>
+            )
+          }
+          <a class="link arrow" href={href(lang, `/work/offers/#${offer.slug}`)}>{offer.name}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <ContactCta lang={lang} heading={labels.offer} body={offer.summary} />
+</Base>
+
+<style>
+  .back {
+    display: block;
+    text-decoration: none;
+    color: var(--ink-2);
+    margin-bottom: 2rem;
+  }
+
+  .chip {
+    display: inline-block;
+    padding: 0.3em 0.7em;
+    background: var(--band);
+    color: var(--band-ink);
+  }
+
+  .page-head h1 {
+    max-width: 19ch;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem clamp(1.5rem, 4vw, 3.5rem);
+    margin: 2rem 0 0;
+  }
+
+  .facts dt {
+    color: var(--ink-2);
+  }
+
+  .facts dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: 1rem clamp(2rem, 6vw, 6rem);
+  }
+
+  .approach {
+    margin: 0;
+    padding-left: 1.3em;
+    font-size: 1.1rem;
+  }
+
+  .approach li {
+    padding-block: 0.5rem;
+  }
+
+  .approach li::marker {
+    font-family: var(--mono);
+    color: var(--accent);
+  }
+
+  .numbers {
+    padding-block: clamp(40px, 6vw, 80px);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0 0;
+  }
+
+  .stats div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+
+  .stats dd {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+  }
+
+  .after {
+    margin-top: 2rem;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+  }
+
+  .stack li {
+    padding: 0.25em 0.65em;
+    border: 1px solid var(--line);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    margin-top: 1.75rem;
+  }
+
+  @media (max-width: 760px) {
+    .columns,
+    .stats {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
