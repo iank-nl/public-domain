@@ -42,8 +42,8 @@ export const site = {
     bing: '',
   },
   analytics: {
-    /** [TODO] Website ID from Umami Cloud: Settings → Websites → Edit → Website ID. */
-    websiteId: '[TODO: Umami website ID]',
+    /** Website ID from Umami Cloud: Settings → Websites → Edit → Website ID. */
+    websiteId: '64f8f0cd-c740-4f85-a974-6a0742c43c56',
     src: 'https://cloud.umami.is/script.js',
   },
 };
